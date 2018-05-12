@@ -1,0 +1,99 @@
+@Api：
+@ApiOperation：
+不是Spring自带的注解，是svagger里的
+com.worknik.swagger.annotations.Api
+com.worknik.swagger.annotations.ApiOperation
+@ApiOperatoin和@ApiParam为添加的API提供相应的注解，各个参数说明如下：
+@ApiOperation(value = "为在Swagger-UI的适当的可见性，提供120个字符或以下的一个简短的说明", httpMethod = "接口请求的方式，http请求的方式，例如GET，POST等", response = "接口返回参数类型", notes = "提供关于这个操作的冗长的描述", position = "在资源列表中可选的这个API资源的显式排序")
+其它参数可参考源码说明。
+@ApiParam(required = true or false 是否需要参数, name = "参数名称", value = "参数简短描述")
+实际项目中非常需要写文档，提高Java服务端和Web前端以及移动端的对接效率。
+Swagger是当前最好用的Restful API文档生成的开源项目，通过swagger-spring项目
+实现了与SpingMVC框架的无缝集成功能，方便生成spring restful风格的接口文档，
+同时swagger-ui还可以测试spring restful风格的接口功能。
+
+@Resource 和 @Autowired
+@Resource默认按照名称方式进行bean匹配，@Autowired默认按照类型方式进行bean匹配
+@Resource(importjavax.annotation.Resource;)是J2EE的注解，
+@Autowired(import org.springframework.beans.factory.annotation.Autowired;)是Spring的注解
+例如一个接口只有一个实现时：
+接口：
+package com.jef.service;
+
+public interface IHumanService {
+    void speak();
+
+    void walk();
+}
+
+
+实现类1：
+package com.jef.service.impl;
+
+import com.jef.service.IHumanService;
+import org.springframework.stereotype.Service;
+
+/**
+ * 男人
+ *
+ * @author Jef
+ * @create 2018/5/12 14:31
+ */
+@Service(value = "manService")
+public class ManServiceImpl implements IHumanService {
+
+    @Override
+    public void speak() {
+        System.out.println("男人说话");
+    }
+
+    @Override
+    public void walk() {
+        System.out.println("男人走路");
+    }
+}
+
+
+那么此时
+@Resource
+private IHumanService manService;
+和
+@Autowired
+private IHumanService manService;
+无需设置其他属性值，都能正确加载Service，因为此时有且只有一个Service实现类可以找到
+但是如果实现类有多个呢？
+添加了一个实现
+
+
+启动项目会产生
+NoSuchBeanDefinitionException: No unique bean of type错误，原因是没有特定指明是哪一个
+方式一：指定某一个，默认name的值为实现类首字母小写
+    @Resource(name = "manServiceImpl")
+    private IHumanService manService;
+    @Resource(name = "womanServiceImpl")
+    private IHumanService womanService;
+
+方式2：
+    @Autowired
+    @Qualifier(value = "manServiceImpl")
+    private IHumanService manService;
+    @Autowired
+    @Qualifier(value = "womanServiceImpl")
+    private IHumanService womanService;
+如果感觉name或者value的名称不好看，可以修改@Service里面的value，格式如下
+@Service(value = "manService")
+@Service(value = "womanService")
+那么@Resource的name和@Autowired的value都可以改成相应的value
+方式一：指定某一个，默认name的值为实现类首字母小写
+    @Resource(name = "manService")
+    private IHumanService manService;
+    @Resource(name = "womanService")
+    private IHumanService womanService;
+
+方式2：
+    @Autowired
+    @Qualifier(value = "manService")
+    private IHumanService manService;
+    @Autowired
+    @Qualifier(value = "womanService")
+    private IHumanService womanService;
