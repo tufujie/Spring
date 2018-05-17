@@ -15,20 +15,16 @@ import java.util.List;
 public class MySocket implements ServletContextListener {
 
     // 定义保存所有的Socket
-
     public static List<Socket> socketList = new ArrayList<Socket>();
     public int port = 43333;
     public Thread thread;
 
-
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         System.out.println("启动了一个监听，启动了线程");
-
         thread = new Thread() {
             @Override
             public void run() {
-
                 ServerSocket server;
                 try {
                     server = new ServerSocket(port);

@@ -5,17 +5,19 @@
     <script type="text/javascript" src="/js/basic/index.js"></script>
     <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
 </head>
 <body>
 <form id="form_login" action="">
     <table>
         <tr>
             <td>用户名</td>
-            <td><input id="userName" name="name"></td>
+            <td><input id="name" name="name"></td>
         </tr>
         <tr>
             <td>密码</td>
-            <td><input id="userPassword" name="password"></td>
+            <input type="hidden" id="pwd" name="pwd">
+            <td><input id="password" name="password" onblur="md5Encode()"></td>
         </tr>
         <tr>
             <td><input type="button" value="确定" onclick="login()"></td>

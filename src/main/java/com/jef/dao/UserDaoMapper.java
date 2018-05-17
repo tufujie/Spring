@@ -28,4 +28,6 @@ public interface UserDaoMapper {
     User getByUser(User user);
 
     User getByNameAndPassWord(Map<String, Object> requestParams);
+
+    void insert(User user);
 }

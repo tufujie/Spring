@@ -1,10 +1,13 @@
 package com.jef.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.jef.canvert.UserCanvert;
 import com.jef.dto.ResultMsgDto;
+import com.jef.dto.UserDto;
 import com.jef.entity.ResultMsg;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
+import com.jef.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +26,18 @@ public class LoginController {
     @Autowired
     private IUserService userService;
 
+    /**
+     * 用户登录请求，账号和密码必填
+     * @param userDto
+     * @param response
+     */
     @RequestMapping("login.do")
-    public void login(User user, HttpServletResponse response) {
+    public void login(UserDto userDto, HttpServletResponse response) {
+        User user = UserCanvert.canvertFromDto(userDto);
         if (Objects.nonNull(user)) {
-            user = userService.getByNameAndPassWord(user.getName(), user.getPassword());
+            String passWord = user.getPassword();
+            String encodePassWord = MD5Util.encode(passWord);
+            user = userService.getByNameAndPassWord(user.getName(), encodePassWord);
             if (Objects.nonNull(user)) {
                 try {
                     ResultMsgDto resultMsg = new ResultMsgDto();

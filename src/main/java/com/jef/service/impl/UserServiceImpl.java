@@ -27,4 +27,9 @@ public class UserServiceImpl implements IUserService {
         requestParams.put("password", password);
         return userDaoMapper.getByNameAndPassWord(requestParams);
     }
+
+    @Override
+    public void insert(User user) {
+        userDaoMapper.insert(user);
+    }
 }

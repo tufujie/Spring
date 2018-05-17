@@ -11,9 +11,13 @@ public class UserDto  implements Serializable{
 
     private String name;
 
+    private String password;
+
     private String phone;
 
     private Integer age;
+
+    private String pwd; // 加密密码
 
     public Long getId() {
         return id;
@@ -31,6 +35,14 @@ public class UserDto  implements Serializable{
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -45,5 +57,13 @@ public class UserDto  implements Serializable{
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 }

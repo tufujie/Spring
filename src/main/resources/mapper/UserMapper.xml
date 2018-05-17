@@ -20,4 +20,7 @@
         where name = #{name}
         and password = #{password}
     </select>
+    <select id="insert" parameterType="com.jef.entity.User">
+        insert into user (name, password, phone, age) values (#{name}, #{password}, #{phone}, #{age})
+    </select>
 </mapper>
