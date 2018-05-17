@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Jef
  * @create 2018/5/15 19:18
  */
-public interface UserDaoMapper {
+public interface UserMapper {
     /**
      * 根据ID查询用户信息
      * @param id
@@ -30,4 +30,6 @@ public interface UserDaoMapper {
     User getByNameAndPassWord(Map<String, Object> requestParams);
 
     void insert(User user);
+
+    User getByName(String name);
 }

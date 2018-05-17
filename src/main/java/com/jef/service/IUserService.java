@@ -11,5 +11,12 @@ public interface IUserService {
      */
     User getByNameAndPassWord(String name, String password);
 
-    void insert(User user);
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    User insert(User user);
+
+    User getByName(String name);
 }

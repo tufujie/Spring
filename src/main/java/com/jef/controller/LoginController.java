@@ -11,7 +11,11 @@ import com.jef.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -20,6 +24,7 @@ import java.util.Objects;
  * @author Jef
  * @dater 2018/5/15 19:18
  */
+@RequestMapping(value = "login")
 @Controller
 public class LoginController {
 
@@ -31,7 +36,7 @@ public class LoginController {
      * @param userDto
      * @param response
      */
-    @RequestMapping("login.do")
+    @RequestMapping("loginOne")
     public void login(UserDto userDto, HttpServletResponse response) {
         User user = UserCanvert.canvertFromDto(userDto);
         if (Objects.nonNull(user)) {
@@ -64,6 +69,20 @@ public class LoginController {
 
             }
         }
+    }
+
+    @RequestMapping(value = "/loginTwo", method = RequestMethod.POST)  //处理login请求
+    public ModelAndView login(String name, String password, ModelAndView mv, HttpSession session) {
+        password = MD5Util.encode(password);
+        User user = userService.getByNameAndPassWord(name, password); //调用业务层方法返回一个实例对象
+        if (Objects.nonNull(user)) {
+            session.setAttribute("user", user);
+            mv.setViewName("homepage"); //重定向到homepage页面中
+        } else {
+            mv.addObject("message","登录名或者密码错误，请重新输入");
+            mv.setViewName("index"); //重新设置view视图页面
+        }
+        return mv; //返回视图
     }
 }
 

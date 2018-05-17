@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jef.dao.UserDaoMapper">
+<mapper namespace="com.jef.dao.UserMapper">
     <select id="selectByPrimaryKey" resultType="com.jef.entity.User" parameterType="java.lang.Long">
         select * from user
         where id = #{id}
@@ -22,5 +22,9 @@
     </select>
     <select id="insert" parameterType="com.jef.entity.User">
         insert into user (name, password, phone, age) values (#{name}, #{password}, #{phone}, #{age})
+    </select>
+    <select id="getByName" resultType="com.jef.entity.User" parameterType="java.lang.String">
+        select * from user
+        where name = #{name}
     </select>
 </mapper>

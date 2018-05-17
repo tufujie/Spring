@@ -4,6 +4,6 @@
     <title>home page</title>
 </head>
 <body>
-Login Success
+Login Success，欢迎${sessionScope.user.name}访问
 </body>
 </html>
