@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>log4j</title>
+</head>
+<body>
+<div id="cnblogs_post_body" class="blogpost-body">
+    <p>需要导入包：</p>
+    <p>&nbsp;
+    <textarea style="width: 500px; height: 100px;">
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+    </textarea>
+    </p>
+    <p>第一步：web.xml配置</p>
+    <div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title=""><img src="//common.cnblogs.com/images/copycode.gif" alt=""></a></span></div>
+        <pre><span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> log4j配置，文件路径，因为是跟随项目启动 </span><span style="color: #008000;">--&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">context-param</span><span style="color: #0000ff;">&gt;</span>
+      <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param-name</span><span style="color: #0000ff;">&gt;</span>log4jConfigLocation<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">param-name</span><span style="color: #0000ff;">&gt;</span>
+      <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param-value</span><span style="color: #0000ff;">&gt;</span>/WEB-INF/log4j.xml<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">param-value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">context-param</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 配置log4j.xml变量，如果需要动态的就使用下面方式，使用方法${name} </span><span style="color: #008000;">--&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">context-param</span><span style="color: #0000ff;">&gt;</span>
+  <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param-name</span><span style="color: #0000ff;">&gt;</span>package<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">param-name</span><span style="color: #0000ff;">&gt;</span>
+  <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param-value</span><span style="color: #0000ff;">&gt;</span>package-log<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">param-value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">context-param</span><span style="color: #0000ff;">&gt;</span> <br>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">context-param</span><span style="color: #0000ff;">&gt;</span>
+  <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param-name</span><span style="color: #0000ff;">&gt;</span>loggingLevel<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">param-name</span><span style="color: #0000ff;">&gt;</span>
+  <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param-value</span><span style="color: #0000ff;">&gt;</span>info<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">param-value</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">context-param</span><span style="color: #0000ff;">&gt;</span>
+ <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 加载log4j配置文件 </span><span style="color: #008000;">--&gt;</span>
+ <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">listener</span><span style="color: #0000ff;">&gt;</span>
+  <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">listener-class</span><span style="color: #0000ff;">&gt;</span>org.springframework.web.util.Log4jConfigListener<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">listener-class</span><span style="color: #0000ff;">&gt;</span>
+ <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">listener</span><span style="color: #0000ff;">&gt;</span></pre>
+        <div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title=""><img src="//common.cnblogs.com/images/copycode.gif" alt=""></a></span></div></div>
+    <p>第二步log4j.xml配置</p>
+    <p>(配置文件可以有两种方式，一种是xml，一种是properties。个人比较喜欢xml，一目了然)</p>
+    <p>先讲解一下核心对象：</p>
+    <p><strong>logger对象：</strong>&nbsp;Logger对象负责捕获日志信息及它们存储在一个空间的层次结构。</p>
+    <p><strong>Appender对象：</strong>下位层提供Appender对象。Appender对象负责发布日志信息，以不同的首选目的地，如数据库，文件，控制台，UNIX系统日志等。</p>
+    <p><strong>layout对象：</strong>&nbsp;该层提供其用于格式化不同风格的日志信息的对象。布局层提供支持Appender对象到发布日志信息之前。</p>
+    <p>打个比方：logger是个情报站，负责收集他 所在地方（用name="xxx包"指定）下的所有信息。appender是发送出去的方式，如写信（FileAppender）、电报（SMTPAppender）等多种。layout就是发送内容以什么格式书写，如自定义格式（PatternLayout），html（<a href="http://www.yiibai.com/log4j/log4j_htmllayout.html">HTMLLayout</a>）格式。</p>
+    <div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title=""><img src="//common.cnblogs.com/images/copycode.gif" alt=""></a></span></div>
+        <pre><span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml version="1.0" encoding="UTF-8"</span><span style="color: #0000ff;">?&gt;</span>
+<span style="color: #0000ff;">&lt;!</span><span style="color: #ff00ff;">DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd"</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">log4j:configuration </span><span style="color: #ff0000;">xmlns:log4j</span><span style="color: #0000ff;">="http://jakarta.apache.org/log4j/"</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 可以配置多个appender来对应不同的输出，如文件输出，sql输出，控制台输出，邮件输出等 </span><span style="color: #008000;">--&gt;</span>
+  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> [控制台STDOUT] 不同的输出类型对应着不同的calss，如控制台输出class对应着 org.apache.log4j.ConsoleAppender </span><span style="color: #008000;">--&gt;</span>
+  <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="console"</span><span style="color: #ff0000;"> class</span><span style="color: #0000ff;">="org.apache.log4j.ConsoleAppender"</span><span style="color: #0000ff;">&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> name提供给logger或者root调用 </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="encoding"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="GBK"</span> <span style="color: #0000ff;">/&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 保存字符集 </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="target"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="System.out"</span> <span style="color: #0000ff;">/&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 输出到控制台 </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">layout </span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.apache.log4j.PatternLayout"</span><span style="color: #0000ff;">&gt;</span> <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> loyout表示输出方式，可以多种，class值区分，PatternLayout表示自定义格式 </span><span style="color: #008000;">--&gt;</span>
+       <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="ConversionPattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="%d{ISO8601} 耗时：%r [日志来自：%-40.40c{3} 日志类型: %-5p 日志内容：%m]%n"</span> <span style="color: #0000ff;">/&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 输出格式，后面解释 </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">layout</span><span style="color: #0000ff;">&gt;</span>
+      <span style="color: #008000;">&lt;!--</span><span style="color: #008000;">filter过滤器设置输出的级别:ALL &lt; DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL &lt; OFF
+          所有下面输出的是debug到warn不会有error和fatal
+      </span><span style="color: #008000;">--&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">filter </span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.apache.log4j.varia.LevelRangeFilter"</span><span style="color: #0000ff;">&gt;</span>
+            <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="levelMin"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="debug"</span> <span style="color: #0000ff;">/&gt;</span>
+            <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="levelMax"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="warn"</span> <span style="color: #0000ff;">/&gt;</span>
+            <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="AcceptOnMatch"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="true"</span> <span style="color: #0000ff;">/&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 答案：http://bbs.csdn.net/topics/350195913 </span><span style="color: #008000;">--&gt;</span>
+        <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">filter</span><span style="color: #0000ff;">&gt;</span>
+  <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">appender</span><span style="color: #0000ff;">&gt;</span>
+
+  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> [公共Appender] 这个class表示输入到文件，并且按日期生成新文件</span><span style="color: #008000;">--&gt;</span>
+  <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="DEFAULT-APPENDER"</span><span style="color: #ff0000;"> class</span><span style="color: #0000ff;">="org.apache.log4j.DailyRollingFileAppender"</span><span style="color: #0000ff;">&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="File"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="${webapp.root}/logs/common-default.log"</span> <span style="color: #0000ff;">/&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> ${webapp.root}项目根路径，自动获得，不用配置，可自己在web.xml中配置 </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="Append"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="true"</span> <span style="color: #0000ff;">/&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 是否项目重启继续保存之前日志 </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="encoding"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="GBK"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="threshold"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="all"</span> <span style="color: #0000ff;">/&gt;</span> <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 记录所有类型日志，记录它和比它等级高的日志all&lt;debug </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="DatePattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="'.'yyyy-MM-dd'.log'"</span> <span style="color: #0000ff;">/&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 日期格式  例子：common-default.log.2015-09-17.log</span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">layout </span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.apache.log4j.PatternLayout"</span><span style="color: #0000ff;">&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 输出方式 </span><span style="color: #008000;">--&gt;</span>
+    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="ConversionPattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="%d{ISO8601} 耗时：%r [日志来自：%-40.40c{3} 日志类型: %-5p 日志内容：%m]%n"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">layout</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">appender</span><span style="color: #0000ff;">&gt;</span>
+
+   <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> [debug日志APPENDER] </span><span style="color: #008000;">--&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="DEBUG-APPENDER"</span><span style="color: #ff0000;"> class</span><span style="color: #0000ff;">="org.apache.log4j.DailyRollingFileAppender"</span><span style="color: #0000ff;">&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="File"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="${webapp.root}/logs/controller/debug-log.log"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="Append"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="true"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="encoding"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="GBK"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="DatePattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="'.'yyyy-MM-dd'.log'"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">layout </span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.apache.log4j.PatternLayout"</span><span style="color: #0000ff;">&gt;</span>
+        <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="ConversionPattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="%d{ISO8601} 耗时：%r [日志来自：%-40.40c{3} 日志类型: %-5p 日志内容：%m]%n"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">layout</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">appender</span><span style="color: #0000ff;">&gt;</span>
+
+   <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> [info日志APPENDER] </span><span style="color: #008000;">--&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="INFO-APPENDER"</span><span style="color: #ff0000;">
+class</span><span style="color: #0000ff;">="org.apache.log4j.DailyRollingFileAppender"</span><span style="color: #0000ff;">&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="File"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="${webapp.root}/logs/controller/info-log.log"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="Append"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="false"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="encoding"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="GBK"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="DatePattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="'.'yyyy-MM-dd'.log'"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">layout </span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.apache.log4j.PatternLayout"</span><span style="color: #0000ff;">&gt;</span>
+    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="ConversionPattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="%d{ISO8601} 耗时：%r [日志来自：%-40.40c{3} 日志类型: %-5p 日志内容：%m]%n"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">layout</span><span style="color: #0000ff;">&gt;</span>
+     <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 我只想记录info日志，就做如下设置 </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">filter </span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.apache.log4j.varia.LevelRangeFilter"</span><span style="color: #0000ff;">&gt;</span>
+       <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="LevelMax"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="info"</span><span style="color: #0000ff;">/&gt;</span>
+       <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="LevelMin"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="info"</span><span style="color: #0000ff;">/&gt;</span>
+      <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">filter</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">appender</span><span style="color: #0000ff;">&gt;</span>
+
+    <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> [组件日志APPENDER] </span><span style="color: #008000;">--&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="COMPONENT-APPENDER"</span><span style="color: #ff0000;">
+class</span><span style="color: #0000ff;">="org.apache.log4j.DailyRollingFileAppender"</span><span style="color: #0000ff;">&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="File"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="${webapp.root}/logs/logistics-component.log"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="Append"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="true"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="encoding"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="GBK"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="DatePattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="'.'yyyy-MM-dd'.log'"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">layout </span><span style="color: #ff0000;">class</span><span style="color: #0000ff;">="org.apache.log4j.PatternLayout"</span><span style="color: #0000ff;">&gt;</span>
+    <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">param </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="ConversionPattern"</span><span style="color: #ff0000;"> value</span><span style="color: #0000ff;">="%d{ISO8601} 耗时：%r [日志来自：%-40.40c{3} 日志类型: %-5p 日志内容：%m]%n"</span> <span style="color: #0000ff;">/&gt;</span>
+     <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">layout</span><span style="color: #0000ff;">&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">appender</span><span style="color: #0000ff;">&gt;</span>
+
+     <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> debug log </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> name指定的是包名，表示这个logger只记录com.jef下的所有日志 </span><span style="color: #008000;">--&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">logger </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="com.jef"</span><span style="color: #ff0000;"> additivity</span><span style="color: #0000ff;">="true"</span><span style="color: #0000ff;">&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> additivity 是否继承root </span><span style="color: #008000;">--&gt;</span>
+      <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> &lt;level value="${loggingLevel}" /&gt;   </span><span style="color: #008000;">--&gt;</span>
+      <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">level </span><span style="color: #ff0000;">value</span><span style="color: #0000ff;">="DEBUG"</span><span style="color: #0000ff;">&gt;&lt;/</span><span style="color: #800000;">level</span><span style="color: #0000ff;">&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 现在级别 </span><span style="color: #008000;">--&gt;</span>
+      <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender-ref </span><span style="color: #ff0000;">ref</span><span style="color: #0000ff;">="DEBUG-APPENDER"</span> <span style="color: #0000ff;">/&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">logger</span><span style="color: #0000ff;">&gt;</span>
+
+     <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> info log </span><span style="color: #008000;">--&gt;</span>
+     <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> name指定的是包名，这样只操作此包下的log </span><span style="color: #008000;">--&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">logger </span><span style="color: #ff0000;">name</span><span style="color: #0000ff;">="com.jef"</span><span style="color: #ff0000;"> additivity</span><span style="color: #0000ff;">="true"</span><span style="color: #0000ff;">&gt;</span>
+      <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">level </span><span style="color: #ff0000;">value</span><span style="color: #0000ff;">="INFO"</span><span style="color: #0000ff;">&gt;&lt;/</span><span style="color: #800000;">level</span><span style="color: #0000ff;">&gt;</span>
+      <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender-ref </span><span style="color: #ff0000;">ref</span><span style="color: #0000ff;">="INFO-APPENDER"</span> <span style="color: #0000ff;">/&gt;</span>
+      <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender-ref </span><span style="color: #ff0000;">ref</span><span style="color: #0000ff;">="console"</span><span style="color: #0000ff;">/&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">logger</span><span style="color: #0000ff;">&gt;</span>
+
+   <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> Root Logger </span><span style="color: #008000;">--&gt;</span>
+   <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 所有logger的父类，记录所有的日志。 </span><span style="color: #008000;">--&gt;</span>
+   <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">root</span><span style="color: #0000ff;">&gt;</span>
+       <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">level </span><span style="color: #ff0000;">value</span><span style="color: #0000ff;">="ALL"</span><span style="color: #0000ff;">&gt;&lt;/</span><span style="color: #800000;">level</span><span style="color: #0000ff;">&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 限定记录等级 </span><span style="color: #008000;">--&gt;</span>
+       <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender-ref </span><span style="color: #ff0000;">ref</span><span style="color: #0000ff;">="DEFAULT-APPENDER"</span> <span style="color: #0000ff;">/&gt;</span>  <span style="color: #008000;">&lt;!--</span><span style="color: #008000;"> 调用记录方式 </span><span style="color: #008000;">--&gt;</span>
+       <span style="color: #0000ff;">&lt;</span><span style="color: #800000;">appender-ref </span><span style="color: #ff0000;">ref</span><span style="color: #0000ff;">="console"</span><span style="color: #0000ff;">/&gt;</span>
+   <span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">root</span><span style="color: #0000ff;">&gt;</span>
+
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">log4j:configuration</span><span style="color: #0000ff;">&gt;</span>  </pre>
+        <div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title=""><img src="//common.cnblogs.com/images/copycode.gif" alt=""></a></span></div></div>
+    <p>&nbsp;运行就能看到common-default.log里面有操作日志</p>
+    <p>appender选项：</p>
+    <ul>
+        <li>
+            <p>AppenderSkeleton</p>
+        </li>
+        <li>
+            <p>AsyncAppender</p>
+        </li>
+        <li>
+            <p>ConsoleAppender</p>
+        </li>
+        <li>
+            <p>DailyRollingFileAppender</p>
+        </li>
+        <li>
+            <p>ExternallyRolledFileAppender</p>
+        </li>
+        <li>
+            <p>FileAppender</p>
+        </li>
+        <li>
+            <p>JDBCAppender</p>
+        </li>
+        <li>
+            <p>JMSAppender</p>
+        </li>
+        <li>
+            <p>LF5Appender</p>
+        </li>
+        <li>
+            <p>NTEventLogAppender</p>
+        </li>
+        <li>
+            <p>NullAppender</p>
+        </li>
+        <li>
+            <p>RollingFileAppender</p>
+        </li>
+        <li>
+            <p>SMTPAppender</p>
+        </li>
+        <li>
+            <p>SocketAppender</p>
+        </li>
+        <li>
+            <p>SocketHubAppender</p>
+        </li>
+        <li>
+            <p>SyslogAppender</p>
+        </li>
+        <li>
+            <p>TelnetAppender</p>
+        </li>
+        <li>
+            <p>WriterAppender</p>
+        </li>
+    </ul>
+    <p>&nbsp;layout选项：</p>
+    <ul>
+        <li>DateLayout</li>
+        <li>HTMLLayout</li>
+        <li>PatternLayout</li>
+        <li>SimpleLayout</li>
+        <li>XMLLayout</li>
+    </ul>
+    <h2>&nbsp;</h2>
+    <h2>模式转换字符：</h2>
+    <p>下表说明了以上模式使用的字符和所有其他字符，可以在自定义模式中使用：</p>
+    <table class="src">
+        <tbody>
+        <tr><th>转换字符</th><th>表示的意思</th></tr>
+        <tr>
+            <td>c</td>
+            <td>用于输出的记录事件的类别。例如，对于类别名称"a.b.c"&nbsp;模式&nbsp;&nbsp;%c{2}&nbsp;会输出&nbsp;"b.c"</td>
+        </tr>
+        <tr>
+            <td>C</td>
+            <td>用于输出呼叫者发出日志请求的完全限定类名。例如，对于类名 "org.apache.xyz.SomeClass", 模式&nbsp;%C{1} 会输出 "SomeClass".</td>
+        </tr>
+        <tr>
+            <td>d</td>
+            <td>用于输出的记录事件的日期。例如， %d{HH:mm:ss,SSS} 或 %d{dd MMM yyyy HH:mm:ss,SSS}.</td>
+        </tr>
+        <tr>
+            <td>F</td>
+            <td>用于输出被发出日志记录请求，其中的文件名</td>
+        </tr>
+        <tr>
+            <td>l</td>
+            <td>用于将产生的日志事件调用者输出位置信息</td>
+        </tr>
+        <tr>
+            <td>L</td>
+            <td>用于输出从被发出日志记录请求的行号</td>
+        </tr>
+        <tr>
+            <td>m</td>
+            <td>用于输出使用日志事件相关联的应用程序提供的消息</td>
+        </tr>
+        <tr>
+            <td>M</td>
+            <td>用于输出发出日志请求所在的方法名称</td>
+        </tr>
+        <tr>
+            <td>n</td>
+            <td>输出平台相关的行分隔符或文字</td>
+        </tr>
+        <tr>
+            <td>p</td>
+            <td>用于输出的记录事件的优先级</td>
+        </tr>
+        <tr>
+            <td>r</td>
+            <td>用于输出毫秒从布局的结构经过直到创建日志记录事件的数目</td>
+        </tr>
+        <tr>
+            <td>t</td>
+            <td>用于输出生成的日志记录事件的线程的名称</td>
+        </tr>
+        <tr>
+            <td>x</td>
+            <td>用于与产生该日志事件的线程相关联输出的NDC（嵌套诊断上下文）</td>
+        </tr>
+        <tr>
+            <td>X</td>
+            <td>在X转换字符后面是键为的MDC。例如&nbsp;&nbsp;X{clientIP}&nbsp;将打印存储在MDC对键clientIP的信息</td>
+        </tr>
+        <tr>
+            <td>%</td>
+            <td>文字百分号&nbsp;%%将打印％标志</td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>格式修饰符：</h2>
+    <p>默认情况下，相关资料原样输出。然而，随着格式修饰符的帮助下，可以改变最小字段宽度，最大字段宽度和对齐。</p>
+    <p>下表涵盖了各种各样的修饰符的情况：</p>
+    <p>&nbsp;</p>
+    <table class="src" border="1" cellspacing="5" cellpadding="5">
+        <tbody>
+        <tr><th>Format modifier</th><th>left justify</th><th>minimum width</th><th>maximum width</th><th>注释</th></tr>
+        <tr>
+            <td align="center">%20c</td>
+            <td align="center">false</td>
+            <td align="center">20</td>
+            <td align="center">none</td>
+            <td>用空格左垫，如果类别名称少于20个字符长</td>
+        </tr>
+        <tr>
+            <td align="center">%-20c</td>
+            <td align="center">true</td>
+            <td align="center">20</td>
+            <td align="center">none</td>
+            <td>用空格右垫，如果类别名称少于20个字符长</td>
+        </tr>
+        <tr>
+            <td align="center">%.30c</td>
+            <td align="center">NA</td>
+            <td align="center">none</td>
+            <td align="center">30</td>
+            <td>从开始截断，如果类别名称超过30个字符长</td>
+        </tr>
+        <tr>
+            <td align="center">%20.30c</td>
+            <td align="center">false</td>
+            <td align="center">20</td>
+            <td align="center">30</td>
+            <td>用空格左侧垫，如果类别名称短于20个字符。但是，如果类别名称长度超过30个字符，那么从开始截断。</td>
+        </tr>
+        <tr>
+            <td align="center">%-20.30c</td>
+            <td align="center">true</td>
+            <td align="center">20</td>
+            <td align="center">30</td>
+            <td>用空格右侧垫，如果类别名称短于20个字符。但是，如果类别名称长度超过30个字符，那么从开始截断。<br><br></td>
+        </tr>
+        </tbody>
+    </table></div>
+</body>
+</html>

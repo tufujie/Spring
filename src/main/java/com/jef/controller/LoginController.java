@@ -8,6 +8,8 @@ import com.jef.entity.ResultMsg;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
 import com.jef.utils.MD5Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ import java.util.Objects;
 @RequestMapping(value = "login")
 @Controller
 public class LoginController {
+    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     private IUserService userService;
@@ -73,12 +76,17 @@ public class LoginController {
 
     @RequestMapping(value = "/loginTwo", method = RequestMethod.POST)  //处理login请求
     public ModelAndView login(String name, String password, ModelAndView mv, HttpSession session) {
+        logger.info("用户名为 " + name + " 尝试登录");
+        logger.debug("用户名为 " + name + " 尝试登录");
+        logger.error("用户名为 " + name + " 尝试登录");
         password = MD5Util.encode(password);
         User user = userService.getByNameAndPassWord(name, password); //调用业务层方法返回一个实例对象
         if (Objects.nonNull(user)) {
+            logger.info("用户名为 " + name + " 登录成功");
             session.setAttribute("user", user);
             mv.setViewName("homepage"); //重定向到homepage页面中
         } else {
+            logger.error("用户名为 " + name + " 尝试登录失败");
             mv.addObject("message","登录名或者密码错误，请重新输入");
             mv.setViewName("index"); //重新设置view视图页面
         }
