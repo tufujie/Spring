@@ -37,7 +37,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/gotoRegister", method = RequestMethod.GET)
-    public ModelAndView register(ModelAndView mv) {
+    public ModelAndView gotoRegister(ModelAndView mv) {
         mv.setViewName("register");
         return mv;
     }
@@ -45,7 +45,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(value = "/register1", method = RequestMethod.POST)
-    public ModelAndView register(
+    public ModelAndView register1(
             @RequestParam(value = "name", required=true) String name,
             @RequestParam(value = "password", required=true) String password,
             @RequestParam(value = "phone", required=true) String phone,
@@ -75,6 +75,20 @@ public class UserController {
      */
     @RequestMapping(value = "/register2", method = RequestMethod.POST)
     public ModelAndView register2(User user, ModelAndView mv) {
+        return mv;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/gotoLogin", method = RequestMethod.GET)
+    public ModelAndView gotoLogin(ModelAndView mv) {
+        mv.setViewName("login");
+        return mv;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getAllUserInfo", method = RequestMethod.GET)
+    public ModelAndView getAllUserInfo(ModelAndView mv) {
+        mv.setViewName("allUser");
         return mv;
     }
 

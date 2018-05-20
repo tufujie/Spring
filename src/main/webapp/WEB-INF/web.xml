@@ -13,6 +13,7 @@
         <param-value>classpath:spring-context.xml</param-value>
     </context-param>
 
+    <!-- 自定义监听器 -->
     <listener>
         <listener-class>com.jef.service.MySocket</listener-class>
     </listener>
@@ -21,13 +22,13 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <!-- -->
+    <!-- Servlet设置的名称，可任意 -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <!-- 设置配置文件的路径，如果默认文件名dispatcher-不修改的话可以不用配置，否则一定需要配置文件名路径 -->
+            <!-- 设置配置文件的路径，如果使用默认文件名dispatcher-servlet.xml而不修改的话可以不用配置，否则一定需要配置文件名路径 -->
             <param-value>classpath:servlet-context.xml</param-value>
         </init-param>
         <load-on-startup>0</load-on-startup>

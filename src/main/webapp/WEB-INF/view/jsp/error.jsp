@@ -1,16 +1,11 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2016-11-24 0024
-  Time: 10:17
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%-- 错误提示页面，声明是错误页面 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isErrorPage="true" %>
+<%@ page info="This is a errorPage" %>
 <html>
 <head>
-    <title>login test</title>
+    <title>Errpr Page</title>
 </head>
 <body>
-<h2>Error!</h2>
+<h2>Error 404，请联系管理员!</h2>
 </body>
 </html>
