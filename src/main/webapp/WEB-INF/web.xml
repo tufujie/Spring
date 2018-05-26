@@ -4,13 +4,32 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
-    <display-name>Archetype Created Web Application</display-name>
+    <!-- 描述性的文字说明，没实际意义，一般情况下直接删除掉 -->
+    <description>Jef Web Application</description>
+    <display-name>Jef Web Application</display-name>
 
     <!-- spring容器初始化 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <!-- 默认为applicationContext.xml，可修改成其他的文件名进入引入 -->
         <param-value>classpath:spring-context.xml</param-value>
+    </context-param>
+
+    <!-- 指定 Log4J 配置文件的地址 -->
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>WEB-INF/log4j.properties</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>log4jRefreshInterval</param-name>
+        <param-value>3000</param-value>
+    </context-param>
+
+    <!-- 为避免项目间冲突，定义唯一的 RelativePath 指明相对路径 -->
+    <context-param>
+        <param-name>RelativePath</param-name>
+        <param-value>RelativePath</param-value>
     </context-param>
 
     <!-- 自定义监听器 -->
@@ -22,6 +41,19 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+    <!-- 使用该监听器初始化 Log4J 日志引擎 -->
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
+    <!-- Introspector 缓存清除监听器,防止内存泄露 -->
+    <listener>
+        <listener-class>
+            org.springframework.web.util.IntrospectorCleanupListener
+        </listener-class>
+    </listener>
+
+    <!-- Servlet映射 -->
     <!-- Servlet设置的名称，可任意 -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
@@ -37,6 +69,15 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <!-- 添加验证码的servlet的映射 -->
+    <servlet-mapping>
+        <servlet-name>VerifyCodeServlet</servlet-name>
+        <url-pattern>/VerifyCodeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VerifyCodeServlet</servlet-name>
+        <servlet-class>com.jef.servlet.VerifyCodeServlet</servlet-class>
+    </servlet>
 
     <!-- 编码过滤器，进行字符编码配置 -->
     <filter>
@@ -61,33 +102,4 @@
         <welcome-file>/WEB-INF/view/jsp/index.jsp</welcome-file>
     </welcome-file-list>
 
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>WEB-INF/log4j.properties</param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>log4jRefreshInterval</param-name>
-        <param-value>3000</param-value>
-    </context-param>
-
-    <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-    </listener>
-
-    <!-- 为避免项目间冲突，定义唯一的 RelativePath 指明相对路径 -->
-    <context-param>
-        <param-name>RelativePath</param-name>
-        <param-value>RelativePath</param-value>
-    </context-param>
-
-    <!-- 添加验证码的servlet的映射 -->
-    <servlet-mapping>
-        <servlet-name>VerifyCodeServlet</servlet-name>
-        <url-pattern>/VerifyCodeServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>VerifyCodeServlet</servlet-name>
-        <servlet-class>com.jef.servlet.VerifyCodeServlet</servlet-class>
-    </servlet>
 </web-app>
