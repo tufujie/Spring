@@ -80,4 +80,14 @@
         <param-name>RelativePath</param-name>
         <param-value>RelativePath</param-value>
     </context-param>
+
+    <!-- 添加验证码的servlet的映射 -->
+    <servlet-mapping>
+        <servlet-name>VerifyCodeServlet</servlet-name>
+        <url-pattern>/VerifyCodeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>VerifyCodeServlet</servlet-name>
+        <servlet-class>com.jef.servlet.VerifyCodeServlet</servlet-class>
+    </servlet>
 </web-app>

@@ -1,7 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    String path = request.getContextPath();
+%>
 <html>
 <head>
     <title>register</title>
+    <%-- 动态include指令引入页面 --%>
+    <jsp:include page="basic.jsp" />
 </head>
 <body>
 <jsp:include page="basic.jsp" />
@@ -26,6 +31,13 @@
         <tr>
             <td>年龄</td>
             <td><input id="age" name="age"></td>
+        </tr>
+        <tr>
+            <td>验证码</td>
+            <td>
+                <input type="text" class="input input-big" name="verifyCode" placeholder="填写右侧的验证码" data-validate="required:请填写右侧的验证码" />
+                <img src="<%=path%>/VerifyCodeServlet" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;" onclick="this.src=this.src+'?'">
+            </td>
         </tr>
         <tr>
             <td><input type="button" value="注册" onclick="register()"></td>

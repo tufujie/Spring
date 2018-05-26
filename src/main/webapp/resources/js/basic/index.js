@@ -36,15 +36,16 @@ function register() {
     var repeatUserPassword = $.trim($( "#repeatUserPassword" ).val());
     var phone = $.trim($( "#phone" ).val());
     var age = $.trim($( "#age" ).val());
-    if (!name) {
+    var verifyCode = $.trim($( "input[name='verifyCode']" ).val());
+    if (name == "") {
         alert( "请输入用户名" );
         return false;
     }
-    if (!password) {
+    if (password == "") {
         alert( "请输入密码" );
         return false;
     }
-    if (!repeatUserPassword) {
+    if (repeatUserPassword == "") {
         alert( "请输入重复密码" );
         return false;
     }
@@ -52,12 +53,16 @@ function register() {
         alert( "输入密码不一致" );
         return false;
     }
-    if (!phone) {
+    if (phone == "") {
         alert( "请输入手机号" );
         return false;
     }
-    if (!age) {
+    if (age == "") {
         alert( "请输入年龄" );
+        return false;
+    }
+    if (verifyCode == "") {
+        alert( "请输入验证码" );
         return false;
     }
     // 表单提交
