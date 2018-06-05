@@ -2,6 +2,7 @@ package com.jef.dao;
 
 import com.jef.entity.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,4 +33,6 @@ public interface UserMapper {
     void insert(User user);
 
     User getByName(String name);
+
+    List<User> getAllUser();
 }

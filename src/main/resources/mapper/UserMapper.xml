@@ -27,4 +27,7 @@
         select * from user
         where name = #{name}
     </select>
+    <select id="getAllUser" resultType="com.jef.entity.User">
+        select * from user
+    </select>
 </mapper>
