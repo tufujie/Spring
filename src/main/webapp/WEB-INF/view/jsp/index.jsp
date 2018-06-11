@@ -9,7 +9,8 @@
 <jsp:include page="basic.jsp" />
 <h1>欢迎来到Jef的小世界</h1>
 <a href="/user/gotoLogin">登录</a>，没有账号<a href="/user/gotoRegister">点击注册</a><br>
-<a href="/jsp/introduce">JSP demo</a>
+<a href="/jsp/introduce">JSP demo</a><br>
+<a href="/other/otherIntroduce">Other demo</a>
 <script>
     $(document).ready(function() {
         console.log("JS已引入")

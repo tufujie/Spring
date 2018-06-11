@@ -14,7 +14,7 @@ Swagger是当前最好用的Restful API文档生成的开源项目，通过swagg
 
 @Resource 和 @Autowired
 @Resource默认按照名称方式进行bean匹配，@Autowired默认按照类型方式进行bean匹配
-@Resource(importjavax.annotation.Resource;)是J2EE的注解，
+@Resource(import javax.annotation.Resource;)是J2EE的注解，
 @Autowired(import org.springframework.beans.factory.annotation.Autowired;)是Spring的注解
 例如一个接口只有一个实现时：
 接口：

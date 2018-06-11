@@ -2,7 +2,7 @@ package com.jef.entity;
 
 /**
  * 用户信息
- *
+ * 以用户为核心
  * @author Jef
  * @create 2018/5/15 19:18
  */

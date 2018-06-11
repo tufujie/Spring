@@ -26,7 +26,7 @@ import java.util.Objects;
  * @author Jef
  * @dater 2018/5/15 19:18
  */
-@RequestMapping(value = "login")
+@RequestMapping(value = "/login")
 @Controller
 public class LoginController {
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
