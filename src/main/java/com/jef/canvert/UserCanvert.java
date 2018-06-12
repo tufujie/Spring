@@ -2,7 +2,7 @@ package com.jef.canvert;
 
 import com.jef.dto.UserDto;
 import com.jef.entity.User;
-import com.jef.utils.BeanPropertiesCopy;
+import com.jef.common.utils.BeanPropertiesCopy;
 
 import java.util.ArrayList;
 import java.util.List;

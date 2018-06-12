@@ -1,4 +1,4 @@
-package com.jef.utils;
+package com.jef.common.utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

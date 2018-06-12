@@ -1,7 +1,7 @@
 package com.jef.servlet;
 
 import com.jef.constant.BasicConstant;
-import com.jef.utils.GraphicHelper;
+import com.jef.common.utils.GraphicHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

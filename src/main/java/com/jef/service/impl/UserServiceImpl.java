@@ -1,9 +1,9 @@
 package com.jef.service.impl;
 
-import com.jef.dao.UserMapper;
+import com.jef.dao.IUserDao;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
-import com.jef.utils.MD5Util;
+import com.jef.common.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ import java.util.Map;
 @Service(value = "userService")
 public class UserServiceImpl implements IUserService {
     @Autowired
-    private UserMapper userMapper;
+    private IUserDao userMapper;
 
     @Override
     public User getByNameAndPassWord(String name, String password) {

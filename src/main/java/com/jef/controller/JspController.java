@@ -1,7 +1,7 @@
 package com.jef.controller;
 
 import com.jef.constant.BasicConstant;
-import com.jef.dao.UserMapper;
+import com.jef.dao.IUserDao;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class JspController {
     @Autowired
     private IUserService userService;
     @Autowired
-    private UserMapper userMapper;
+    private IUserDao userMapper;
 
     @RequestMapping(value = "/introduce")
     public ModelAndView introduce(ModelAndView mv) {

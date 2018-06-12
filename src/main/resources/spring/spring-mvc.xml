@@ -16,6 +16,17 @@
 
     <!--加载本地的其他配置 -->
     <import resource="spring-base.xml"/>
-    <import resource="spring-database.xml"/>
+    <import resource="spring-mybatis.xml"/>
 
+    <!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->
+    <bean class="com.jef.common.context.SpringContextHolder" lazy-init="false" />
+
+    <!-- 加载配置文件，一个或多个 -->
+    <bean id="propertyConfigurer" class="com.jef.common.utils.SpringPropertiesUtil">
+        <property name="locations">
+            <list>
+                <value>classpath:common/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
 </beans>

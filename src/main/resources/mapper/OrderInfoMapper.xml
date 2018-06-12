@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jef.dao.OrderInfoMapper">
+<mapper namespace="com.jef.dao.IOrderInfoDao">
   <resultMap id="BaseResultMap" type="com.jef.entity.OrderInfo">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="extra_order_id" jdbcType="VARCHAR" property="extraOrderId" />

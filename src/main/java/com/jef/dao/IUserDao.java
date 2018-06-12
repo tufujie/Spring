@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Jef
  * @create 2018/5/15 19:18
  */
-public interface UserMapper {
+public interface IUserDao {
     /**
      * 根据ID查询用户信息
      * @param id

@@ -5,5 +5,6 @@
 </head>
 <body>
 <a href="/other/useContext">使用ClassPathXmlApplicationContext获取bean</a><br>
+<a href="/other/useSpringContextHolder">使用SpringContextHolder获取bean</a><br>
 </body>
 </html>

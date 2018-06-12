@@ -1,4 +1,4 @@
-package com.jef.utils;
+package com.jef.common.utils;
 
 import java.security.MessageDigest;
 

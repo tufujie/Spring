@@ -1,4 +1,4 @@
-package com.jef.utils;
+package com.jef.common.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,7 +16,7 @@ public class ContextUtils {
      * @return ApplicationContext
      */
     public static ApplicationContext getContext() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-mvc.xml");
         return context;
     }
 }

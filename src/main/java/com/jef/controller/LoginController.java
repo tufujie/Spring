@@ -7,7 +7,7 @@ import com.jef.dto.UserDto;
 import com.jef.entity.ResultMsg;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
-import com.jef.utils.MD5Util;
+import com.jef.common.utils.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

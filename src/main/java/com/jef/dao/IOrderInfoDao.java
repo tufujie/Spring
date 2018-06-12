@@ -2,7 +2,7 @@ package com.jef.dao;
 
 import com.jef.entity.OrderInfo;
 
-public interface OrderInfoMapper {
+public interface IOrderInfoDao {
     int deleteByPrimaryKey(Long id);
 
     int insert(OrderInfo record);
