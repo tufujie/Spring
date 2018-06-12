@@ -5,6 +5,7 @@ import com.jef.entity.User;
 import com.jef.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,7 +64,7 @@ public class UserController {
             @RequestParam(value = "phone", required=true) String phone,
             @RequestParam(value = "age", required=true) Integer age,
             @RequestParam(value = "verifyCode", required=true) String verifyCodeInput,
-            ModelAndView mv, HttpSession session) {
+            ModelAndView mv, HttpSession session, Model model) {
         User user = userService.getByName(name);
         // 获得在会话中存储的那 为登录进行验证的验证码
         final String verfiCode = (String)session.getAttribute(BasicConstant.VERFYCODE);

@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,7 +76,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/loginTwo", method = RequestMethod.POST)  //处理login请求
-    public ModelAndView loginTwo(String name, String password, ModelAndView mv, HttpSession session) {
+    public ModelAndView loginTwo(String name, String password, ModelAndView mv, HttpSession session, Model model) {
         logger.info("用户名为 " + name + " 尝试登录");
         logger.debug("用户名为 " + name + " 尝试登录");
         logger.error("用户名为 " + name + " 尝试登录");
@@ -84,6 +85,7 @@ public class LoginController {
         if (Objects.nonNull(user)) {
             logger.info("用户名为 " + name + " 登录成功");
             session.setAttribute("user", user);
+            model.addAttribute("userInfo", user);
             mv.setViewName("homepage"); //重定向到homepage页面中
         } else {
             logger.error("用户名为 " + name + " 尝试登录失败");

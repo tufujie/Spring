@@ -2,6 +2,8 @@ package com.jef.dao;
 
 import com.jef.entity.OrderInfo;
 
+import java.util.List;
+
 public interface IOrderInfoDao {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +16,11 @@ public interface IOrderInfoDao {
     int updateByPrimaryKeySelective(OrderInfo record);
 
     int updateByPrimaryKey(OrderInfo record);
+
+    /**
+     * 根据用户ID查询订单信息
+     * @param userId
+     * @return
+     */
+    List<OrderInfo> getByUserId(Long userId);
 }

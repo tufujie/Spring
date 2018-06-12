@@ -7,5 +7,6 @@
 <body>
 <jsp:include page="basic.jsp" />
 Login Success，欢迎${sessionScope.user.name}访问<br>
+UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}
 </body>
 </html>

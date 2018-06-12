@@ -16,12 +16,14 @@
 <table bgcolor="#faebd7" border="1" width="300px">
     <th>用户名</th>
     <th>年龄</th>
+    <th>订单信息</th>
     <%
         while (rs.next()) {
     %>
     <tr>
         <td><%= rs.getString("name") %></td>
         <td><%= rs.getString("age") %></td>
+        <td><a href='/orderInfo/getOrderInfoByUserId/<%= rs.getLong("id")%>' target='_blank'>查看购买物品</a></td>
     </tr>
     <%
         }
