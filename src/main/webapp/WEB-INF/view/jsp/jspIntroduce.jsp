@@ -48,21 +48,21 @@ JSP输出表达式，使用方式
         }
     %>
 </table>
-<a href="/user/getAllUserInfo">查看所有用户信息</a><br>
-<a href="/error/gotoError">尝试跳转错误页</a>
+<a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>
+<a href="/error/gotoError" target="_blank">尝试跳转错误页</a>
 <h1>JSP编译指令（3个）</h1>
 page<br>
 include<br>
 taglib
 <h1>JSP动作指令（7个）</h1>
-<a href="/jsp/forward">jsp:forward</a><br>
+<a href="/jsp/forward" target="_blank">jsp:forward</a><br>
 拓展：这个会将填入的名称和jsp-forward.jsp页面中设置的年龄一起传到forward-result.jsp中
 <form action="jsp-forward.jsp" method="post">
     <input type="text" name="username" />
     <input type="submit" value="login">
 </form>
-<a href="/jsp/include">jsp:include</a><br>
-<a href="/jsp/useBeanSetPropertyGetProperty">jsp:useBean、jsp:setProperty、jsp:getProperty</a><br>
+<a href="/jsp/include" target="_blank">jsp:include</a><br>
+<a href="/jsp/useBeanSetPropertyGetProperty" target="_blank">jsp:useBean、jsp:setProperty、jsp:getProperty</a><br>
 <h1>JSP内置对象（9个）</h1>
 applicatioin（对于整个Web应用有效）<a href="/jsp/putApplication" target="_blank">putApplication</a>
 <a href="/jsp/getApplication" target="_blank">getApplication</a><br>
