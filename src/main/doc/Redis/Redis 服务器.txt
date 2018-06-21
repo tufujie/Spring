@@ -1,0 +1,2144 @@
+Redis 服务器命令主要是用于管理 redis 服务。
+实例
+以下实例演示了如何获取 redis 服务器的统计信息：
+INFO
+
+# Server
+redis_version:2.8.13
+redis_git_sha1:00000000
+redis_git_dirty:0
+redis_build_id:c2238b38b1edb0e2
+redis_mode:standalone
+os:Linux 3.5.0-48-generic x86_64
+arch_bits:64
+multiplexing_api:epoll
+gcc_version:4.7.2
+process_id:3856
+run_id:0e61abd297771de3fe812a3c21027732ac9f41fe
+tcp_port:6379
+uptime_in_seconds:11554
+uptime_in_days:0
+hz:10
+lru_clock:16651447
+config_file:
+
+# Clients
+connected_clients:1
+client-longest_output_list:0
+client-biggest_input_buf:0
+blocked_clients:0
+
+# Memory
+used_memory:589016
+used_memory_human:575.21K
+used_memory_rss:2461696
+used_memory_peak:667312
+used_memory_peak_human:651.67K
+used_memory_lua:33792
+mem_fragmentation_ratio:4.18
+mem_allocator:jemalloc-3.6.0
+
+# Persistence
+loading:0
+rdb_changes_since_last_save:3
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1409158561
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:0
+rdb_current_bgsave_time_sec:-1
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+aof_last_bgrewrite_status:ok
+aof_last_write_status:ok
+
+# Stats
+total_connections_received:24
+total_commands_processed:294
+instantaneous_ops_per_sec:0
+rejected_connections:0
+sync_full:0
+sync_partial_ok:0
+sync_partial_err:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:41
+keyspace_misses:82
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:264
+
+# Replication
+role:master
+connected_slaves:0
+master_repl_offset:0
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+# CPU
+used_cpu_sys:10.49
+used_cpu_user:4.96
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.01
+
+# Keyspace
+db0:keys=94,expires=1,avg_ttl=41638810
+db1:keys=1,expires=0,avg_ttl=0
+db3:keys=1,expires=0,avg_ttl=0
+Redis 服务器命令
+下表列出了 redis 服务器的相关命令:
+序号	命令及描述
+1	BGREWRITEAOF 
+异步执行一个 AOF（AppendOnly File） 文件重写操作。重写会创建一个当前 AOF 文件的体积优化版本。
+即使 Bgrewriteaof 执行失败，也不会有任何数据丢失，因为旧的 AOF 文件在 Bgrewriteaof 成功之前不会被修改。
+注意：从 Redis 2.4 开始， AOF 重写由 Redis 自行触发， BGREWRITEAOF 仅仅用于手动触发重写操作。
+语法
+redis Bgrewriteaof 命令基本语法如下：
+BGREWRITEAOF 
+可用版本
+>= 1.0.0
+返回值
+反馈信息。
+实例
+redis 127.0.0.1:6379>
+Background append only file rewriting started
+2	BGSAVE 
+在后台异步保存当前数据库的数据到磁盘，BGSAVE 命令执行之后立即返回 OK ，然后 Redis fork 出一个新子进程，原来的 Redis 进程(父进程)继续处理客户端请求，而子进程则负责将数据保存到磁盘，然后退出。
+语法
+redis Bgsave 命令基本语法如下：
+BGSAVE
+可用版本
+>= 1.0.0
+返回值
+反馈信息。
+实例
+redis> BGSAVE
+Background saving started
+3	CLIENT KILL [ip:port] [ID client-id] 
+关闭客户端连接
+语法
+redis Client Kill 命令基本语法如下：
+CLIENT KILL ip:port
+可用版本
+>= 2.4.0
+返回值
+成功关闭时，返回 OK 。
+实例
+# 列出所有已连接客户端
+CLIENT LIST
+addr=127.0.0.1:43501 fd=5 age=10 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=0 qbuf-free=32768 obl=0 oll=0 omem=0 events=r cmd=client
+# 杀死当前客户端的连接
+CLIENT KILL 127.0.0.1:43501
+OK
+# 之前的连接已经被关闭，CLI 客户端又重新建立了连接
+# 之前的端口是 43501 ，现在是 43504
+CLIENT LIST
+addr=127.0.0.1:43504 fd=5 age=0 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=0 qbuf-free=32768 obl=0 oll=0 omem=0 events=r cmd=client
+4	CLIENT LIST 
+获取连接到服务器的客户端连接列表
+语法
+redis Client List 命令基本语法如下：
+CLIENT LIST
+可用版本
+>= 2.4.0
+返回值
+命令返回多行字符串，这些字符串按以下形式被格式化：
+每个已连接客户端对应一行（以 LF 分割）
+每行字符串由一系列 属性=值 形式的域组成，每个域之间以空格分开
+以下是域的含义：
+addr ： 客户端的地址和端口
+fd ： 套接字所使用的文件描述符
+age ： 以秒计算的已连接时长
+idle ： 以秒计算的空闲时长
+flags ： 客户端 flag
+db ： 该客户端正在使用的数据库 ID
+sub ： 已订阅频道的数量
+psub ： 已订阅模式的数量
+multi ： 在事务中被执行的命令数量
+qbuf ： 查询缓冲区的长度（字节为单位， 0 表示没有分配查询缓冲区）
+qbuf-free ： 查询缓冲区剩余空间的长度（字节为单位， 0 表示没有剩余空间）
+obl ： 输出缓冲区的长度（字节为单位， 0 表示没有分配输出缓冲区）
+oll ： 输出列表包含的对象数量（当输出缓冲区没有剩余空间时，命令回复会以字符串对象的形式被入队到这个队列里）
+omem ： 输出缓冲区和输出列表占用的内存总量
+events ： 文件描述符事件
+cmd ： 最近一次执行的命令
+客户端 flag 可以由以下部分组成：
+O ： 客户端是 MONITOR 模式下的附属节点（slave）
+S ： 客户端是一般模式下（normal）的附属节点
+M ： 客户端是主节点（master）
+x ： 客户端正在执行事务
+b ： 客户端正在等待阻塞事件
+i ： 客户端正在等待 VM I/O 操作（已废弃）
+d ： 一个受监视（watched）的键已被修改， EXEC 命令将失败
+c : 在将回复完整地写出之后，关闭链接
+u : 客户端未被阻塞（unblocked）
+A : 尽可能快地关闭连接
+N : 未设置任何 flag
+文件描述符事件可以是：
+r : 客户端套接字（在事件 loop 中）是可读的（readable）
+w : 客户端套接字（在事件 loop 中）是可写的（writeable）
+实例
+CLIENT LIST
+addr=127.0.0.1:43143 fd=6 age=183 idle=0 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=0 qbuf-free=32768 obl=0 oll=0 omem=0 events=r cmd=client
+addr=127.0.0.1:43163 fd=5 age=35 idle=15 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=0 qbuf-free=0 obl=0 oll=0 omem=0 events=r cmd=ping
+addr=127.0.0.1:43167 fd=7 age=24 idle=6 flags=N db=0 sub=0 psub=0 multi=-1 qbuf=0 qbuf-free=0 obl=0 oll=0 omem=0 events=r cmd=get
+5	CLIENT GETNAME 
+获取连接的名称。 因为新创建的连接默认是没有名字的， 对于没有名字的连接， CLIENT GETNAME 返回空白回复。
+语法
+redis Client Getname 命令基本语法如下：
+CLIENT GETNAME
+可用版本
+>= 2.6.9
+返回值
+如果连接没有设置名字，那么返回空白回复； 如果有设置名字，那么返回名字。
+实例
+# 新连接默认没有名字
+CLIENT GETNAME
+(nil)
+# 设置名字
+CLIENT SETNAME hello-world-connection
+OK
+# 返回名字
+CLIENT GETNAME
+"hello-world-connection"
+6	CLIENT PAUSE timeout 
+在指定时间内终止运行来自客户端的命令
+语法
+redis Client Pause 命令基本语法如下：
+CLIENT PAUSE timeout 
+可用版本
+>= 2.9.50
+返回值
+返回 OK。如果 timeout 参数是非法的返回错误。
+7	CLIENT SETNAME connection-name 
+设置当前连接的名称
+这个名字会显示在 CLIENT LIST 命令的结果中， 用于识别当前正在与服务器进行连接的客户端。
+语法
+redis Client Setname 命令基本语法如下：
+CLIENT SETNAME connection-name
+可用版本
+>= 2.6.9
+返回值
+设置成功时返回 OK 。
+实例
+# 新连接默认没有名字
+CLIENT GETNAME
+(nil)
+# 设置名字
+CLIENT SETNAME hello-world-connection
+OK
+# 返回名字
+CLIENT GETNAME
+"hello-world-connection"
+# 在客户端列表中查看
+CLIENT LIST
+addr=127.0.0.1:36851
+fd=5
+name=hello-world-connection     # <- 名字
+age=51
+...
+# 清除名字
+CLIENT SETNAME        # 只用空格是不行的！
+(error) ERR Syntax error, try CLIENT (LIST | KILL ip:port)
+CLIENT SETNAME ""     # 必须双引号显示包围
+OK
+CLIENT GETNAME        # 清除完毕
+(nil)
+8	CLUSTER SLOTS 
+获取集群节点的映射数组
+语法
+redis Client Slots 命令基本语法如下：
+CLUSTER SLOTS 
+可用版本
+>= 3.0.0
+返回值
+IP/端口嵌套的列表数组。
+实例
+cluster slots
+1) 1) (integer) 0
+   2) (integer) 4095
+   3) 1) "127.0.0.1"
+      2) (integer) 7000
+   4) 1) "127.0.0.1"
+      2) (integer) 7004
+2) 1) (integer) 12288
+   2) (integer) 16383
+   3) 1) "127.0.0.1"
+      2) (integer) 7003
+   4) 1) "127.0.0.1"
+      2) (integer) 7007
+3) 1) (integer) 4096
+   2) (integer) 8191
+   3) 1) "127.0.0.1"
+      2) (integer) 7001
+   4) 1) "127.0.0.1"
+      2) (integer) 7005
+4) 1) (integer) 8192
+   2) (integer) 12287
+   3) 1) "127.0.0.1"
+      2) (integer) 7002
+   4) 1) "127.0.0.1"
+      2) (integer) 7006
+9	COMMAND 
+获取 Redis 命令详情数组
+语法
+redis Command 命令基本语法如下：
+COMMAND  
+可用版本
+>= 2.8.13
+返回值
+嵌套的Redis命令的详细信息列表。列表顺序是随机的。
+实例
+COMMAND
+1) 1) "pfcount"
+     2) (integer) -2
+     3) 1) write
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+  2) 1) "command"
+     2) (integer) 0
+     3) 1) readonly
+        2) loading
+        3) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+  3) 1) "zscan"
+     2) (integer) -3
+     3) 1) readonly
+        2) random
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+  4) 1) "echo"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+  5) 1) "select"
+     2) (integer) 2
+     3) 1) readonly
+        2) loading
+        3) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+  6) 1) "zcount"
+     2) (integer) 4
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+  7) 1) "substr"
+     2) (integer) 4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+  8) 1) "pttl"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+  9) 1) "hincrbyfloat"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 10) 1) "hlen"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 11) 1) "incrby"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 12) 1) "setex"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 13) 1) "persist"
+     2) (integer) 2
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 14) 1) "setbit"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 15) 1) "info"
+     2) (integer) -1
+     3) 1) readonly
+        2) loading
+        3) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 16) 1) "scard"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 17) 1) "srandmember"
+     2) (integer) -2
+     3) 1) readonly
+        2) random
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 18) 1) "lrem"
+     2) (integer) 4
+     3) 1) write
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 19) 1) "append"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 20) 1) "hgetall"
+     2) (integer) 2
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 21) 1) "zincrby"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 22) 1) "rpop"
+     2) (integer) 2
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 23) 1) "cluster"
+     2) (integer) -2
+     3) 1) readonly
+        2) admin
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 24) 1) "ltrim"
+     2) (integer) 4
+     3) 1) write
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 25) 1) "flushdb"
+     2) (integer) 1
+     3) 1) write
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 26) 1) "rpoplpush"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 2
+     6) (integer) 1
+ 27) 1) "expire"
+     2) (integer) 3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 28) 1) "psync"
+     2) (integer) 3
+     3) 1) readonly
+        2) admin
+        3) noscript
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 29) 1) "zremrangebylex"
+     2) (integer) 4
+     3) 1) write
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 30) 1) "pubsub"
+     2) (integer) -2
+     3) 1) readonly
+        2) pubsub
+        3) random
+        4) loading
+        5) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 31) 1) "setnx"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 32) 1) "pexpireat"
+     2) (integer) 3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 33) 1) "psubscribe"
+     2) (integer) -2
+     3) 1) readonly
+        2) pubsub
+        3) noscript
+        4) loading
+        5) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 34) 1) "zrevrange"
+     2) (integer) -4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 35) 1) "hmget"
+     2) (integer) -3
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 36) 1) "object"
+     2) (integer) -2
+     3) 1) readonly
+     4) (integer) 2
+     5) (integer) 2
+     6) (integer) 2
+ 37) 1) "watch"
+     2) (integer) -2
+     3) 1) readonly
+        2) noscript
+        3) fast
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+ 38) 1) "setrange"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 39) 1) "sdiffstore"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+ 40) 1) "flushall"
+     2) (integer) 1
+     3) 1) write
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 41) 1) "sadd"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 42) 1) "renamenx"
+     2) (integer) 3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 2
+     6) (integer) 1
+ 43) 1) "zrangebyscore"
+     2) (integer) -4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 44) 1) "bitop"
+     2) (integer) -4
+     3) 1) write
+        2) denyoom
+     4) (integer) 2
+     5) (integer) -1
+     6) (integer) 1
+ 45) 1) "get"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 46) 1) "hmset"
+     2) (integer) -4
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 47) 1) "type"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 48) 1) "evalsha"
+     2) (integer) -3
+     3) 1) noscript
+        2) movablekeys
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 49) 1) "zrevrangebyscore"
+     2) (integer) -4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 50) 1) "set"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 51) 1) "getset"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 52) 1) "punsubscribe"
+     2) (integer) -1
+     3) 1) readonly
+        2) pubsub
+        3) noscript
+        4) loading
+        5) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 53) 1) "publish"
+     2) (integer) 3
+     3) 1) readonly
+        2) pubsub
+        3) loading
+        4) stale
+        5) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 54) 1) "lset"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 55) 1) "rename"
+     2) (integer) 3
+     3) 1) write
+     4) (integer) 1
+     5) (integer) 2
+     6) (integer) 1
+ 56) 1) "bgsave"
+     2) (integer) 1
+     3) 1) readonly
+        2) admin
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 57) 1) "decrby"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 58) 1) "sunion"
+     2) (integer) -2
+     3) 1) readonly
+        2) sort_for_script
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+ 59) 1) "blpop"
+     2) (integer) -3
+     3) 1) write
+        2) noscript
+     4) (integer) 1
+     5) (integer) -2
+     6) (integer) 1
+ 60) 1) "zrem"
+     2) (integer) -3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 61) 1) "readonly"
+     2) (integer) 1
+     3) 1) readonly
+        2) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 62) 1) "exists"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 63) 1) "linsert"
+     2) (integer) 5
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 64) 1) "lindex"
+     2) (integer) 3
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 65) 1) "scan"
+     2) (integer) -2
+     3) 1) readonly
+        2) random
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 66) 1) "migrate"
+     2) (integer) -6
+     3) 1) write
+        2) admin
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 67) 1) "ping"
+     2) (integer) 1
+     3) 1) readonly
+        2) stale
+        3) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 68) 1) "zunionstore"
+     2) (integer) -4
+     3) 1) write
+        2) denyoom
+        3) movablekeys
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 69) 1) "latency"
+     2) (integer) -2
+     3) 1) readonly
+        2) admin
+        3) noscript
+        4) loading
+        5) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 70) 1) "role"
+     2) (integer) 1
+     3) 1) admin
+        2) noscript
+        3) loading
+        4) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 71) 1) "ttl"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 72) 1) "del"
+     2) (integer) -2
+     3) 1) write
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+ 73) 1) "wait"
+     2) (integer) 3
+     3) 1) readonly
+        2) noscript
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 74) 1) "zscore"
+     2) (integer) 3
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 75) 1) "zrevrangebylex"
+     2) (integer) -4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 76) 1) "sscan"
+     2) (integer) -3
+     3) 1) readonly
+        2) random
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 77) 1) "incrbyfloat"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 78) 1) "decr"
+     2) (integer) 2
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 79) 1) "getbit"
+     2) (integer) 3
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 80) 1) "spop"
+     2) (integer) 2
+     3) 1) write
+        2) noscript
+        3) random
+        4) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 81) 1) "hkeys"
+     2) (integer) 2
+     3) 1) readonly
+        2) sort_for_script
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 82) 1) "pfmerge"
+     2) (integer) -2
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+ 83) 1) "zrange"
+     2) (integer) -4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 84) 1) "monitor"
+     2) (integer) 1
+     3) 1) readonly
+        2) admin
+        3) noscript
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 85) 1) "zinterstore"
+     2) (integer) -4
+     3) 1) write
+        2) denyoom
+        3) movablekeys
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 86) 1) "rpushx"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 87) 1) "llen"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 88) 1) "hincrby"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 89) 1) "save"
+     2) (integer) 1
+     3) 1) readonly
+        2) admin
+        3) noscript
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 90) 1) "zremrangebyrank"
+     2) (integer) 4
+     3) 1) write
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 91) 1) "auth"
+     2) (integer) 2
+     3) 1) readonly
+        2) noscript
+        3) loading
+        4) stale
+        5) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 92) 1) "zcard"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 93) 1) "psetex"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 94) 1) "shutdown"
+     2) (integer) -1
+     3) 1) readonly
+        2) admin
+        3) loading
+        4) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 95) 1) "sync"
+     2) (integer) 1
+     3) 1) readonly
+        2) admin
+        3) noscript
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 96) 1) "dbsize"
+     2) (integer) 1
+     3) 1) readonly
+        2) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 97) 1) "expireat"
+     2) (integer) 3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+ 98) 1) "subscribe"
+     2) (integer) -2
+     3) 1) readonly
+        2) pubsub
+        3) noscript
+        4) loading
+        5) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+ 99) 1) "brpop"
+     2) (integer) -3
+     3) 1) write
+        2) noscript
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+100) 1) "sort"
+     2) (integer) -2
+     3) 1) write
+        2) denyoom
+        3) movablekeys
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+101) 1) "sunionstore"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+102) 1) "zrangebylex"
+     2) (integer) -4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+103) 1) "zlexcount"
+     2) (integer) 4
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+104) 1) "lpush"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+105) 1) "incr"
+     2) (integer) 2
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+106) 1) "mget"
+     2) (integer) -2
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+107) 1) "getrange"
+     2) (integer) 4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+108) 1) "slaveof"
+     2) (integer) 3
+     3) 1) admin
+        2) noscript
+        3) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+109) 1) "bitpos"
+     2) (integer) -3
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+110) 1) "rpush"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+111) 1) "config"
+     2) (integer) -2
+     3) 1) readonly
+        2) admin
+        3) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+112) 1) "srem"
+     2) (integer) -3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+113) 1) "mset"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 2
+114) 1) "lrange"
+     2) (integer) 4
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+115) 1) "replconf"
+     2) (integer) -1
+     3) 1) readonly
+        2) admin
+        3) noscript
+        4) loading
+        5) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+116) 1) "hsetnx"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+117) 1) "discard"
+     2) (integer) 1
+     3) 1) readonly
+        2) noscript
+        3) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+118) 1) "pexpire"
+     2) (integer) 3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+119) 1) "pfdebug"
+     2) (integer) -3
+     3) 1) write
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+120) 1) "asking"
+     2) (integer) 1
+     3) 1) readonly
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+121) 1) "client"
+     2) (integer) -2
+     3) 1) readonly
+        2) admin
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+122) 1) "pfselftest"
+     2) (integer) 1
+     3) 1) readonly
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+123) 1) "bgrewriteaof"
+     2) (integer) 1
+     3) 1) readonly
+        2) admin
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+124) 1) "zremrangebyscore"
+     2) (integer) 4
+     3) 1) write
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+125) 1) "sinterstore"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+126) 1) "lpushx"
+     2) (integer) 3
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+127) 1) "restore"
+     2) (integer) -4
+     3) 1) write
+        2) denyoom
+        3) admin
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+128) 1) "unsubscribe"
+     2) (integer) -1
+     3) 1) readonly
+        2) pubsub
+        3) noscript
+        4) loading
+        5) stale
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+129) 1) "zrank"
+     2) (integer) 3
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+130) 1) "readwrite"
+     2) (integer) 1
+     3) 1) readonly
+        2) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+131) 1) "hget"
+     2) (integer) 3
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+132) 1) "bitcount"
+     2) (integer) -2
+     3) 1) readonly
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+133) 1) "randomkey"
+     2) (integer) 1
+     3) 1) readonly
+        2) random
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+134) 1) "restore-asking"
+     2) (integer) -4
+     3) 1) write
+        2) denyoom
+        3) admin
+        4) asking
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+135) 1) "time"
+     2) (integer) 1
+     3) 1) readonly
+        2) random
+        3) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+136) 1) "zrevrank"
+     2) (integer) 3
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+137) 1) "hset"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+138) 1) "sinter"
+     2) (integer) -2
+     3) 1) readonly
+        2) sort_for_script
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+139) 1) "dump"
+     2) (integer) 2
+     3) 1) readonly
+        2) admin
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+140) 1) "move"
+     2) (integer) 3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+141) 1) "strlen"
+     2) (integer) 2
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+142) 1) "unwatch"
+     2) (integer) 1
+     3) 1) readonly
+        2) noscript
+        3) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+143) 1) "lpop"
+     2) (integer) 2
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+144) 1) "smembers"
+     2) (integer) 2
+     3) 1) readonly
+        2) sort_for_script
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+145) 1) "msetnx"
+     2) (integer) -3
+     3) 1) write
+        2) denyoom
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 2
+146) 1) "pfadd"
+     2) (integer) -2
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+147) 1) "zadd"
+     2) (integer) -4
+     3) 1) write
+        2) denyoom
+        3) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+148) 1) "lastsave"
+     2) (integer) 1
+     3) 1) readonly
+        2) random
+        3) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+149) 1) "exec"
+     2) (integer) 1
+     3) 1) noscript
+        2) skip_monitor
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+150) 1) "sismember"
+     2) (integer) 3
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+151) 1) "debug"
+     2) (integer) -2
+     3) 1) admin
+        2) noscript
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+152) 1) "slowlog"
+     2) (integer) -2
+     3) 1) readonly
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+153) 1) "hexists"
+     2) (integer) 3
+     3) 1) readonly
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+154) 1) "eval"
+     2) (integer) -3
+     3) 1) noscript
+        2) movablekeys
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+155) 1) "smove"
+     2) (integer) 4
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 2
+     6) (integer) 1
+156) 1) "multi"
+     2) (integer) 1
+     3) 1) readonly
+        2) noscript
+        3) fast
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+157) 1) "sdiff"
+     2) (integer) -2
+     3) 1) readonly
+        2) sort_for_script
+     4) (integer) 1
+     5) (integer) -1
+     6) (integer) 1
+158) 1) "hscan"
+     2) (integer) -3
+     3) 1) readonly
+        2) random
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+159) 1) "brpoplpush"
+     2) (integer) 4
+     3) 1) write
+        2) denyoom
+        3) noscript
+     4) (integer) 1
+     5) (integer) 2
+     6) (integer) 1
+160) 1) "script"
+     2) (integer) -2
+     3) 1) readonly
+        2) admin
+        3) noscript
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+161) 1) "keys"
+     2) (integer) 2
+     3) 1) readonly
+        2) sort_for_script
+     4) (integer) 0
+     5) (integer) 0
+     6) (integer) 0
+162) 1) "hdel"
+     2) (integer) -3
+     3) 1) write
+        2) fast
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+163) 1) "hvals"
+     2) (integer) 2
+     3) 1) readonly
+        2) sort_for_script
+     4) (integer) 1
+     5) (integer) 1
+     6) (integer) 1
+10	COMMAND COUNT 
+获取 Redis 命令总数
+获取给定命令的所有键
+语法
+redis Command Count 命令基本语法如下：
+COMMAND COUNT
+可用版本
+>= 2.8.13
+返回值
+redis 命令数。
+实例
+COMMAND COUNT
+(integer) 163
+11	COMMAND GETKEYS 
+语法
+redis Command Getkeys 命令基本语法如下：
+COMMAND GETKEYS
+可用版本
+>= 2.8.13
+返回值
+key 的列表。
+实例
+COMMAND GETKEYS MSET a b c d e f 
+1) "a"
+2) "c"
+3) "e"
+12	TIME 
+返回当前服务器时间
+语法
+redis Time 命令基本语法如下：
+TIME 
+可用版本
+>= 2.6.0
+返回值
+一个包含两个字符串的列表： 第一个字符串是当前时间(以 UNIX 时间戳格式表示)，而第二个字符串是当前这一秒钟已经逝去的微秒数。
+实例
+TIME 
+1) "1410856598"
+2) "928370"
+13	COMMAND INFO command-name [command-name ...] 
+获取指定 Redis 命令描述的数组
+语法
+redis Command Info 命令基本语法如下：
+COMMAND INFO command-name [command-name ...] 
+可用版本
+>= 2.8.13
+返回值
+命令描述信息的嵌套列表。
+实例
+COMMAND INFO get set eval 
+1) 1) "get"
+   2) (integer) 2
+   3) 1) readonly
+      2) fast
+   4) (integer) 1
+   5) (integer) 1
+   6) (integer) 1
+2) 1) "set"
+   2) (integer) -3
+   3) 1) write
+      2) denyoom
+   4) (integer) 1
+   5) (integer) 1
+   6) (integer) 1
+3) 1) "eval"
+   2) (integer) -3
+   3) 1) noscript
+      2) movablekeys
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+redis> COMMAND INFO foo evalsha config bar
+1) (nil)
+2) 1) "evalsha"
+   2) (integer) -3
+   3) 1) noscript
+      2) movablekeys
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+3) 1) "config"
+   2) (integer) -2
+   3) 1) readonly
+      2) admin
+      3) stale
+   4) (integer) 0
+   5) (integer) 0
+   6) (integer) 0
+4) (nil)
+14	CONFIG GET parameter 
+获取指定配置参数的值， Redis 2.4 版本中， 有部分参数没有办法用 CONFIG GET 访问，但是在最新的 Redis 2.6 版本中，所有配置参数都已经可以用 CONFIG GET 访问了。
+语法
+redis Config Get 命令基本语法如下：
+CONFIG GET parameter
+可用版本
+>= 2.0.0
+返回值
+给定配置参数的值。
+实例
+config get *max-*-entries* 
+1) "hash-max-zipmap-entries"
+2) "512"
+3) "list-max-ziplist-entries"
+4) "512"
+5) "set-max-intset-entries"
+6) "512"
+15	CONFIG REWRITE 
+对启动 Redis 服务器时所指定的 redis.conf 配置文件进行改写
+CONFIG SET 命令可以对服务器的当前配置进行修改， 而修改后的配置可能和 redis.conf 文件中所描述的配置不一样， CONFIG REWRITE 的作用就是通过尽可能少的修改， 将服务器当前所使用的配置记录到 redis.conf 文件中。
+语法
+redis Config rewrite 命令基本语法如下：
+CONFIG REWRITE parameter
+可用版本
+>= 2.8.0
+返回值
+一个状态值：如果配置重写成功则返回 OK ，失败则返回一个错误。
+实例
+以下是执行 CONFIG REWRITE 前， 被载入到 Redis 服务器的 redis.conf 文件中关于 appendonly 选项的设置：
+appendonly no
+# ... 其他选项
+在执行以下命令之后：
+127.0.0.1:6379> CONFIG GET appendonly           # appendonly 处于关闭状态
+1) "appendonly"
+2) "no"
+127.0.0.1:6379> CONFIG SET appendonly yes       # 打开 appendonly
+OK
+127.0.0.1:6379> CONFIG GET appendonly
+1) "appendonly"
+2) "yes"
+127.0.0.1:6379> CONFIG REWRITE                  # 将 appendonly 的修改写入到 redis.conf 中
+OK
+重写后的 redis.conf 文件中的 appendonly 选项将被改写：
+# ... 其他选项
+appendonly yes
+# ... 其他选项
+16	CONFIG SET parameter value 
+修改 redis 配置参数，无需重启，你可以使用它修改配置参数，或者改变 Redis 的持久化(Persistence)方式。
+语法
+redis Config Set 命令基本语法如下：
+CONFIG Set parameter value 
+可用版本
+>= 2.0.0
+返回值
+当设置成功时返回 OK ，否则返回一个错误。
+实例
+CONFIG GET slowlog-max-len
+1) "slowlog-max-len"
+2) "1024"
+CONFIG SET slowlog-max-len 10086
+OK
+CONFIG GET slowlog-max-len
+1) "slowlog-max-len"
+2) "10086"
+17	CONFIG RESETSTAT 
+重置 INFO 命令中的某些统计数据
+Redis Config Resetstat 命令用于重置 INFO 命令中的某些统计数据，包括：
+Keyspace hits (键空间命中次数)
+Keyspace misses (键空间不命中次数)
+Number of commands processed (执行命令的次数)
+Number of connections received (连接服务器的次数)
+Number of expired keys (过期key的数量)
+Number of rejected connections (被拒绝的连接数量)
+Latest fork(2) time(最后执行 fork(2) 的时间)
+The aof_delayed_fsync counter(aof_delayed_fsync 计数器的值)
+语法
+redis Config Resetstat 命令基本语法如下：
+CONFIG RESETSTAT
+可用版本
+>= 2.0.0
+返回值
+总是返回 OK 。
+实例
+重置前 INFO 命令输出信息：
+INFO
+# Server
+redis_version:2.5.3
+redis_git_sha1:d0407c2d
+redis_git_dirty:0
+arch_bits:32
+multiplexing_api:epoll
+gcc_version:4.6.3
+process_id:11095
+run_id:ef1f6b6c7392e52d6001eaf777acbe547d1192e2
+tcp_port:6379
+uptime_in_seconds:6
+uptime_in_days:0
+lru_clock:1205426
+
+# Clients
+connected_clients:1
+client_longest_output_list:0
+client_biggest_input_buf:0
+blocked_clients:0
+
+# Memory
+used_memory:331076
+used_memory_human:323.32K
+used_memory_rss:1568768
+used_memory_peak:293424
+used_memory_peak_human:286.55K
+used_memory_lua:16384
+mem_fragmentation_ratio:4.74
+mem_allocator:jemalloc-2.2.5
+
+# Persistence
+loading:0
+aof_enabled:0
+changes_since_last_save:0
+bgsave_in_progress:0
+last_save_time:1333260015
+last_bgsave_status:ok
+bgrewriteaof_in_progress:0
+
+# Stats
+total_connections_received:1
+total_commands_processed:0
+instantaneous_ops_per_sec:0
+rejected_connections:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:0
+
+# Replication
+role:master
+connected_slaves:0
+
+# CPU
+used_cpu_sys:0.01
+used_cpu_user:0.00
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.00
+
+# Keyspace
+db0:keys=20,expires=0
+
+
+<p>执行重置命令：</p>
+<pre>
+CONFIG RESETSTAT
+OK
+重置后查看 INFO 命令输出信息：
+INFO
+# Server
+redis_version:2.5.3
+redis_git_sha1:d0407c2d
+redis_git_dirty:0
+arch_bits:32
+multiplexing_api:epoll
+gcc_version:4.6.3
+process_id:11095
+run_id:ef1f6b6c7392e52d6001eaf777acbe547d1192e2
+tcp_port:6379
+uptime_in_seconds:134
+uptime_in_days:0
+lru_clock:1205438
+
+# Clients
+connected_clients:1
+client_longest_output_list:0
+client_biggest_input_buf:0
+blocked_clients:0
+
+# Memory
+used_memory:331076
+used_memory_human:323.32K
+used_memory_rss:1568768
+used_memory_peak:330280
+used_memory_peak_human:322.54K
+used_memory_lua:16384
+mem_fragmentation_ratio:4.74
+mem_allocator:jemalloc-2.2.5
+
+# Persistence
+loading:0
+aof_enabled:0
+changes_since_last_save:0
+bgsave_in_progress:0
+last_save_time:1333260015
+last_bgsave_status:ok
+bgrewriteaof_in_progress:0
+
+# Stats
+total_connections_received:0
+total_commands_processed:1
+instantaneous_ops_per_sec:0
+rejected_connections:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:0
+
+# Replication
+role:master
+connected_slaves:0
+
+# CPU
+used_cpu_sys:0.05
+used_cpu_user:0.02
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.00
+
+# Keyspace
+db0:keys=20,expires=0
+18	DBSIZE 
+返回当前数据库的 key 的数量
+语法
+redis DBSIZE 命令基本语法如下：
+DBSIZE
+可用版本
+>= 1.0.0
+返回值
+当前数据库的 key 的数量。
+实例
+DBSIZE
+(integer) 5
+
+SET new_key "hello_moto"     # 增加一个 key 试试
+OK
+
+DBSIZE
+(integer) 6
+19	DEBUG OBJECT key 
+获取 key 的调试信息
+语法
+redis Debug Object 命令基本语法如下：
+DEBUG OBJECT key
+可用版本
+>= 1.0.0
+返回值
+当 key 存在时，返回有关信息。 当 key 不存在时，返回一个错误。
+实例
+DEBUG OBJECT my_pc
+Value at:0xb6838d20 refcount:1 encoding:raw serializedlength:9 lru:283790 lru_seconds_idle:150
+
+DEBUG OBJECT your_mac
+(error) ERR no such key
+20	DEBUG SEGFAULT 
+让 Redis 服务崩溃
+语法
+redis Debug Segfault 命令基本语法如下：
+DEBUG SEGFAULT 
+可用版本
+>= 1.0.0
+返回值
+无
+实例
+DEBUG SEGFAULT 
+Could not connect to Redis at 127.0.0.1:6379: Connection refused
+not connected>
+21	FLUSHALL 
+删除所有数据库的所有key
+语法
+redis Flushall 命令基本语法如下：
+FLUSHALL 
+可用版本
+>= 1.0.0
+返回值
+总是返回 OK 。
+实例
+DBSIZE            # 0 号数据库的 key 数量
+(integer) 9
+SELECT 1          # 切换到 1 号数据库
+OK
+DBSIZE         # 1 号数据库的 key 数量
+(integer) 6
+flushall       # 清空所有数据库的所有 key
+OK
+DBSIZE         # 不但 1 号数据库被清空了
+(integer) 0
+SELECT 0       # 0 号数据库(以及其他所有数据库)也一样
+OK
+DBSIZE
+(integer) 0
+22	FLUSHDB 
+删除当前数据库的所有key
+语法
+redis Flushdb 命令基本语法如下：
+FLUSHDB 
+可用版本
+>= 1.0.0
+返回值
+总是返回 OK 。
+实例
+DBSIZE    # 清空前的 key 数量
+(integer) 4
+FLUSHDB
+OK
+DBSIZE    # 清空后的 key 数量
+(integer) 0
+23	INFO [section] 
+获取 Redis 服务器的各种信息和统计数值
+通过给定可选的参数 section ，可以让命令只返回某一部分的信息：
+server : 一般 Redis 服务器信息，包含以下域：
+redis_version : Redis 服务器版本
+redis_git_sha1 : Git SHA1
+redis_git_dirty : Git dirty flag
+os : Redis 服务器的宿主操作系统
+arch_bits : 架构（32 或 64 位）
+multiplexing_api : Redis 所使用的事件处理机制
+gcc_version : 编译 Redis 时所使用的 GCC 版本
+process_id : 服务器进程的 PID
+run_id : Redis 服务器的随机标识符（用于 Sentinel 和集群）
+tcp_port : TCP/IP 监听端口
+uptime_in_seconds : 自 Redis 服务器启动以来，经过的秒数
+uptime_in_days : 自 Redis 服务器启动以来，经过的天数
+lru_clock : 以分钟为单位进行自增的时钟，用于 LRU 管理
+clients : 已连接客户端信息，包含以下域：
+connected_clients : 已连接客户端的数量（不包括通过从属服务器连接的客户端）
+client_longest_output_list : 当前连接的客户端当中，最长的输出列表
+client_longest_input_buf : 当前连接的客户端当中，最大输入缓存
+blocked_clients : 正在等待阻塞命令（BLPOP、BRPOP、BRPOPLPUSH）的客户端的数量
+memory : 内存信息，包含以下域：
+used_memory : 由 Redis 分配器分配的内存总量，以字节（byte）为单位
+used_memory_human : 以人类可读的格式返回 Redis 分配的内存总量
+used_memory_rss : 从操作系统的角度，返回 Redis 已分配的内存总量（俗称常驻集大小）。这个值和 top 、 ps 等命令的输出一致。
+used_memory_peak : Redis 的内存消耗峰值（以字节为单位）
+used_memory_peak_human : 以人类可读的格式返回 Redis 的内存消耗峰值
+used_memory_lua : Lua 引擎所使用的内存大小（以字节为单位）
+mem_fragmentation_ratio : used_memory_rss 和 used_memory 之间的比率
+mem_allocator : 在编译时指定的， Redis 所使用的内存分配器。可以是 libc 、 jemalloc 或者 tcmalloc 。
+在理想情况下， used_memory_rss 的值应该只比 used_memory 稍微高一点儿。
+当 rss > used ，且两者的值相差较大时，表示存在（内部或外部的）内存碎片。
+内存碎片的比率可以通过 mem_fragmentation_ratio 的值看出。
+当 used > rss 时，表示 Redis 的部分内存被操作系统换出到交换空间了，在这种情况下，操作可能会产生明显的延迟。
+当 Redis 释放内存时，分配器可能会，也可能不会，将内存返还给操作系统。
+如果 Redis 释放了内存，却没有将内存返还给操作系统，那么 used_memory 的值可能和操作系统显示的 Redis 内存占用并不一致。
+查看 used_memory_peak 的值可以验证这种情况是否发生。
+persistence : RDB 和 AOF 的相关信息
+stats : 一般统计信息
+replication : 主/从复制信息
+cpu : CPU 计算量统计信息
+commandstats : Redis 命令统计信息
+cluster : Redis 集群信息
+keyspace : 数据库相关的统计信息
+语法
+redis Info 命令基本语法如下：
+INFO [section] 
+可用版本
+>= 1.0.0
+返回值
+字符串，文本行的集合。
+实例
+INFO
+# Server
+redis_version:2.5.9
+redis_git_sha1:473f3090
+redis_git_dirty:0
+os:Linux 3.3.7-1-ARCH i686
+arch_bits:32
+multiplexing_api:epoll
+gcc_version:4.7.0
+process_id:8104
+run_id:bc9e20c6f0aac67d0d396ab950940ae4d1479ad1
+tcp_port:6379
+uptime_in_seconds:7
+uptime_in_days:0
+lru_clock:1680564
+
+# Clients
+connected_clients:1
+client_longest_output_list:0
+client_biggest_input_buf:0
+blocked_clients:0
+
+# Memory
+used_memory:439304
+used_memory_human:429.01K
+used_memory_rss:13897728
+used_memory_peak:401776
+used_memory_peak_human:392.36K
+used_memory_lua:20480
+mem_fragmentation_ratio:31.64
+mem_allocator:jemalloc-3.0.0
+
+# Persistence
+loading:0
+rdb_changes_since_last_save:0
+rdb_bgsave_in_progress:0
+rdb_last_save_time:1338011402
+rdb_last_bgsave_status:ok
+rdb_last_bgsave_time_sec:-1
+rdb_current_bgsave_time_sec:-1
+aof_enabled:0
+aof_rewrite_in_progress:0
+aof_rewrite_scheduled:0
+aof_last_rewrite_time_sec:-1
+aof_current_rewrite_time_sec:-1
+
+# Stats
+total_connections_received:1
+total_commands_processed:0
+instantaneous_ops_per_sec:0
+rejected_connections:0
+expired_keys:0
+evicted_keys:0
+keyspace_hits:0
+keyspace_misses:0
+pubsub_channels:0
+pubsub_patterns:0
+latest_fork_usec:0
+
+# Replication
+role:master
+connected_slaves:0
+
+# CPU
+used_cpu_sys:0.03
+used_cpu_user:0.01
+used_cpu_sys_children:0.00
+used_cpu_user_children:0.00
+
+# Keyspace
+24	LASTSAVE 
+返回最近一次 Redis 成功将数据保存到磁盘上的时间，以 UNIX 时间戳格式表示
+语法
+redis Lastsave 命令基本语法如下：
+LASTSAVE 
+可用版本
+>= 1.0.0
+返回值
+字符串，文本行的集合。
+实例
+LASTSAVE 
+(integer) 1410853592
+25	MONITOR 
+实时打印出 Redis 服务器接收到的命令，调试用
+语法
+redis Monitor 命令基本语法如下：
+MONITOR 
+可用版本
+>= 1.0.0
+返回值
+总是返回 OK 。
+实例
+MONITOR 
+OK
+1410855382.370791 [0 127.0.0.1:60581] "info"
+1410855404.062722 [0 127.0.0.1:60581] "get" "a"
+26	ROLE 
+返回主从实例所属的角色
+语法
+redis Role 命令基本语法如下：
+ROLE 
+可用版本
+>= 2.8.12
+返回值
+返回一个数组：第一个参数是 master, slave, sentinel 三个中的一个。
+实例
+ROLE 
+1) "master"
+2) (integer) 0
+3) (empty list or set)
+redis> 
+27	SAVE 
+同步保存数据到硬盘
+语法
+redis Save 命令基本语法如下：
+SAVE 
+可用版本
+>= 1.0.0
+返回值
+保存成功时返回 OK 。
+实例
+SAVE 
+OK
+28	SHUTDOWN [NOSAVE] [SAVE] 
+异步保存数据到硬盘，并关闭服务器
+停止所有客户端
+如果有至少一个保存点在等待，执行 SAVE 命令
+如果 AOF 选项被打开，更新 AOF 文件
+关闭 redis 服务器(server)
+语法
+redis Shutdown 命令基本语法如下：
+SHUTDOWN [NOSAVE] [SAVE] 
+可用版本
+>= 1.0.0
+返回值
+执行失败时返回错误。 执行成功时不返回任何信息，服务器和客户端的连接断开，客户端自动退出。
+实例
+PING
+PONG
+SHUTDOWN
+$
+$ redis
+Could not connect to Redis at: Connection refused
+not connected>
+29	SLAVEOF host port 
+将当前服务器转变为指定服务器的从属服务器(slave server)
+如果当前服务器已经是某个主服务器(master server)的从属服务器，那么执行 SLAVEOF host port 将使当前服务器停止对旧主服务器的同步，丢弃旧数据集，转而开始对新主服务器进行同步。
+另外，对一个从属服务器执行命令 SLAVEOF NO ONE 将使得这个从属服务器关闭复制功能，并从从属服务器转变回主服务器，原来同步所得的数据集不会被丢弃。
+利用『 SLAVEOF NO ONE 不会丢弃同步所得数据集』这个特性，可以在主服务器失败的时候，将从属服务器用作新的主服务器，从而实现无间断运行。
+语法
+redis Slaveof 命令基本语法如下：
+SLAVEOF host port  
+可用版本
+>= 1.0.0
+返回值
+总是返回 OK 。
+实例
+SLAVEOF 127.0.0.1 6379
+OK
+SLAVEOF NO ONE
+OK
+30	SLOWLOG subcommand [argument] 
+管理 redis 的慢日志
+查询执行时间指的是不包括像客户端响应(talking)、发送回复等 IO 操作，而单单是执行一个查询命令所耗费的时间。
+另外，slow log 保存在内存里面，读写速度非常快，因此你可以放心地使用它，不必担心因为开启 slow log 而损害 Redis 的速度。
+语法
+redis slowlog 命令基本语法如下：
+SLOWLOG subcommand [argument]
+可用版本
+>= 2.2.12
+返回值
+取决于不同命令，返回不同的值。
+实例
+查看日志信息：
+slowlog get 2
+1) 1) (integer) 14
+   2) (integer) 1309448221
+   3) (integer) 15
+   4) 1) "ping"
+2) 1) (integer) 13
+   2) (integer) 1309448128
+   3) (integer) 30
+   4) 1) "slowlog"
+      2) "get"
+      3) "100"
+查看当前日志的数量：
+SLOWLOG LEN
+(integer) 14
+使用命令 SLOWLOG RESET 可以清空 slow log 。
+SLOWLOG LEN
+(integer) 14
+SLOWLOG RESET
+OK
+SLOWLOG LEN
+(integer) 0
+31	SYNC 
+用于复制功能(replication)的内部命令
+语法
+redis SYNC 命令基本语法如下：
+SYNC  
+可用版本
+>= 1.0.0
+返回值
+不明确。
+实例
+SYNC 
+Entering slave output mode...  (press Ctrl-C to quit)
+SYNC with master, discarding 18 bytes of bulk transfer...
+SYNC done. Logging commands from master.
+"PING"
+"PING"
+"PING"
+"PING"

@@ -1,0 +1,90 @@
+Redis 连接命令主要是用于连接 redis 服务。
+实例
+以下实例演示了客户端如何通过密码验证连接到 redis 服务，并检测服务是否在运行：
+AUTH "password"
+OK
+PING
+PONG
+Redis 连接命令
+下表列出了 redis 连接的基本命令：
+序号	命令及描述
+1	AUTH password 
+验证密码是否正确，用于检测给定的密码和配置文件中的密码是否相符。
+语法
+redis Auth 命令基本语法如下：
+AUTH PASSWORD 
+可用版本
+>= 1.0.0
+返回值
+密码匹配时返回 OK ，否则返回一个错误。
+实例
+AUTH PASSWORD
+(error) ERR Client sent AUTH, but no password is set
+CONFIG SET requirepass "mypass"
+OK
+AUTH mypass
+Ok
+2	ECHO message 
+打印字符串
+语法
+redis Echo 命令基本语法如下：
+ECHO message
+可用版本
+>= 1.0.0
+返回值
+返回字符串本身。
+实例
+ECHO "Hello World"
+"Hello World"
+3	PING 
+查看服务是否运行，如果服务器运作正常的话，会返回一个 PONG 。
+通常用于测试与服务器的连接是否仍然生效，或者用于测量延迟值。
+语法
+redis Ping 命令基本语法如下：
+PING 
+可用版本
+>= 1.0.0
+返回值
+如果连接正常就返回一个 PONG ，否则返回一个连接错误。
+实例
+# 客户端和服务器连接正常
+PING
+PONG
+# 客户端和服务器连接不正常(网络不正常或服务器未能正常运行)
+PING
+Could not connect to Redis at 127.0.0.1:6379: Connection refused
+4	QUIT 
+关闭当前连接，一旦所有等待中的回复(如果有的话)顺利写入到客户端，连接就会被关闭。
+语法
+redis Quit 命令基本语法如下：
+QUIT 
+可用版本
+>= 1.0.0
+返回值
+总是返回 OK 。
+实例
+QUIT
+OK
+5	SELECT index 
+切换到指定的数据库，数据库索引号 index 用数字值指定，以 0 作为起始索引值。
+语法
+redis Select 命令基本语法如下：
+SELECT index 
+可用版本
+>= 1.0.0
+返回值
+总是返回 OK 。
+实例
+SET db_number 0         # 默认使用 0 号数据库
+OK
+SELECT 1                # 使用 1 号数据库
+OK
+[1]> GET db_number        # 已经切换到 1 号数据库，注意 Redis 现在的命令提示符多了个 [1]
+(nil)
+[1]> SET db_number 1
+OK
+[1]> GET db_number
+"1"
+[1]> SELECT 3             # 再切换到 3 号数据库
+OK
+[3]>                      # 提示符从 [1] 改变成了 [3]

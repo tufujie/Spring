@@ -1,0 +1,274 @@
+Redis hash 是一个string类型的field和value的映射表，hash特别适合用于存储对象。
+Redis 中每个 hash 可以存储 232 - 1 键值对（40多亿），其中field和value都允许重复。
+实例
+127.0.0.1:6379>  HMSET runoobkey name "redis tutorial" description "redis basic commands for caching" likes 20 visitors 23000
+OK
+127.0.0.1:6379>  HGETALL runoobkey
+1) "name"
+2) "redis tutorial"
+3) "description"
+4) "redis basic commands for caching"
+5) "likes"
+6) "20"
+7) "visitors"
+8) "23000"
+在以上实例中，我们设置了 redis 的一些描述信息(name, description, likes, visitors) 到哈希表的 runoobkey 中。
+Redis hash 命令
+下表列出了 redis hash 基本的相关命令：
+序号	命令及描述
+1	HDEL key field1 [field2] 
+删除一个或多个哈希表字段，不存在的字段将被忽略。
+语法
+redis Hdel 命令基本语法如下：
+HDEL KEY_NAME FIELD1.. FIELDN 
+可用版本
+>= 2.0.0
+返回值
+被成功删除字段的数量，不包括被忽略的字段。
+实例
+HSET myhash field1 "foo"
+(integer) 1
+HDEL myhash field1
+(integer) 1
+HDEL myhash field2
+(integer) 0
+2	HEXISTS key field 
+查看哈希表 key 中，指定的字段是否存在。
+语法
+redis Hexists 命令基本语法如下：
+HEXISTS KEY_NAME FIELD_NAME 
+可用版本
+>= 2.0.0
+返回值
+如果哈希表含有给定字段，返回 1 。 如果哈希表不含有给定字段，或 key 不存在，返回 0 。
+实例
+HSET myhash field1 "foo"
+(integer) 1
+HEXISTS myhash field1
+(integer) 1
+HEXISTS myhash field2
+(integer) 0
+3	HGET key field 
+获取存储在哈希表中指定字段的值。
+语法
+redis Hget 命令基本语法如下：
+HGET KEY_NAME FIELD_NAME 
+可用版本
+>= 2.0.0
+返回值
+返回给定字段的值。如果给定的字段或 key 不存在时，返回 nil 。
+实例
+# 字段存在
+HSET site redis redis.com
+(integer) 1
+HGET site redis
+"redis.com"
+# 字段不存在
+HGET site mysql
+(nil)
+4	HGETALL key 
+获取在哈希表中指定 key 的所有字段和值
+在返回值里，紧跟每个字段名(field name)之后是字段的值(value)，所以返回值的长度是哈希表大小的两倍。
+语法
+redis Hgetall 命令基本语法如下：
+HGETALL KEY_NAME 
+可用版本
+>= 2.0.0
+返回值
+以列表形式返回哈希表的字段及字段值。 若 key 不存在，返回空列表。
+实例
+HSET myhash field1 "Hello"
+(integer) 1
+HSET myhash field2 "World"
+(integer) 1
+HGETALL myhash
+1) "field1"
+2) "Hello"
+3) "field2"
+4) "World"
+
+5	HINCRBY key field increment 
+为哈希表 key 中的指定字段的整数值加上增量 increment 。
+增量也可以为负数，相当于对指定字段进行减法操作。
+如果哈希表的 key 不存在，一个新的哈希表被创建并执行 HINCRBY 命令。
+如果指定的字段不存在，那么在执行命令前，字段的值被初始化为 0 。
+对一个储存字符串值的字段执行 HINCRBY 命令将造成一个错误。
+本操作的值被限制在 64 位(bit)有符号数字表示之内。
+语法
+redis Hincrby 命令基本语法如下：
+HINCRBY KEY_NAME FIELD_NAME INCR_BY_NUMBER 
+可用版本
+>= 2.0.0
+返回值
+执行 HINCRBY 命令之后，哈希表中字段的值。
+实例
+HSET myhash field 5
+(integer) 1
+HINCRBY myhash field 1
+(integer) 6
+HINCRBY myhash field -1
+(integer) 5
+HINCRBY myhash field -10
+(integer) -5
+
+6	HINCRBYFLOAT key field increment 
+为哈希表 key 中的指定字段的浮点数值加上增量 increment 。
+如果指定的字段不存在，那么在执行命令前，字段的值被初始化为 0 。
+语法
+redis Hincrbyfloat 命令基本语法如下：
+HINCRBYFLOAT KEY_NAME FIELD_NAME INCR_BY_NUMBER 
+可用版本
+>= 2.6.0
+返回值
+执行 Hincrbyfloat 命令之后，哈希表中字段的值。
+实例
+HSET mykey field 10.50
+(integer) 1
+HINCRBYFLOAT mykey field 0.1
+"10.60000000000000001"
+HINCRBYFLOAT mykey field -5
+"5.59999999999999964"
+HSET mykey field 5.0e3
+(integer) 0
+HINCRBYFLOAT mykey field 2.0e2
+"5200"
+
+7	HKEYS key 
+获取所有哈希表中的字段
+语法
+redis Hkeys 命令基本语法如下：
+HKEYS key 
+可用版本
+>= 2.0.0
+返回值
+包含哈希表中所有域（field）列表。 当 key 不存在时，返回一个空列表。
+实例
+HSET myhash field1 "foo"
+(integer) 1
+HSET myhash field2 "bar"
+(integer) 1
+HKEYS myhash
+1) "field1"
+2) "field2"
+8	HLEN key 
+获取哈希表中字段的数量
+语法
+redis Hlen 命令基本语法如下：
+HLEN KEY_NAME 
+可用版本
+>= 2.0.0
+返回值
+哈希表中字段的数量。 当 key 不存在时，返回 0 。
+实例
+HSET myhash field1 "foo"
+(integer) 1
+HSET myhash field2 "bar"
+(integer) 1
+HLEN myhash
+(integer) 2
+9	HMGET key field1 [field2] 
+获取所有给定字段的值，如果指定的字段不存在于哈希表，那么返回一个 nil 值。
+语法
+redis Hmget 命令基本语法如下：
+HMGET KEY_NAME FIELD1...FIELDN 
+可用版本
+>= 2.0.0
+返回值
+一个包含多个给定字段关联值的表，表值的排列顺序和指定字段的请求顺序一样。
+实例
+HSET myhash field1 "foo"
+(integer) 1
+HSET myhash field2 "bar"
+(integer) 1
+HMGET myhash field1 field2 nofield
+1) "foo"
+2) "bar"
+3) (nil)
+10	HMSET key field1 value1 [field2 value2 ] 
+同时将多个 field-value (域-值)对设置到哈希表 key 中。
+此命令会覆盖哈希表中已存在的字段。
+如果哈希表不存在，会创建一个空哈希表，并执行 HMSET 操作。
+语法
+redis Hmset 命令基本语法如下：
+HMSET KEY_NAME FIELD1 VALUE1 ...FIELDN VALUEN  
+可用版本
+>= 2.0.0
+返回值
+如果命令执行成功，返回 OK 。
+实例
+HMSET myhash field1 "Hello" field2 "World"
+OK
+HGET myhash field1
+"Hello"
+HGET myhash field2
+"World"
+11	HSET key field value 
+将哈希表 key 中的字段 field 的值设为 value 。
+如果哈希表不存在，一个新的哈希表被创建并进行 HSET 操作。
+如果字段已经存在于哈希表中，操作无效。
+如果 key 不存在，一个新哈希表被创建并执行 HSETNX 命令。
+语法
+redis Hsetnx 命令基本语法如下：
+HSETNX KEY_NAME FIELD VALUE
+可用版本
+>= 2.0.0
+返回值
+设置成功，返回 1 。 如果给定字段已经存在且没有操作被执行，返回 0 。
+实例
+HSETNX myhash field1 "foo"
+(integer) 1
+HSETNX myhash field1 "bar"
+(integer) 0
+HGET myhash field1
+"foo"
+HSETNX nosql key-value-store redis
+(integer) 1
+HSETNX nosql key-value-store redis       # 操作无效， key-value-store 已存在
+(integer) 0
+12	HSETNX key field value 
+只有在字段 field 不存在时，设置哈希表字段的值。
+如果哈希表不存在，一个新的哈希表被创建并进行 HSET 操作。
+如果字段已经存在于哈希表中，操作无效。
+如果 key 不存在，一个新哈希表被创建并执行 HSETNX 命令。
+语法
+redis Hsetnx 命令基本语法如下：
+HSETNX KEY_NAME FIELD VALUE
+可用版本
+>= 2.0.0
+返回值
+设置成功，返回 1 。 如果给定字段已经存在且没有操作被执行，返回 0 。
+实例
+HSETNX myhash field1 "foo"
+(integer) 1
+HSETNX myhash field1 "bar"
+(integer) 0
+HGET myhash field1
+"foo"
+HSETNX nosql key-value-store redis
+(integer) 1
+HSETNX nosql key-value-store redis       # 操作无效， key-value-store 已存在
+(integer) 0
+13	HVALS key 
+获取哈希表中所有值
+语法
+redis Hvals 命令基本语法如下：
+HVALS KEY_NAME FIELD VALUE 
+可用版本
+>= 2.0.0
+返回值
+一个包含哈希表中所有域(field)值的列表。 当 key 不存在时，返回一个空表。
+实例
+HSET myhash field1 "foo"
+(integer) 1
+HSET myhash field2 "bar"
+(integer) 1
+HVALS myhash
+1) "foo"
+2) "bar"
+# 空哈希表/不存在的key
+EXISTS not_exists
+(integer) 0
+HVALS not_exists
+(empty list or set)
+14	HSCAN key cursor [MATCH pattern] [COUNT count] 
+迭代哈希表中的键值对。

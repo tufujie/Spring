@@ -1,0 +1,118 @@
+Redis 脚本使用 Lua 解释器来执行脚本。 Reids 2.6 版本通过内嵌支持 Lua 环境。执行脚本的常用命令为 EVAL。
+语法
+Eval 命令的基本语法如下：
+EVAL script numkeys key [key ...] arg [arg ...]
+实例
+以下实例演示了 redis 脚本工作过程：
+EVAL "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
+
+1) "key1"
+2) "key2"
+3) "first"
+4) "second"
+Redis 脚本命令
+下表列出了 redis 脚本常用命令：
+序号	命令及描述
+1	EVAL script numkeys key [key ...] arg [arg ...] 
+执行 Lua 脚本。
+语法
+redis Eval 命令基本语法如下：
+EVAL script numkeys key [key ...] arg [arg ...] 
+参数说明：
+script： 参数是一段 Lua 5.1 脚本程序。脚本不必(也不应该)定义为一个 Lua 函数。
+numkeys： 用于指定键名参数的个数。
+key [key ...]： 从 EVAL 的第三个参数开始算起，表示在脚本中所用到的那些 Redis 键(key)，这些键名参数可以在 Lua 中通过全局变量 KEYS 数组，用 1 为基址的形式访问( KEYS[1] ， KEYS[2] ，以此类推)。
+arg [arg ...]： 附加参数，在 Lua 中通过全局变量 ARGV 数组访问，访问的形式和 KEYS 变量类似( ARGV[1] 、 ARGV[2] ，诸如此类)。
+可用版本
+>= 2.6.0
+实例
+eval "return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}" 2 key1 key2 first second
+1) "key1"
+2) "key2"
+3) "first"
+4) "second"
+2	EVALSHA sha1 numkeys key [key ...] arg [arg ...] 
+执行 Lua 脚本。
+Redis Evalsha 命令根据给定的 sha1 校验码，执行缓存在服务器中的脚本。
+将脚本缓存到服务器的操作可以通过 SCRIPT LOAD 命令进行。
+这个命令的其他地方，比如参数的传入方式，都和 EVAL 命令一样。
+语法
+redis Evalsha 命令基本语法如下：
+EVALSHA sha1 numkeys key [key ...] arg [arg ...] 
+参数说明：
+sha1 ： 通过 SCRIPT LOAD 生成的 sha1 校验码。
+numkeys： 用于指定键名参数的个数。
+key [key ...]： 从 EVAL 的第三个参数开始算起，表示在脚本中所用到的那些 Redis 键(key)，这些键名参数可以在 Lua 中通过全局变量 KEYS 数组，用 1 为基址的形式访问( KEYS[1] ， KEYS[2] ，以此类推)。
+arg [arg ...]： 附加参数，在 Lua 中通过全局变量 ARGV 数组访问，访问的形式和 KEYS 变量类似( ARGV[1] 、 ARGV[2] ，诸如此类)。
+可用版本
+>= 2.6.0
+实例
+SCRIPT LOAD "return 'hello moto'"
+"232fd51614574cf0867b83d384a5e898cfd24e5a"
+
+EVALSHA "232fd51614574cf0867b83d384a5e898cfd24e5a" 0
+"hello moto"
+
+3	SCRIPT LOAD script 
+将脚本 script 添加到脚本缓存中，但并不立即执行这个脚本。
+EVAL 命令也会将脚本添加到脚本缓存中，但是它会立即对输入的脚本进行求值。
+如果给定的脚本已经在缓存里面了，那么不执行任何操作。
+在脚本被加入到缓存之后，通过 EVALSHA 命令，可以使用脚本的 SHA1 校验和来调用这个脚本。
+脚本可以在缓存中保留无限长的时间，直到执行 SCRIPT FLUSH 为止。
+关于使用 Redis 对 Lua 脚本进行求值的更多信息，请参见 EVAL 命令。
+语法
+redis Script Load 命令基本语法如下：
+SCRIPT LOAD script
+可用版本
+>= 2.6.0
+返回值
+给定脚本的 SHA1 校验和
+实例
+SCRIPT LOAD "return 1"
+"e0e1f9fabfc9d4800c877a703b823ac0578ff8db"
+4	SCRIPT EXISTS script [script ...] 
+查看指定的脚本是否已经被保存在缓存当中。
+语法
+redis Script Exists 命令基本语法如下：
+EVALSHA sha1 numkeys key [key ...] arg [arg ...] 
+可用版本
+>= 2.6.0
+返回值
+一个列表，包含 0 和 1 ，前者表示脚本不存在于缓存，后者表示脚本已经在缓存里面了。
+列表中的元素和给定的 SHA1 校验和保持对应关系，比如列表的第三个元素的值就表示第三个 SHA1 校验和所指定的脚本在缓存中的状态。
+实例
+SCRIPT LOAD "return 'hello moto'"    # 载入一个脚本
+"232fd51614574cf0867b83d384a5e898cfd24e5a"
+SCRIPT EXISTS 232fd51614574cf0867b83d384a5e898cfd24e5a
+1) (integer) 1
+SCRIPT FLUSH     # 清空缓存
+OK
+SCRIPT EXISTS 232fd51614574cf0867b83d384a5e898cfd24e5a
+1) (integer) 0
+5	SCRIPT FLUSH 
+从脚本缓存中移除所有脚本。
+语法
+redis Script Flush 命令基本语法如下：
+SCRIPT FLUSH
+可用版本
+>= 2.6.0
+返回值
+总是返回 OK
+实例
+SCRIPT FLUSH
+OK
+6	SCRIPT KILL 
+杀死当前正在运行的 Lua 脚本。
+，当且仅当这个脚本没有执行过任何写操作时，这个命令才生效。
+这个命令主要用于终止运行时间过长的脚本，比如一个因为 BUG 而发生无限循环的脚本。
+SCRIPT KILL 执行之后，当前正在运行的脚本会被杀死，执行这个脚本的客户端会从 EVAL 命令的阻塞当中退出，并收到一个错误作为返回值。
+语法
+redis Script kill 命令基本语法如下：
+SCRIPT KILL
+可用版本
+>= 2.6.0
+返回值
+总是返回 OK
+实例
+SCRIPT KILL
+OK
