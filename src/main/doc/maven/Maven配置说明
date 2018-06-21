@@ -27,3 +27,34 @@ pluginGroup元素指定的是plugin的groupId。默认情况下，Maven会自动
 
 5.proxies：
 其下面可以定义一系列的proxy子元素，表示Maven在进行联网时需要使用到的代理。当设置了多个代理的时候第一个标记active为true的代理将会被使用。下面是一个使用代理的例子：
+
+1、添加新的系统环境变量MAVEN_HOME， 并设置其值为你安装的目录
+MAVEN_HOME
+D:\apache-maven-3.5.0
+2、更新系统PATH 变量， 添加
+;%MAVEN_HOME%\bin;
+到尾部
+3、测试maven配置是否成功打开命令行窗口，输入mvn -v，如果有maven 版本信息输出则证明配置成功，否则请查看自己配置路径等是否正确。
+注意：安装maven前请确保已安装JDK并成功配置其环境变量。
+
+Maven 添加自己的架包到本地仓库及到项目中
+下载到仓库中：2中方式
+手动：
+假设在第三方私服有架包配置：
+<dependency>
+  <groupId>com.jd.open.api.sdk</groupId>
+  <artifactId>open-api-sdk</artifactId>
+  <version>2.0</version>
+</dependency>
+那么artifactId和version对应的名称就会有 open-api-sdk-2.0.jar 这个架包，下载下来，存放在 E:\download 目录下，那么存放在本地仓库的命令是，-Dfile一般用绝对目录就行，用相对目录也行
+mvn install:install-file -Dfile=E:\download\open-api-sdk-2.0.jar -DgroupId=com.jd.open.api.sdk -DartifactId=open-api-sdk -Dversion=2.0 -Dpackaging=jar
+最后在本地仓库的目录类似于
+groupId\artifactId\version的样子
+自动引用：
+假设在第三方私服有架包配置：
+<dependency>
+  <groupId>com.jd.open.api.sdk</groupId>
+  <artifactId>open-api-sdk</artifactId>
+  <version>2.0</version>
+</dependency>
+那么将这个架包引入pom.xml文件即可
