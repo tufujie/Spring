@@ -16,7 +16,18 @@ public class ContextUtils {
      * @return ApplicationContext
      */
     public static ApplicationContext getContext() {
+        // 创建 Spring 容器
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-mvc.xml");
+        return context;
+    }
+
+    /**
+     * 获取ApplicationContext
+     * @return ApplicationContext
+     */
+    public static ApplicationContext getContextFromBeansXML() {
+        // 创建 Spring 容器
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring/beans.xml");
         return context;
     }
 }

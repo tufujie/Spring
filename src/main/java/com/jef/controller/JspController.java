@@ -22,7 +22,7 @@ public class JspController {
     @Autowired
     private IUserDao userMapper;
 
-    @RequestMapping(value = "/introduce")
+    @RequestMapping(value = "/jspIntroduce")
     public ModelAndView introduce(ModelAndView mv) {
         mv.setViewName("jspIntroduce");
         return mv;
