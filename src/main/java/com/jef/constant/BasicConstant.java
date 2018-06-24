@@ -10,4 +10,10 @@ public class BasicConstant {
 
     // 通用测试所用用户名
     public static final String USER_NAME = "Jef";
+
+    public static final String EMAIL = "jef.tu@foxmail.com";
+
+    public static final String TITLE = "hello";
+
+    public static final String CONTENT = "hello world";
 }
