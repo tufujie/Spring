@@ -35,7 +35,6 @@ import org.springframework.stereotype.Service;
 
 /**
  * 男人
- *
  * @author Jef
  * @create 2018/5/12 14:31
  */
@@ -63,6 +62,29 @@ private IHumanService manService;
 无需设置其他属性值，都能正确加载Service，因为此时有且只有一个Service实现类可以找到
 但是如果实现类有多个呢？
 添加了一个实现
+package com.jef.service.impl;
+
+import com.jef.service.IHumanService;
+import org.springframework.stereotype.Service;
+
+/**
+ * 女人
+ * @author Jef
+ * @create 2018/5/12 14:31
+ */
+@Service(value = "womanService")
+public class WomanServiceImpl implements IHumanService {
+
+    @Override
+    public void speak() {
+        System.out.println("女人说话");
+    }
+
+    @Override
+    public void walk() {
+        System.out.println("女人走路");
+    }
+}
 
 
 启动项目会产生
@@ -97,3 +119,16 @@ NoSuchBeanDefinitionException: No unique bean of type错误，原因是没有特
     @Autowired
     @Qualifier(value = "womanService")
     private IHumanService womanService;
+
+@Controller
+在SpringMVC中，控制器Controller负责处理DispatcherServlet分发的请求，它把用户请求的路径经过业务处理层处理之后封装成一个Model，然后再把该Model返回给对应的View进行展示。在SpringMVC
+中提供了一个非常简便的Controller的方法，你无须继承特定的类或实现特定的接口，只需使用@Controller标记一个类是Controller，然后使用@RequestMapping和@RequestParam等一些注释用以定义URL
+请求和Controller方法之间的映射，这样的Controller就能被外界访问到。此外，Controller不会直接依赖于HttpServletRequest和HttpServletResponse等HttpServlet
+对象，它们可以通过@Controller的方法参数灵活的获取到。
+@Controller用于标记在一个类上，使用它标记的类就是一个SpringMVC对象。分发处理器将会扫描使用了该注解的类的方法，并检测该方法是否使用了@RequestMapping注解。@Controller
+只是定义了一个控制器类，而使用@RequestMapping注解的方法才是真正处理请求的处理器。单单使用@Controller标记在一个类上还不能真正意义上的说它就是SpringMVC的一个控制器类，因为这个时候Spring
+还不认识它。那么要如何做Spring才能认识它了？这个是否就需要我们把这个控制器类交给Spring来管理。有两种方式：
+1）在SpringMVC的配置文件中定义对应你的***Controller的bean对象
+<bean class="com.jef.controller.***Controller" />
+2）在SpringMVC的配置文件中告诉Spring该到哪里去找标记为@Controller的Controller的控制器。
+<context:component-scan package="com.jef.controller"/> // 也可以直接将路径配置为controller的上一层，这样如果service等也可以被扫描到
