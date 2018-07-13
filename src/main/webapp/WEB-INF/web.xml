@@ -8,7 +8,7 @@
     <description>Jef Web Application</description>
     <display-name>Jef Web Application</display-name>
 
-    <!-- spring容器初始化 -->
+    <!-- spring容器初始化，应用上下文配置文件 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <!-- 默认为applicationContext.xml，可修改成其他的文件名进入引入 -->
@@ -61,7 +61,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <!-- 设置配置文件的路径，如果使用默认文件名dispatcher-servlet.xml而不修改的话可以不用配置，否则一定需要配置文件名路径 -->
-            <param-value>classpath:spring/servlet-context.xml</param-value>
+            <param-value>classpath:spring/spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>0</load-on-startup>
     </servlet>
