@@ -8,6 +8,7 @@ import com.jef.entity.OrderInfo;
 import com.jef.entity.OrderProduct;
 import com.jef.entity.Shop;
 import com.jef.entity.User;
+import com.jef.property.cache.UserCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +38,11 @@ public class OrderInfoController {
     private IShopDao shopDao;
 
     @RequestMapping(value = "getOrderInfoByUserId/{userId}", method = RequestMethod.GET)
-    public ModelAndView getOrderInfoByUserId(@PathVariable(value = "userId") Long userId, ModelAndView mv, Model model) {
-        User user = userDao.selectByPrimaryKey(userId);
+    public ModelAndView getOrderInfoByUserId(@PathVariable(value = "userId") Long userId, ModelAndView mv, Model
+            model) throws Exception {
+//        User user = userDao.selectByPrimaryKey(userId);
+        // 使用缓存获取用户信息
+        User user = UserCache.getUser(userDao, userId);
         List<OrderInfo> orderInfoList = orderInfoDao.getByUserId(user.getId());
         StringBuilder sb = new StringBuilder();
         sb.append("用户" + user.getName() + "购买了如下商品：<br>");

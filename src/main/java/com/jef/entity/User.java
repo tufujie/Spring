@@ -1,12 +1,17 @@
 package com.jef.entity;
 
+import java.io.Serializable;
+
 /**
  * 用户信息
  * 以用户为核心
  * @author Jef
  * @create 2018/5/15 19:18
  */
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = -8514215816882785376L;
+    // Redis缓存用户key
+    public static final String OBJECT_KEY = "User";
 
     private Long id;
 

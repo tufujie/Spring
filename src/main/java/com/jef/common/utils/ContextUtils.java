@@ -27,7 +27,7 @@ public class ContextUtils {
      */
     public static ApplicationContext getContextFromBeansXML() {
         // 创建 Spring 容器
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring/beans.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("test/beans.xml");
         return context;
     }
 }

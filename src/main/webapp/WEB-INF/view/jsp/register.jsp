@@ -18,11 +18,11 @@
         </tr>
         <tr>
             <td>密码</td>
-            <td><input id="userPassword" name="password" onblur="md5Encode()"></td>
+            <td><input type="password" id="userPassword" name="password" onblur="md5Encode()"></td>
         </tr>
         <tr>
             <td>重复密码</td>
-            <td><input id="repeatUserPassword" name="repeatUserPassword" onblur="md5Encode()"></td>
+            <td><input type="password" id="repeatUserPassword" name="repeatUserPassword" onblur="md5Encode()"></td>
         </tr>
         <tr>
             <td>手机号</td>

@@ -83,7 +83,7 @@ public class UserController {
                 user.setPhone(phone);
                 user.setAge(age);
                 userService.insert(user);
-                session.setAttribute("user", user);
+                session.setAttribute("userInfo", user);
                 mv.setViewName("homepage"); //重定向到homepage页面中
             }
         }
