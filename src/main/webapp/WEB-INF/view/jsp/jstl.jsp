@@ -11,7 +11,7 @@
     admin存在
 </c:if>
 <br>
-<%-- choose表达式 --%>
+<%-- choose表达式，相当于if {} else if {} else if {} ...else {}，适用于没有很多重复代码的情况下，否则用if代替 --%>
 <c:choose>
     <c:when test="${status == '1'}">
         when status == '1'
