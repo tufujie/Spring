@@ -48,7 +48,6 @@ JSP输出表达式，使用方式
         }
     %>
 </table>
-<a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>
 <a href="/error/gotoError" target="_blank">尝试跳转错误页</a>
 <h1>JSP编译指令（3个）</h1>
 page<br>

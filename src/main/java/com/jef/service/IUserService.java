@@ -19,4 +19,6 @@ public interface IUserService {
     User insert(User user);
 
     User getByName(String name);
+
+    void updateUser(User user) throws Exception;
 }

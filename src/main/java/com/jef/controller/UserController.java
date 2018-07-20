@@ -1,15 +1,14 @@
 package com.jef.controller;
 
 import com.jef.constant.BasicConstant;
+import com.jef.dao.IUserDao;
 import com.jef.entity.User;
+import com.jef.property.cache.UserCache;
 import com.jef.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +25,8 @@ import java.util.Objects;
 public class UserController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IUserDao userDao;
 
     @RequestMapping(value = "/add")
     public void add(User user) {
@@ -110,6 +111,22 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/getAllUserInfo", method = RequestMethod.GET)
     public ModelAndView getAllUserInfo(ModelAndView mv) {
+        mv.setViewName("allUser");
+        return mv;
+    }
+
+    @RequestMapping(value = "updatePermission/{userId}", method = RequestMethod.GET)
+    public ModelAndView getOrderInfoByUserId(@PathVariable(value = "userId") Long userId, ModelAndView mv, Model
+            model) throws Exception {
+        User user = UserCache.getUser(userDao, userId);
+        User userNew = new User();
+        userNew.setId(userId);
+        if (user.getPermission() == null || user.getPermission() == 0) {
+            userNew.setPermission(1);
+        } else {
+            userNew.setPermission(0);
+        }
+        userService.updateUser(userNew);
         mv.setViewName("allUser");
         return mv;
     }

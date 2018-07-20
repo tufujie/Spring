@@ -55,6 +55,35 @@ function Post(type) {
                 console.log("here");
             }
         );
+    } else if (type == 4) {
+        url = "/postAll/postFour";
+        // 存放集合
+        var orderInfos = [];
+        var orderInfoOne = {
+            extraOrderId: "10001"
+        };
+        var orderInfoTwo = {
+            extraOrderId: "10002"
+        };
+        orderInfos.push(orderInfoOne, orderInfoTwo);
+        // 对象
+        var user = {
+            name: name,
+            password: password,
+            phone: phone
+        };
+        var allData = {
+            user: user,
+            orderInfos : orderInfos
+        };
+        $.post(url,
+            {
+                allData: JSON.stringify(allData)
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
     }
 
 

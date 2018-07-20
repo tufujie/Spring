@@ -5,9 +5,8 @@
 <html>
 <head>
     <title>testPost</title>
-    <%-- 动态include指令引入页面 --%>
     <jsp:include page="../basic.jsp" />
-    <script type="text/javascript" src="/js/post/post.js"></script>
+    <script type="text/javascript" src="/js/test/test.js"></script>
 </head>
 <body>
 <form id="" action="" method="post">
@@ -27,9 +26,6 @@
 
         <tr>
             <td><input type="button" value="Post1" onclick="Post(1)"></td>
-            <td><input type="button" value="Post2" onclick="Post(2)"></td>
-            <td><input type="button" value="Post3" onclick="Post(3)"></td>
-            <td><input type="button" value="Post4" onclick="Post(4)"></td>
             <td><input type="reset" value="重置"></td>
         </tr>
     </table>

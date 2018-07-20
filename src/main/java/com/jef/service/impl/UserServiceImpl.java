@@ -2,6 +2,7 @@ package com.jef.service.impl;
 
 import com.jef.dao.IUserDao;
 import com.jef.entity.User;
+import com.jef.property.cache.UserCache;
 import com.jef.service.IUserService;
 import com.jef.common.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +20,31 @@ import java.util.Map;
 @Service(value = "userService")
 public class UserServiceImpl implements IUserService {
     @Autowired
-    private IUserDao userMapper;
+    private IUserDao userDao;
 
     @Override
     public User getByNameAndPassWord(String name, String password) {
         Map<String, Object> requestParams = new HashMap();
         requestParams.put("name", name);
         requestParams.put("password", password);
-        return userMapper.getByNameAndPassWord(requestParams);
+        return userDao.getByNameAndPassWord(requestParams);
     }
 
     @Override
     public User insert(User user) {
         user.setPassword(MD5Util.encode(user.getPassword()));
-        userMapper.insert(user);
+        userDao.insert(user);
         return user;
     }
 
     @Override
     public User getByName(String name) {
-        return userMapper.getByName(name);
+        return userDao.getByName(name);
+    }
+
+    @Override
+    public void updateUser(User user) throws Exception {
+        userDao.updateUser(user);
+        UserCache.clearCache(user.getId());
     }
 }

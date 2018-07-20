@@ -1,6 +1,9 @@
 package com.jef.entity;
 
-public class OrderInfo {
+import java.io.Serializable;
+
+public class OrderInfo implements Serializable {
+    private static final long serialVersionUID = -8130617419334171401L;
     private Long id;
 
     private String extraOrderId;

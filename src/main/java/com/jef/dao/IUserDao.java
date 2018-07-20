@@ -35,4 +35,6 @@ public interface IUserDao {
     User getByName(String name);
 
     List<User> getAllUser();
+
+    void updateUser(User user);
 }

@@ -23,6 +23,10 @@ public class User implements Serializable {
 
     private Integer age;
 
+    private Integer permission;
+
+    private Integer admin;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +65,21 @@ public class User implements Serializable {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Integer getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Integer permission) {
+        this.permission = permission;
+    }
+
+    public Integer getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Integer admin) {
+        this.admin = admin;
     }
 }
