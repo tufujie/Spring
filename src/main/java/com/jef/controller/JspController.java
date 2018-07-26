@@ -1,16 +1,20 @@
 package com.jef.controller;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.jef.constant.BasicConstant;
 import com.jef.dao.IUserDao;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -84,7 +88,7 @@ public class JspController {
      * @return
      */
     @RequestMapping(value = "/jstl")
-    public ModelAndView jstl(ModelAndView mv) {
+    public ModelAndView jstl(ModelAndView mv, Model model) {
         String adminName = BasicConstant.USER_NAME;
         User user = userService.getByName(adminName);
         if (Objects.nonNull(user)) {
@@ -96,6 +100,14 @@ public class JspController {
         mv.addObject("now", new Date());
         mv.addObject("money", 120000.2309);
         mv.setViewName("jstl");
+        Map map = Maps.newHashMap();
+        map.put("keyName1", "value1");
+        map.put("keyName2", "value1");
+        model.addAttribute("mapTest", map);
+        List<String> list = Lists.newArrayList();
+        list.add("listValue1");
+        list.add("listValue2");
+        model.addAttribute("listTest", list);
         return mv;
     }
 }

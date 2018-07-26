@@ -41,5 +41,30 @@
 <c:out value="${salary}"/><br>
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /><br>
 <fmt:formatNumber value="${money}" type="number" maxFractionDigits="4" />
+<br>
+<%-- 遍历map --%>
+<select id="selectAllMap" name="selectAllMap">
+    <c:if test="${!empty mapTest}">
+        <c:forEach items="${mapTest}" var="item">
+            <option value="${item.key }">${item.value}</option>
+        </c:forEach>
+    </c:if>
+</select>
+<br>
+<%-- 遍历list --%>
+<table>
+    <c:forEach items="${listTest}" var="item">
+        <%-- 如果item是一个实体，那么取值就用item.id, item.name这种格式 --%>
+
+        <tr>
+            <c:if test="${not empty item}">
+                <td>${item}</td>
+            </c:if>
+            <c:if test="${empty item}">
+                <td>empty value</td>
+            </c:if>
+        </tr>
+    </c:forEach>
+</table>
 </body>
 </html>
