@@ -189,6 +189,14 @@
             <classifier>jdk15</classifier>
         </dependency>
 
+        <!-- javax.mail-->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+
 
     </dependencies>
 

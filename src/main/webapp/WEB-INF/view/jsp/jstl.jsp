@@ -39,8 +39,10 @@
 <c:set var="salary" scope="session" value="${2000*2}"/>
 <%-- 获取值展示，类似于JSP输出表达式 --%>
 <c:out value="${salary}"/><br>
+<%-- 格式化日期 --%>
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /><br>
-<fmt:formatNumber value="${money}" type="number" maxFractionDigits="4" />
+<%-- 常用的为保留一定的小数位数，4舍5入，一般情况下保留2位 --%>
+<fmt:formatNumber value="${money}" type="number" maxFractionDigits="2" />
 <br>
 <%-- 遍历map --%>
 <select id="selectAllMap" name="selectAllMap">

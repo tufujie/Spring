@@ -13,6 +13,7 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/other/otherIntroduce" target="_blank">Other demo</a><br>
 <a href="/postAll/post" target="_blank">Post demo</a><br>
 <a href="/myTest/test" target="_blank">Test demo</a><br>
+<a href="/mail/gotoMail" target="_blank">Mail demo</a><br>
 <c:if test="${userInfo.admin == 1}">
 <a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>
 </c:if>
