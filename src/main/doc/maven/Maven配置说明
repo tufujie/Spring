@@ -1,6 +1,6 @@
 settings.xml中主要包括以下元素：
 1.localRepository：
-表示Maven用来在本地储存信息的本地仓库的目录。默认是用户目录下面的.m2/repository目录。
+表示Maven用来在本地储存信息的本地仓库的目录。默认是用户目录下面的.m2/repository目录，建议Win不要放在C盘，改成D:\m2\repository路径下。
 在导入jar包到本地仓库的时候会使将jar包放入这个路径下
 mvn install:install-file -Dfile=commons-configuration-1.6.jar -DgroupId=com.json -DartifactId=commons-configuration -Dversion=1.6 -Dpackaging=jar
 Dfile: jar包的相对或绝对路径
@@ -58,3 +58,9 @@ groupId\artifactId\version的样子
   <version>2.0</version>
 </dependency>
 那么将这个架包引入pom.xml文件即可
+
+Maven使用之packing篇
+项目的打包类型：pom、jar、war
+项目中一般使用maven进行模块管理，每个模块下对应都有一个pom文件，pom文件中维护了各模块之间的依赖和继承关系。项目模块化可以将通用的部分抽离出来，方便重用；修改一部分代码不再是build整个项目，缩短了build时间；此外各模块都有自己的pom文件，结构更清晰。
+使用maven进行模块划分管理，一般都会有一个父级项目，pom文件除了GAV(groupId, artifactId, version)是必须要配置的，另一个重要的属性就是packing打包类型，所有的父级项目的packing都为pom，packing默认是jar类型，如果不作配置，maven会将该项目打成jar包。作为父级项目，还有一个重要的属性，那就是modules，通过modules标签将项目的所有子项目引用进来，在build父级项目时，会根据子模块的相互依赖关系整理一个build顺序，然后依次build。
+而对于各个子项目，需要在其对应的pom文件开头申明对父级项目的引用，通过GAV实现。对于子项目自己的GAV配置，GV如果不配置，则会从父级项目的配置继承过来。子模块可通过dependencies标签来添加自己的依赖，此外子类项目的packing值只能是war或者jar，前面已经说过，packing默认是jar类型。如果是需要部署的项目，则需要打包成war类型，如果只是内部调用或者是作服务使用，则推荐打包成jar类型。
