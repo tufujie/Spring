@@ -1,0 +1,3 @@
+1、设置radio选中
+$radio.attr("checked","checked");
+$radio.click();
