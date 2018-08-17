@@ -72,6 +72,6 @@ config<br>
 exception<br>
 pageContext<br>
 response<br>
-JSP标准标签库使用<a href="/jsp/jstl" target="_blank">jstl</a>
+<a href="/jsp/redirect" target="_blank">页面重定向</a><br>
 </body>
 </html>

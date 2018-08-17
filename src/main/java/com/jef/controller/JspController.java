@@ -83,31 +83,13 @@ public class JspController {
     }
 
     /**
-     * jstl语法
+     * application get
      * @param mv
      * @return
      */
-    @RequestMapping(value = "/jstl")
-    public ModelAndView jstl(ModelAndView mv, Model model) {
-        String adminName = BasicConstant.USER_NAME;
-        User user = userService.getByName(adminName);
-        if (Objects.nonNull(user)) {
-            mv.addObject("admin", Boolean.TRUE);
-        }
-        mv.addObject("status", "2");
-        List<User> userList = userMapper.getAllUser();
-        mv.addObject("userList", userList);
-        mv.addObject("now", new Date());
-        mv.addObject("money", 120000.2309);
-        mv.setViewName("jstl");
-        Map map = Maps.newHashMap();
-        map.put("keyName1", "value1");
-        map.put("keyName2", "value1");
-        model.addAttribute("mapTest", map);
-        List<String> list = Lists.newArrayList();
-        list.add("listValue1");
-        list.add("listValue2");
-        model.addAttribute("listTest", list);
+    @RequestMapping(value = "/redirect")
+    public ModelAndView redirect(ModelAndView mv) {
+        mv.setViewName("redirect");
         return mv;
     }
 }

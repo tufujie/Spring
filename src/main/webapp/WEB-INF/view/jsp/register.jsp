@@ -9,7 +9,6 @@
     <jsp:include page="basic.jsp" />
 </head>
 <body>
-<jsp:include page="basic.jsp" />
 <form id="form_register" action="/user/register1" method="post">
     <table>
         <tr>

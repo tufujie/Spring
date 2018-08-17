@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,5 +47,10 @@ public class UserServiceImpl implements IUserService {
     public void updateUser(User user) throws Exception {
         userDao.updateUser(user);
         UserCache.clearCache(user.getId());
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return userDao.getAllUser();
     }
 }

@@ -2,6 +2,8 @@ package com.jef.service;
 
 import com.jef.entity.User;
 
+import java.util.List;
+
 public interface IUserService {
     /**
      * 通过用户名和密码获取用户
@@ -21,4 +23,6 @@ public interface IUserService {
     User getByName(String name);
 
     void updateUser(User user) throws Exception;
+
+    List<User> getAllUser();
 }
