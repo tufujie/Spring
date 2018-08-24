@@ -68,16 +68,33 @@
         </tr>
     </c:forEach>
 </table>
-<c:if test="${!empty testTest}">对象有值</c:if>
-<c:if test="${empty testTest}">对象没有值</c:if><br>
-<c:if test="${!empty testTest.name}">对象中属性有值</c:if>
-<c:if test="${empty testTest.name}">对象中属性没有值</c:if><br>
+<c:if test="${!empty userOne}">对象有值</c:if><br>
+<c:if test="${not empty userOne}">对象有值2</c:if><br>
+<c:if test="${userOne != null}">对象有值3</c:if><br>
+
+<c:if test="${empty userOne}">对象没有值</c:if><br>
+<c:if test="${userOne == null}">对象没有值2</c:if><br>
 <c:choose>
-    <c:when test="${!empty testTest}">
-        对象有值2
+    <c:when test="${!empty userOne}">
+        对象有值另一种方式
     </c:when>
     <c:otherwise>
-        对象没有值2
+        对象没有值另一种方式
+    </c:otherwise>
+</c:choose>
+
+<c:if test="${!empty userTwo.name}">对象中属性有值</c:if><br>
+<c:if test="${not empty userTwo.name}">对象中属性有值2</c:if><br>
+<c:if test="${userTwo.name != null && userTwo.name != ''}">对象中属性有值3</c:if><br>
+
+<c:if test="${empty userTwo.name}">对象中属性没有值</c:if><br>
+<c:if test="${userTwo.name == null || userTwo.name == ''}">对象中属性没有值2</c:if><br>
+<c:choose>
+    <c:when test="${!empty userTwo.name}">
+        对象中属性有值另一种方式
+    </c:when>
+    <c:otherwise>
+        对象中属性没有值另一种方式
     </c:otherwise>
 </c:choose>
 </body>

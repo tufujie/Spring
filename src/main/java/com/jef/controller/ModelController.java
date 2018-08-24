@@ -59,7 +59,10 @@ public class ModelController {
             list.add("listValue1");
             list.add("listValue2");
             model.addAttribute("listTest", list);
-            model.addAttribute("testTest", null);
+            model.addAttribute("userOne", null);
+            User userTwo = new User();
+            userTwo.setName("");
+            model.addAttribute("userTwo", userTwo);
             mv.setViewName("jstl");
             return mv;
         }
