@@ -10,19 +10,19 @@
     <script type="text/javascript" src="/js/post/post.js"></script>
 </head>
 <body>
-<form id="" action="" method="post">
+<form id="objectPost" action="" method="post">
     <table>
         <tr>
             <td>用户名</td>
-            <td><input id="userName" name="name"></td>
+            <td><input id="userName" name="name" value="Jef"></td>
         </tr>
         <tr>
             <td>密码</td>
-            <td><input type="password" id="userPassword" name="password"></td>
+            <td><input type="password" id="userPassword" name="password" value="123456"></td>
         </tr>
         <tr>
             <td>手机号</td>
-            <td><input id="phone" name="phone"></td>
+            <td><input id="phone" name="phone" value="18390220001"></td>
         </tr>
 
         <tr>
@@ -30,9 +30,22 @@
             <td><input type="button" value="Post2" onclick="Post(2)"></td>
             <td><input type="button" value="Post3" onclick="Post(3)"></td>
             <td><input type="button" value="Post4" onclick="Post(4)"></td>
+            <td><input type="button" value="Post5" onclick="Post(5)"></td>
+            <td><input type="button" value="Post6" onclick="Post(6)"></td>
             <td><input type="reset" value="重置"></td>
         </tr>
     </table>
+</form>
+<p>传递id集合</p>
+<form id="listPost" action="" method="post">
+    <input type="text" name="id_first" id="id_first" value="id_first" />
+    <input type="text" name="id_second" id="id_second" value="id_second" />
+    <input type="button" value="PostIds1" onclick="postIds(1, '')">
+    <input type="button" value="PostIds1One" onclick="postIds(1, 'one')">
+    <input type="button" value="PostIds1OneMore" onclick="postIds(1, 'more')">
+    <input type="button" value="PostIds2" onclick="postIds(2, '')">
+    <input type="button" value="PostIds3" onclick="postIds(3, '')">
+    <input type="button" value="PostIds4" onclick="postIds(4, '')">
 </form>
 </body>
 </html>

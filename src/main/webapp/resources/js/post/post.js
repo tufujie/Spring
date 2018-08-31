@@ -84,7 +84,126 @@ function Post(type) {
                 console.log("here");
             }
         );
+    }  else if (type == 5) {
+        var orderInfos = [];
+        var orderInfoOne = {
+            extraOrderId: "10001"
+        };
+        var orderInfoTwo = {
+            extraOrderId: "10002"
+        };
+        orderInfos.push(orderInfoOne, orderInfoTwo);
+        url = "/postAll/postOneMore";
+        var json_orderInfos = JSON.stringify(orderInfos);
+        $.ajax({
+            type:"post",
+            url: url,
+            contentType:"application/json;charset=utf-8",
+            data: json_orderInfos ,
+            success:function(data){
+                console.log("here");
+            },
+            error:function(){
+                alert("出错啦");
+            }
+        });
+    } else if (type == 6) {
+        var user = {};
+        user.name = name;
+        user.password = password;
+        user.phone = phone;
+        url = "/postAll/postOneMoreJSON";
+        var json_user = JSON.stringify(user);
+        $.ajax({
+            type:"post",
+            url: url,
+            contentType:"application/json;charset=utf-8",
+            data: json_user ,
+            success:function(data){
+                console.log("here");
+            },
+            error:function(){
+                alert("出错啦");
+            }
+        });
     }
 
 
+}
+
+
+/**
+ * ids请求
+ */
+function postIds(type, more) {
+    var idFirst = $.trim($( "#id_first" ).val());
+    var idSecond = $.trim($( "#id_second" ).val());
+    if (idFirst == "") {
+        alert( "请输入第一个id" );
+        return false;
+    }
+    if (idSecond == "") {
+        alert( "请输入第二个id" );
+        return false;
+    }
+    var url;
+    if (type == 1) {
+        url = "/postAll/postIds";
+        if (more == 'one') {
+            url = "/postAll/postIdsOne";
+        } else if (more == 'more') {
+            url = "/postAll/postIdsOneMore";
+        }
+        var ids = new Array();
+        ids.push(idFirst, idSecond);
+        $.post(url,
+            {
+                ids : ids.join()
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
+    } else if (type == 2) {
+        url = "/postAll/postIdsTwo";
+        var ids = new Array();
+        ids.push(idFirst, idSecond);
+        $.post(url,
+            {
+                ids : ids
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
+    } else if (type == 3) {
+        url = "/postAll/postIdsThree";
+        var ids = new Array();
+        ids.push(idFirst, idSecond);
+        $.post(url,
+            {
+                ids : ids
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
+    } else if (type == 4) {
+        url = "/postAll/postIdsFour";
+        var ids = new Array();
+        ids.push(idFirst, idSecond);
+        var json_ids = JSON.stringify(ids);
+        $.ajax({
+            type:"post",
+            url: url,
+            contentType:"application/json;charset=utf-8",
+            data: json_ids ,
+            success:function(data){
+                console.log("here");
+            },
+            error:function(){
+                alert("出错啦");
+            }
+        });
+    }
 }

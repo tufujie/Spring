@@ -69,3 +69,12 @@ function register() {
     $("#form_register").submit();
 
 }
+
+/**
+ * Jef一键登录
+ */
+function oneKeyLogin() {
+    $( "#name" ).val('Jef');
+    $( "#password" ).val('123456');
+    login();
+}

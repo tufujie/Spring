@@ -16,4 +16,6 @@ public class BasicConstant {
     public static final String TITLE = "hello";
 
     public static final String CONTENT = "hello world";
+
+    public static final String SUCCESS = "success";
 }
