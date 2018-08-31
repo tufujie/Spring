@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import com.jef.constant.BasicConstant;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
-import com.jef.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,23 +45,36 @@ public class ModelController {
             if (Objects.nonNull(user)) {
                 mv.addObject("admin", Boolean.TRUE);
             }
+            // 单个属性
             mv.addObject("status", "2");
             List<User> userList = userService.getAllUser();
-            mv.addObject("userList", userList);
-            mv.addObject("now", new Date());
-            mv.addObject("money", 120000.2309);
-            Map map = Maps.newHashMap();
-            map.put("keyName1", "value1");
-            map.put("keyName2", "value1");
-            model.addAttribute("mapTest", map);
-            List<String> list = Lists.newArrayList();
-            list.add("listValue1");
-            list.add("listValue2");
-            model.addAttribute("listTest", list);
+            // 单个对象
             model.addAttribute("userOne", null);
             User userTwo = new User();
             userTwo.setName("");
             model.addAttribute("userTwo", userTwo);
+            // 对象集合
+            mv.addObject("userList", userList);
+            mv.addObject("now", new Date());
+            mv.addObject("money", 120000.2309);
+            // 简单集合
+            List<String> list = Lists.newArrayList();
+            list.add("listValue1");
+            list.add("listValue2");
+            model.addAttribute("listTest", list);
+            // 简单map
+            Map map = Maps.newHashMap();
+            map.put("keyName1", "value1");
+            map.put("keyName2", "value1");
+            model.addAttribute("mapTest", map);
+            // 复杂map
+            List<Map<String, Object>> listMap = Lists.newArrayList();
+            for (User userVo : userList) {
+                Map mapTwo = Maps.newHashMap();
+                mapTwo.put("user", userVo);
+                listMap.add(mapTwo);
+            }
+            model.addAttribute("mapTestTwo", listMap);
             mv.setViewName("jstl");
             return mv;
         }

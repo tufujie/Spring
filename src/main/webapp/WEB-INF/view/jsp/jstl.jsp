@@ -53,6 +53,15 @@
     </c:if>
 </select>
 <br>
+<select id="selectAllMapTWo" name="selectAllMapTwo">
+    <c:if test="${!empty mapTestTwo}">
+        <%-- 每一个item是一个map --%>
+        <c:forEach items="${mapTestTwo}" var="item">
+            <option value="${item.user.name}">${item.user.phone}</option>
+        </c:forEach>
+    </c:if>
+</select>
+<br>
 <%-- 遍历list --%>
 <table>
     <c:forEach items="${listTest}" var="item">
