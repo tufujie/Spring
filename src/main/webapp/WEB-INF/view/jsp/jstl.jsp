@@ -4,6 +4,9 @@
 <html>
 <head>
     <title>jstl</title>
+    <script>
+        var numberBit = ${numberBit};
+    </script>
 </head>
 <body>
 <%-- if表达式 --%>
@@ -37,12 +40,16 @@
 <br>
 <%-- 设置值，前端设值 --%>
 <c:set var="salary" scope="session" value="${2000*2}"/>
-<%-- 获取值展示，类似于JSP输出表达式 --%>
+<%-- 获取值展示，类似于JSP输出表达式，等效于直接${salary} --%>
 <c:out value="${salary}"/><br>
 <%-- 格式化日期 --%>
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /><br>
 <%-- 常用的为保留一定的小数位数，4舍5入，一般情况下保留2位 --%>
-<fmt:formatNumber value="${money}" type="number" maxFractionDigits="2" />
+普通输出=<c:out value="${money}"/><br>
+当做金额输出，保留n位小数，会自动去除小数点后末尾的0=<fmt:formatNumber value="${money}" type="number" maxFractionDigits="${numberBit}" /><br>
+当做金额输出，不限定保留小数=<fmt:formatNumber value="${money}" type="number" /><br>
+<fmt:parseNumber type="number" value="${money}" /><br>
+字符串格式=<c:out value="${moneyStr}"/>
 <br>
 <%-- 遍历map --%>
 <select id="selectAllMap" name="selectAllMap">

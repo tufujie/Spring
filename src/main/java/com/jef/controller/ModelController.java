@@ -56,7 +56,10 @@ public class ModelController {
             // 对象集合
             mv.addObject("userList", userList);
             mv.addObject("now", new Date());
-            mv.addObject("money", 120000.2309);
+            mv.addObject("numberBit", 5);
+            mv.addObject("money", 120000.23190);
+            // 要想保留BigDecimal小数点后末尾0，方式1：值的类型是字符串，方式2：前台js初始化值的时候使用toFixed()
+            mv.addObject("moneyStr", "120000.23190");
             // 简单集合
             List<String> list = Lists.newArrayList();
             list.add("listValue1");
