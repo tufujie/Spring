@@ -28,7 +28,7 @@
 
     <!-- 为避免项目间冲突，定义唯一的 RelativePath 指明相对路径 -->
     <context-param>
-        <param-name>RelativePath</param-name>
+        <param-name>webAppRootKey</param-name>
         <param-value>RelativePath</param-value>
     </context-param>
 
