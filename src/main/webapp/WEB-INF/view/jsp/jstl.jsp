@@ -50,6 +50,7 @@
 当做金额输出，不限定保留小数=<fmt:formatNumber value="${money}" type="number" /><br>
 <fmt:parseNumber type="number" value="${money}" /><br>
 字符串格式=<c:out value="${moneyStr}"/>
+设置精度的格式=<c:out value="${moneyTwo}"/>
 <br>
 <%-- 遍历map --%>
 <select id="selectAllMap" name="selectAllMap">

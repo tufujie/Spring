@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -58,8 +59,9 @@ public class ModelController {
             mv.addObject("now", new Date());
             mv.addObject("numberBit", 5);
             mv.addObject("money", 120000.23190);
-            // 要想保留BigDecimal小数点后末尾0，方式1：值的类型是字符串，方式2：前台js初始化值的时候使用toFixed()
+            // 要想保留BigDecimal小数点后末尾0，方式1：值的类型是字符串，方式2：前台js初始化值的时候使用toFixed()，方式3：BigDecimal设置精确度
             mv.addObject("moneyStr", "120000.23190");
+            mv.addObject("moneyTwo", new BigDecimal(120000.23190).setScale(5, BigDecimal.ROUND_HALF_UP));
             // 简单集合
             List<String> list = Lists.newArrayList();
             list.add("listValue1");
