@@ -6,6 +6,7 @@
 </head>
 <body>
 <jsp:include page="basic.jsp" />
-JSP标准标签库使用<a href="/model/jstl" target="_blank">jstl</a>
+JSP标准标签库使用<a href="/model/jstl" target="_blank">jstl</a><br>
+配置功能测试<a href="/model/config" target="_blank">config</a>
 </body>
 </html>

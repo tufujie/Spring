@@ -3,6 +3,7 @@ package com.jef.controller;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jef.constant.BasicConstant;
+import com.jef.entity.Config;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,4 +84,30 @@ public class ModelController {
             mv.setViewName("jstl");
             return mv;
         }
+
+    /**
+     * config数据库配置表展示形式
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/config")
+    public ModelAndView config(ModelAndView mv, Model model) {
+        // 实际会从数据库读取，order by level
+        List<Config> configs = Lists.newArrayList();
+        Config config = new Config();
+        config.setLevel(1);
+        config.setName("A级");
+        configs.add(config);
+        config = new Config();
+        config.setLevel(2);
+        config.setName("B级");
+        configs.add(config);
+        config = new Config();
+        config.setLevel(3);
+        config.setName("C级");
+        configs.add(config);
+        model.addAttribute("configs", configs);
+        mv.setViewName("config");
+        return mv;
+    }
 }
