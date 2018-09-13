@@ -2,6 +2,8 @@ package com.jef.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.jef.canvert.UserCanvert;
+import com.jef.context.REContext;
+import com.jef.context.REContextManager;
 import com.jef.dto.ResultMsgDto;
 import com.jef.dto.UserDto;
 import com.jef.entity.ResultMsg;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -76,7 +79,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/loginTwo", method = RequestMethod.POST)  //处理login请求
-    public ModelAndView loginTwo(String name, String password, ModelAndView mv, HttpSession session, Model model) {
+    public ModelAndView loginTwo(String name, String password, ModelAndView mv, HttpSession session, Model model, HttpServletRequest request) {
         logger.info("用户名为 " + name + " 尝试登录");
         logger.debug("用户名为 " + name + " 尝试登录");
         logger.error("用户名为 " + name + " 尝试登录");
@@ -90,6 +93,9 @@ public class LoginController {
             session.setAttribute("user", user);
             logger.info("用户名为 " + name + " 登录成功");
             session.setAttribute("user", user);
+            REContext context = new REContext();
+            context.put("loginUser", user);
+            REContextManager.setREContext(request.getSession(), context);
             model.addAttribute("userInfo", user);
             mv.setViewName("homepage"); //重定向到homepage页面中
         } else {
