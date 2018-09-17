@@ -3,3 +3,5 @@
 可以通过controller获取上下文内容，传入service使用
 在controller设置 model.addAttribute(key, value)
 在jsp获取model变量： ${key}
+
+不要在contrller层写复杂的业务逻辑

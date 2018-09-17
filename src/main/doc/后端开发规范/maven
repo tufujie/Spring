@@ -1,0 +1,16 @@
+MAVEN的目录结构
+src/main/resources 项目配置文件
+src/main/java 项目代码
+src/test/java 测试代码
+src/main/webapp jsp css等文件
+target目录是用于测试生成的，无需提交到SVN
+src/main/resources 项目所需的配置文件
+src/main/java目录下
+com.jef.common.**.controller/* action类
+com.jef.common.**.interceptor 拦截器包
+com.jef.common.**.dao dao接口(无需dao实现类)
+com.jef.common.**.vo 实体类
+com.jef.common.**.service service实现类
+src/main/webapp (css、jsp等)
+static目录存放静态文件 css、js、images等(按照模块目录存放)
+WEB-INF/views 存放jsp文件(按照模块目录存放)
