@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Basic JSP</title>
+    <jsp:include page="basic.jsp" />
 </head>
 <body>
 Hello Jef
