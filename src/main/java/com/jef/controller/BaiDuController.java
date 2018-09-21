@@ -29,7 +29,7 @@ public class BaiDuController {
     }
 
     /**
-     * pie-doughnut 饼图
+     * pie-doughnut 饼图1，全封装，直接传百度饼图需要的数据
      * @param mv
      * @return
      */
@@ -53,6 +53,32 @@ public class BaiDuController {
         showDataList.add(showData3);
         model.addAttribute("showDataList", JSON.toJSONString(showDataList));
         mv.setViewName("baidu/pie-doughnut");
+        return mv;
+    }
+
+    /**
+     * pie-doughnut 饼图2，半封装，通过js处理形成百度饼图需要的数据
+     * @param mv
+     * @return
+     */
+    @RequestMapping(value = "/pie-doughnut2")
+    public ModelAndView pieDoughnut2(ModelAndView mv, Model model) {
+        List<Map<String, Object>> showDataList = Lists.newArrayList();
+        // 写死一层，实际从数据库中读出形成showDataList
+        Map<String, Object> showData = Maps.newHashMap();
+        showData.put("totalAmount", 1);
+        showData.put("projectName", "泰富");
+        showDataList.add(showData);
+        Map<String, Object> showData2 = Maps.newHashMap();
+        showData2.put("totalAmount", 2);
+        showData2.put("projectName", "泰然");
+        showDataList.add(showData2);
+        Map<String, Object> showData3 = Maps.newHashMap();
+        showData3.put("totalAmount", 3);
+        showData3.put("projectName", "沙河");
+        showDataList.add(showData3);
+        model.addAttribute("showDatas", JSON.toJSONString(showDataList));
+        mv.setViewName("baidu/pie-doughnut2");
         return mv;
     }
 
