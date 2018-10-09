@@ -5,3 +5,5 @@
 在jsp获取model变量： ${key}
 
 不要在contrller层写复杂的业务逻辑
+不调用help类
+不调用dao
