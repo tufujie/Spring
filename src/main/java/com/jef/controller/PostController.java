@@ -126,6 +126,7 @@ public class PostController {
         String orderInfos = object.getString("orderInfos");
         User user = JSON.parseObject(userObj, User.class);
         List<OrderInfo> orderInfoList = new ArrayList<OrderInfo>(JSONArray.parseArray(orderInfos, OrderInfo.class));
+        List<OrderInfo> orderInfoListTwo = JSONArray.parseArray(orderInfos, OrderInfo.class);
         return BasicJspUtil.getBasicView();
     }
 
