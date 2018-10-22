@@ -42,6 +42,8 @@
                 <option value="/^[xyz]$/">只能输入某些数字（已验证可用）：</option>
                 <option value="/^(\d{n1,n2})(\.\d{n3,n4})?$/">只能输入n1到n2位整数,n3到n4位小数的数</option>
                 <option value="/^\d{1,7}(\.\d{1,2})?$/">商品金额(1到7位整数，1到2为小数，适合一切含小数的数)</option>
+                <option value="/^[0-9]+\.?[0-9]*$/">金额、面积，数字之类的(1到7位整数，1到2为小数，适合一切含小数的数)</option>
+                <option value=" /^1{0,1}[0-9]{1,2}$/gi">年龄</option>
             </optgroup>
             <optgroup label="校验字符的表达式">
                 <option value="/[\u4e00-\u9fa5]/gm">匹配中文字符</option>
