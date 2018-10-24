@@ -4,4 +4,8 @@ applicaitonContext未注入,请在applicationContext.xml中定义SpringContextHo
 applicationContext.xml中添加
 <!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->
 <bean class="包名.SpringContextHolder" lazy-init="false" />
-设置了还是报错，可能是工具Output directory设置的不对，设置为非target的任意文件夹
+设置了还是报错
+1、可能是工具Output directory设置的不对，设置为非target的任意文件夹
+2、Build Project,Rebuild Project
+3、Clean、Install
+
