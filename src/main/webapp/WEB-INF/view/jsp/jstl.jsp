@@ -7,6 +7,7 @@
     <script>
         var numberBit = ${numberBit};
     </script>
+    <script type="text/javascript" src="/js/model/post.js"></script>
 </head>
 <body>
 <%-- if表达式 --%>

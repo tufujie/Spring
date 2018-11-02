@@ -6,6 +6,9 @@ applicationContext.xml中添加
 <bean class="包名.SpringContextHolder" lazy-init="false" />
 设置了还是报错
 1、可能是工具Output directory设置的不对，设置为非target的任意文件夹
-2、Build Project,Rebuild Project
+2、Build Project,Rebuild Project，经过测试，Rebuild Project非常有用
 3、Clean、Install
 
+报错：
+项目起来了，但是Output directory没有产生任何东西，可以先尝试上面applicationContext未注入的解决方案，还是不行的话Edit Configurations中的Server删除，
+Project Structure中的Artifacts删除后新加一个，然后Edit Configurations新增一个Server，个人估计多半是未完全编译导致的

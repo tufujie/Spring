@@ -126,6 +126,59 @@ function Post(type) {
                 alert("出错啦");
             }
         });
+    } else if (type == 7) {
+        var orderInfos = [];
+        var orderInfoOne = {
+            extraOrderId: "10001"
+        };
+        var orderInfoTwo = {
+            extraOrderId: "10002"
+        };
+        orderInfos.push(orderInfoOne, orderInfoTwo);
+        var user = {
+            name: name,
+            password: password,
+            phone: phone
+        };
+        url = "/postAll/postFive";
+        $.post(url,
+            {
+                "user" : JSON.stringify(user),
+                "orderInfos" : JSON.stringify(orderInfos)
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
+    } else if (type == 8) {
+        var user = {
+            name: name,
+            password: password,
+            phone: phone
+        };
+        url = "/postAll/postSix";
+        $.post(url,
+            user,
+            function(result) {
+                console.log("here");
+            }
+        );
+    } else if (type == 9) {
+        var orderInfos = [];
+        var orderInfoOne = {
+            extraOrderId: "10001"
+        };
+        var orderInfoTwo = {
+            extraOrderId: "10002"
+        };
+        orderInfos.push(orderInfoOne, orderInfoTwo);
+        url = "/postAll/postSeven";
+        $.post(url,
+            orderInfos,
+            function(result) {
+                console.log("here");
+            }
+        );
     }
 
 

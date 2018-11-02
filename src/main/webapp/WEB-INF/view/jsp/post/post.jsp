@@ -32,6 +32,9 @@
             <td><input type="button" value="Post4" onclick="Post(4)"></td>
             <td><input type="button" value="Post5" onclick="Post(5)"></td>
             <td><input type="button" value="Post6" onclick="Post(6)"></td>
+            <td><input type="button" value="Post7" onclick="Post(7)"></td>
+            <td><input type="button" value="Post8" onclick="Post(8)"></td>
+            <td><input type="button" value="Post9" onclick="Post(9)"></td>
             <td><input type="reset" value="重置"></td>
         </tr>
     </table>

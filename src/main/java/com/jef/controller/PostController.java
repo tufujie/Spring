@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 其他功能的控制器
+ * POSS功能的控制器，GET请求类似
+ * 参数为非对象或单个参数时，可参照postIds系列，参数对象或多个时，用建议的使用方法
  * @author Jef
  * @create 2018/6/11 20:36
  */
@@ -48,7 +49,7 @@ public class PostController {
     }
 
     /**
-     * 直接用集合接收
+     * 直接用对象接收
      * @param user
      * @return
      */
@@ -76,7 +77,7 @@ public class PostController {
 
 
     /**
-     * 传递每个参数
+     * 传递每个参数，最普遍，最常用的一种方式
      * @param name
      * @param password
      * @param phone
@@ -127,6 +128,40 @@ public class PostController {
         User user = JSON.parseObject(userObj, User.class);
         List<OrderInfo> orderInfoList = new ArrayList<OrderInfo>(JSONArray.parseArray(orderInfos, OrderInfo.class));
         List<OrderInfo> orderInfoListTwo = JSONArray.parseArray(orderInfos, OrderInfo.class);
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
+     * 多个实体对象，使用工具类
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postFive", method = RequestMethod.POST)
+    public ModelAndView postFive(@RequestParam(value = "user") String userStr, @RequestParam(value = "orderInfos") String orderInfosStr) {
+        User user = JSON.parseObject(userStr, User.class);
+        List<OrderInfo> orderInfoListTwo = JSONArray.parseArray(orderInfosStr, OrderInfo.class);
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
+     * 实体对象，使用ModelAttribute
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postSix", method = RequestMethod.POST)
+    public ModelAndView postSix(@ModelAttribute User user) {
+        logger.info("test");
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
+     * 多个实体对象，使用ModelAttribute，无法传数组
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postSeven", method = RequestMethod.POST)
+    public ModelAndView postSix(@ModelAttribute ArrayList<OrderInfo> orderInfos) {
+        logger.info("test");
         return BasicJspUtil.getBasicView();
     }
 
