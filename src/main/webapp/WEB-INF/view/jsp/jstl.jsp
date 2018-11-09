@@ -46,12 +46,29 @@
 <%-- 格式化日期 --%>
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /><br>
 <%-- 常用的为保留一定的小数位数，4舍5入，一般情况下保留2位 --%>
+字符串格式，展现的就是原值=<h1><c:out value="${moneyStr}"/></h1><br>
 普通输出=<c:out value="${money}"/><br>
 当做金额输出，保留n位小数，会自动去除小数点后末尾的0=<fmt:formatNumber value="${money}" type="number" maxFractionDigits="${numberBit}" /><br>
 当做金额输出，不限定保留小数=<fmt:formatNumber value="${money}" type="number" /><br>
-<fmt:parseNumber type="number" value="${money}" /><br>
-字符串格式=<c:out value="${moneyStr}"/>
-设置精度的格式=<c:out value="${moneyTwo}"/>
+浮点数输出=<fmt:parseNumber type="number" value="${money}" /><br>
+浮点数输出2=<fmt:parseNumber type="number" value="${moneyFloat}" /><br>
+浮点数取整输出=<fmt:parseNumber integerOnly="true" type="number" value="${money}" /><br>
+设置精度的格式=<c:out value="${moneyTwo}"/><br>
+设置精度的格式=<c:out value="${moneyThree}"/><br>
+设置精度的格式=<c:out value="${moneyFour}"/>
+
+<h1>fmt:formatNumber</h1>
+<p>格式化数字 (1): <fmt:formatNumber value="${money}" type="currency"/></p>
+<p>格式化数字 (2): <fmt:formatNumber type="number" maxIntegerDigits="3" value="${money}" /></p>
+<p>格式化数字 (3): <fmt:formatNumber type="number" maxFractionDigits="3" value="${money}" /></p>
+<p>格式化数字 (4): <fmt:formatNumber type="number" groupingUsed="false" value="${money}" /></p>
+<p>格式化数字 (5): <fmt:formatNumber type="percent" maxIntegerDigits="3" value="${money}" /></p>
+<p>格式化数字 (6): <fmt:formatNumber type="percent" minFractionDigits="10" value="${money}" /></p>
+<p>格式化数字 (7): <fmt:formatNumber type="percent" maxIntegerDigits="3" value="${money}" /></p>
+<p>格式化数字 (8): <fmt:formatNumber type="number" pattern="###.###E0" value="${money}" /></p>
+<p>美元 :
+    <fmt:setLocale value="en_US"/>
+    <fmt:formatNumber value="${money}" type="currency"/></p>
 <br>
 <%-- 遍历map --%>
 <select id="selectAllMap" name="selectAllMap">

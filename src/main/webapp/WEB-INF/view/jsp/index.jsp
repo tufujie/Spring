@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%-- 引入别的页面的静态文件，这样重复代码少，代码整洁 --%>
-<%-- 上面是JSP的注释方式 --%>
+<%-- 上面是JSP的注释方式，JSP注释 --%>
 <html>
 <head>
     <title>index</title>

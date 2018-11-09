@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * POSS功能的控制器，GET请求类似
+ * POST功能的控制器，GET请求类似
  * 参数为非对象或单个参数时，可参照postIds系列，参数对象或多个时，用建议的使用方法
  * @author Jef
  * @create 2018/6/11 20:36

@@ -68,10 +68,15 @@ public class ModelController {
         mv.addObject("userList", userList);
         mv.addObject("now", new Date());
         mv.addObject("numberBit", 5);
+        // 浮点数输出，会去掉末尾的0
         mv.addObject("money", 120000.23190);
+        mv.addObject("moneyFloat", 120000.23190F);
         // 要想保留BigDecimal小数点后末尾0，方式1：值的类型是字符串，方式2：前台js初始化值的时候使用toFixed()，方式3：BigDecimal设置精确度
         mv.addObject("moneyStr", "120000.23190");
         mv.addObject("moneyTwo", new BigDecimal(120000.23190).setScale(5, BigDecimal.ROUND_HALF_UP));
+        // 保留3位，会进行五入
+        mv.addObject("moneyThree", new BigDecimal(120000.23190).setScale(3, BigDecimal.ROUND_HALF_UP));
+        mv.addObject("moneyFour", new BigDecimal(120000.23190).setScale(2, BigDecimal.ROUND_HALF_UP));
         // 简单集合
         List<String> list = Lists.newArrayList();
         list.add("listValue1");

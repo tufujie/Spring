@@ -26,11 +26,17 @@ Java代码
     out.println(count);
     out.println(info());
 %>
+<br>
+<%
+out.println("IP=" + request.getRemoteAddr());
+%>
 <%--
 JSP输出表达式，使用方式
 <%= Java代码 %>
 --%>
+<br>
 <%= count %>
+<br>
 <%= info() %>
 <%-- 常用使用方式可以是声明，脚本，表达式等两者或三者结合，配合HTML元素，CSS样式等，demo如下 --%>
 <%!

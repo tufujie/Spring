@@ -11,6 +11,7 @@ Login Success，欢迎${sessionScope.user.name}访问<br>
 UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/jsp/jspIntroduce" target="_blank">JSP demo</a><br>
 <a href="/postAll/post" target="_blank">Post demo</a><br>
+<a href="/getAll/get" target="_blank">Get demo</a><br>
 <a href="/myTest/test" target="_blank">Test demo</a><br>
 <a href="/mail/gotoMail" target="_blank">Mail demo</a><br>
 <a href="/model/modelJsp" target="_blank">Model传值 demo</a><br>
