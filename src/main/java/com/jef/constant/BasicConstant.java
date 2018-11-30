@@ -18,4 +18,8 @@ public class BasicConstant {
     public static final String CONTENT = "hello world";
 
     public static final String SUCCESS = "success";
+    /**
+     * 15分钟的秒数
+     */
+    public static final Long FIFTY_MINUTE = 900L;
 }

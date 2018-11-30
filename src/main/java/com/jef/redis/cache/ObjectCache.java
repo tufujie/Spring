@@ -80,4 +80,36 @@ public class ObjectCache {
             redisService.deleteObject(ObjectCache.OBJECT_KEY, timout_key);
         }
     }
+
+    /**
+     * 设置带有效期的参数缓存，注意该方法不需要ObjectKey
+     * @param key
+     * @param value
+     * @param liveTime 有效期，单位秒
+     */
+    public static void setCache(String key, String value, long liveTime) {
+        RedisService redisService = RedisServiceFactory.getInstance();
+        if (value == null) {
+            redisService.del(key);
+            return;
+        }
+        redisService.set(key, value, liveTime);
+    }
+
+    /**
+     * 获得缓存参数值，注意该方法不需要ObjectKey
+     * @param key
+     * @return 缓存参数值
+     */
+    public static String getCache(String key) {
+        RedisService redisService = RedisServiceFactory.getInstance();
+        String value;
+        try {
+            value = redisService.get(key);
+        } catch (Exception e) {
+            return null;
+        }
+        return value;
+    }
+
 }
