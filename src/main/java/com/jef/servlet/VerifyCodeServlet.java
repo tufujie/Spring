@@ -20,7 +20,8 @@ import java.io.OutputStream;
 public class VerifyCodeServlet extends HttpServlet {
     private static final Logger logger = LoggerFactory.getLogger(VerifyCodeServlet.class);
 
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    // 获得当前请求对应的会话对象
 	    HttpSession session = request.getSession();
 	    final int width = 180; // 图片宽度
