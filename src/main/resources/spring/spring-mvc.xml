@@ -17,6 +17,7 @@
     <!--加载本地的其他配置 -->
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-redis.xml"/>
+    <import resource="spring-mongodb.xml"/>
 
     <!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->
     <bean class="com.jef.common.context.SpringContextHolder" lazy-init="false" />
@@ -37,6 +38,7 @@
             <list>
                 <value>classpath:common/jdbc.properties</value>
                 <value>classpath:common/redis.properties</value>
+                <value>classpath:common/mongodb.properties</value>
             </list>
         </property>
     </bean>

@@ -18,6 +18,7 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/other/otherIntroduce" target="_blank">Other demo</a><br>
 <a href="/baidu/echart" target="_blank">Baidu demo</a><br>
 <a href="/redis/redisIntroduce" target="_blank">Redis demo</a><br>
+<a href="/mongo/mongoIntroduce" target="_blank">Mongo demo</a><br>
 <c:if test="${userInfo.admin == 1}">
 <a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>
 </c:if>

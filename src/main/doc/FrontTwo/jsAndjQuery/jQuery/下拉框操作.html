@@ -25,13 +25,14 @@
         var checkValue= $select.val();  //获取Select选择的Value
         var checkIndex= $select.get(0).selectedIndex;  //获取Select选择的索引值
         var maxIndex = $("#selectID option:last").attr("index");  //获取Select最大的索引值
-        var item = $("select[name=items] option[selected]").text()
+        var item = $("select[name=items] option[selected]").text();
         // jQuery设置Select选择的 Text和Value
-        $select.get(0).selectedIndex=1;  //设置Select索引值为1的项选中
-        $('#select_id')[0].selectedIndex = 1;
+        $select.get(0).selectedIndex = 1;  //设置Select索引值为1的项选中
+        $select[0].selectedIndex = 2; //设置Select索引值为1的项选中
         $select.val(4);   // 设置Select的Value值为4的项选中
-        $("#selectID option[text='选择3']").attr("selected", true);   //设置Select的Text值为jQuery的项选中
-        $("#selectID").attr("value",'-sel3');//设置value=-sel3的项目为当前选中项
+        $("#selectID option:eq(0)").attr("selected", true);
+        $("#selectID option[value='3']").attr("selected", true);   //设置Select的Text值为jQuery的项选中
+        $("#selectID").attr("value",'2');//设置value=2的项目为当前选中项，测试无效
         // jQuery添加/删除Select的Option项
         $("#select_id").append("<option value='Value'>Text</option>");  //为Select追加一个Option(下拉项)
         $("#select_id").prepend("<option value='0'>请选择</option>");  //为Select插入一个Option(第一个位置)
