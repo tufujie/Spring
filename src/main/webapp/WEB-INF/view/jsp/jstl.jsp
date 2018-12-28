@@ -5,7 +5,8 @@
 <head>
     <title>jstl</title>
     <script>
-        var numberBit = ${numberBit};
+        // model传过来的值，js中可以使用，jsp不适合使用
+        var numberBitPage = ${numberBit};
     </script>
     <script type="text/javascript" src="/js/model/post.js"></script>
 </head>
@@ -39,10 +40,30 @@
     </c:forEach>
 </table>
 <br>
-<%-- 设置值，前端设值 --%>
-<c:set var="salary" scope="session" value="${2000*2}"/>
+<c:if test="${salary >= 4000}">
+    前端设值之前>=4000
+</c:if>
+<c:if test="${salary < 4000}">
+    前端设值之前<4000
+</c:if>
+<br>
+<%-- 设置值，前端设值，必须在设值之后才能取出值 --%>
+<c:set var="salary" value="${2000*2}"/>
 <%-- 获取值展示，类似于JSP输出表达式，等效于直接${salary} --%>
 <c:out value="${salary}"/><br>
+<c:if test="${salary >= 4000}">
+    前端设值之后>=4000
+</c:if>
+<c:if test="${salary < 4000}">
+    前端设值之后<4000
+</c:if>
+<br>
+<c:if test="${numberBitPage >= 4}">
+    model传值numberBitPage>=4
+</c:if>
+<c:if test="${numberBitPage < 4}">
+    model传值numberBitPage<4
+</c:if>
 <%-- 格式化日期 --%>
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /><br>
 <%-- 常用的为保留一定的小数位数，4舍5入，一般情况下保留2位 --%>
