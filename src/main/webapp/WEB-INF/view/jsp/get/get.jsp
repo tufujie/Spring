@@ -5,6 +5,6 @@
     <jsp:include page="../basic.jsp" />
 </head>
 <body>
-Hello Jef
+<a href="/getAll/getUserList" target="_blank">getUserList</a><br>
 </body>
 </html>

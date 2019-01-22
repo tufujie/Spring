@@ -1,10 +1,17 @@
 package com.jef.controller;
 
+import com.google.common.collect.Lists;
+import com.jef.constant.BasicConstant;
+import com.jef.entity.BaseJSONVo;
+import com.jef.entity.User;
+import com.jef.utils.REJSONUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * GET请求类似
@@ -25,6 +32,26 @@ public class GetController {
     public ModelAndView otherIntroduce(ModelAndView mv) {
         mv.setViewName("get/get");
         return mv;
+    }
+
+    /**
+     * 其他功能的跳转
+     * @param mv
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "getUserList")
+    public BaseJSONVo getUserList(ModelAndView mv) {
+        List<User> users = Lists.newArrayList();
+        User user = new User();
+        user.setId(1L);
+        user.setName(BasicConstant.USER_NAME);
+        users.add(user);
+        User user2 = new User();
+        user2.setId(2L);
+        user2.setName(BasicConstant.USER_NAME);
+        users.add(user2);
+        return REJSONUtils.success(users, 0, "操作成功");
     }
 
 
