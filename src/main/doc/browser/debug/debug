@@ -1,0 +1,14 @@
+1、F12开启或关闭前台调试工具
+2、调试按钮
+参见 调试按钮.png
+3、按钮的快捷键 及 作用
+首先：快捷键的作用调试按钮都有
+Debugger(调试面板)
+  F8  or  Ctrl + \ : 暂停/继续，跳到下一个断点
+  F10  or  Ctrl + ' : 单步执行
+  F11  or Ctrl + ; : 单步进入
+  Shift + F11  or Ctrl + Shift + ; : 单步退出
+  Ctrl + ./Ctrl+, : 上一帧/下一帧(译为框架怪怪的)
+  Ctrl + Shift + E: 在控制台中打印出被选中代码的console信息(非常实用)
+  Ctrl + Shift + A: 将被选中代码添加到debugger的watch里面，可以关注你选中内容的变化
+  Ctrl + B: 打断点/取消断点(很实用)，方法，点击某一行，输入快捷键
