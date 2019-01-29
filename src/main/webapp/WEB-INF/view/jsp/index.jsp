@@ -7,7 +7,7 @@
 </head>
 <body>
 <jsp:include page="basic.jsp" />
-<h1>欢迎来到Jef的小世界</h1>
+<h1>Welcome to Jef's small world</h1>
 <%--<a href="/user/gotoLogin" target="_blank">登录</a>，--%><span>没有账号<a href="/user/gotoRegister" target="_blank">点击注册</a></span><br>
 <form id="form_login_two" action="/login/loginTwo" method="post">
     <table>

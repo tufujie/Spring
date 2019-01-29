@@ -69,7 +69,7 @@ public interface RedisService {
      * @return
      * @return
      */
-    Set Setkeys(String pattern);
+    Set setkeys(String pattern);
 
     /**
      * 检查key是否已经存在

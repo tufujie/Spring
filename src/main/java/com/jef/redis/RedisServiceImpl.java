@@ -23,8 +23,10 @@ public class RedisServiceImpl implements RedisService{
     /**
      * @param key
      */
+    @Override
     public long del(final byte[] key) {
         return (Long) redisTemplate.execute(new RedisCallback() {
+            @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.del(key);
             }
@@ -34,8 +36,10 @@ public class RedisServiceImpl implements RedisService{
     /**
      * @param keys
      */
+    @Override
     public long del(final String... keys) {
         return (Long) redisTemplate.execute(new RedisCallback() {
+            @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
                 long result = 0;
                 for (int i = 0; i < keys.length; i++) {
@@ -51,8 +55,10 @@ public class RedisServiceImpl implements RedisService{
      * @param value
      * @param liveTime
      */
+    @Override
     public void set(final byte[] key, final byte[] value, final long liveTime) {
         redisTemplate.execute(new RedisCallback() {
+            @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
                 connection.set(key, value);
                 if (liveTime > 0) {
@@ -68,6 +74,7 @@ public class RedisServiceImpl implements RedisService{
      * @param value
      * @param liveTime
      */
+    @Override
     public void set(String key, String value, long liveTime) {
         this.set(key.getBytes(), value.getBytes(), liveTime);
     }
@@ -76,6 +83,7 @@ public class RedisServiceImpl implements RedisService{
      * @param key
      * @param value
      */
+    @Override
     public void set(String key, String value) {
         this.set(key, value, 0L);
     }
@@ -84,6 +92,7 @@ public class RedisServiceImpl implements RedisService{
      * @param key
      * @param value
      */
+    @Override
     public void set(byte[] key, byte[] value) {
         this.set(key, value, 0L);
     }
@@ -92,8 +101,10 @@ public class RedisServiceImpl implements RedisService{
      * @param key
      * @return
      */
+    @Override
     public String get(final String key) {
         return (String) redisTemplate.execute(new RedisCallback() {
+            @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 try {
                     return new String(connection.get(key.getBytes()), redisCode);
@@ -109,8 +120,10 @@ public class RedisServiceImpl implements RedisService{
      * 添加key value (字节)(序列化)
      * @param key
      */
+    @Override
     public byte[] get(final byte[] key){
         String value = (String)redisTemplate.execute(new RedisCallback() {
+            @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 try {
                     if(connection.get(key)!=null){
@@ -133,7 +146,8 @@ public class RedisServiceImpl implements RedisService{
      * @return
      * @return
      */
-    public Set Setkeys(String pattern) {
+    @Override
+    public Set setkeys(String pattern) {
         return redisTemplate.keys(pattern);
 
     }
@@ -142,8 +156,10 @@ public class RedisServiceImpl implements RedisService{
      * @param key
      * @return
      */
+    @Override
     public boolean exists(final String key) {
         return (Boolean) redisTemplate.execute(new RedisCallback() {
+            @Override
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.exists(key.getBytes());
             }
@@ -153,8 +169,10 @@ public class RedisServiceImpl implements RedisService{
     /**
      * @return
      */
+    @Override
     public String flushDB() {
         return (String) redisTemplate.execute(new RedisCallback() {
+            @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 connection.flushDb();
                 return "ok";
@@ -165,8 +183,10 @@ public class RedisServiceImpl implements RedisService{
     /**
      * @return
      */
+    @Override
     public long dbSize() {
         return (Long) redisTemplate.execute(new RedisCallback() {
+            @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.dbSize();
             }
@@ -176,8 +196,10 @@ public class RedisServiceImpl implements RedisService{
     /**
      * @return
      */
+    @Override
     public String ping() {
         return (String) redisTemplate.execute(new RedisCallback() {
+            @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.ping();
             }
@@ -200,7 +222,8 @@ public class RedisServiceImpl implements RedisService{
     private String db;
 
     // 置入对象
-    public void putObject(String objKey,String key, Object obj,boolean limitSize) {
+    @Override
+    public void putObject(String objKey, String key, Object obj, boolean limitSize) {
         try{
             if(key==null || obj ==null) {
                 return ;
@@ -219,7 +242,8 @@ public class RedisServiceImpl implements RedisService{
     }
 
     //获取对象
-    public Object getObject(String objKey,String key) {
+    @Override
+    public Object getObject(String objKey, String key) {
         try{
             if(key!=null){
                 return (Object) redisTemplate.opsForHash().get(this.db+objKey, key);
@@ -237,7 +261,8 @@ public class RedisServiceImpl implements RedisService{
     }
 
     //删除key
-    public void deleteObject(String objKey,String key) {
+    @Override
+    public void deleteObject(String objKey, String key) {
         try{
             redisTemplate.opsForHash().delete(this.db+objKey,key);
         } catch(Exception e) {
@@ -248,11 +273,13 @@ public class RedisServiceImpl implements RedisService{
     }
 
     //获取所有key
+    @Override
     public Set getKeys(String objKey) {
         return redisTemplate.opsForHash().keys(this.db+objKey);
     }
 
     //获得某个Ojbkey的size
+    @Override
     public Long size(String objKey) {
         try {
             return redisTemplate.opsForHash().size(this.db+objKey);
@@ -265,6 +292,7 @@ public class RedisServiceImpl implements RedisService{
     }
 
     // 删除所有key
+    @Override
     public void deleteAll(String objKey) {
         Set keys = this.getKeys(objKey);
         if (keys != null) {
