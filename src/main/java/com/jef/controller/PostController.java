@@ -38,7 +38,7 @@ public class PostController {
     }
 
     /**
-     * 直接用对象接收，推荐使用
+     * 方式1，直接用对象接收，推荐使用
      * @param user
      * @return
      */
@@ -49,7 +49,7 @@ public class PostController {
     }
 
     /**
-     * 直接用对象接收
+     * 方式2，直接用对象接收
      * @param user
      * @return
      */
@@ -61,7 +61,7 @@ public class PostController {
     }
 
     /**
-     * 直接用集合接收
+     * 同方式2，直接用数组接收
      * @param orderInfos
      * @return
      */
@@ -77,7 +77,7 @@ public class PostController {
 
 
     /**
-     * 传递每个参数，最普遍，最常用的一种方式
+     * 方式3，传递每个参数，最普遍，最常用的一种方式
      * @param name
      * @param password
      * @param phone
@@ -93,7 +93,7 @@ public class PostController {
     }
 
     /**
-     * 传统使用
+     * 方式4，传统使用
      * @param request
      * @return
      */
@@ -107,7 +107,7 @@ public class PostController {
     }
 
     /**
-     * 使用工具类转，强大，推荐使用
+     * 方式5，使用工具类转，强大，推荐使用
      * @param allData
      * @return
      */
@@ -132,7 +132,7 @@ public class PostController {
     }
 
     /**
-     * 多个实体对象，使用工具类
+     * 方式6，多个实体对象，使用工具类
      * @return
      */
     @ResponseBody
@@ -144,7 +144,7 @@ public class PostController {
     }
 
     /**
-     * 实体对象，使用ModelAttribute
+     * 方式7，实体对象，使用ModelAttribute
      * @return
      */
     @ResponseBody
@@ -155,7 +155,7 @@ public class PostController {
     }
 
     /**
-     * 多个实体对象，使用ModelAttribute，无法传数组
+     * 类似于方式7，多个实体对象，使用ModelAttribute，无法传数组
      * @return
      */
     @ResponseBody

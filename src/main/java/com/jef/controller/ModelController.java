@@ -61,6 +61,8 @@ public class ModelController {
         List<User> userList = userService.getAllUser();
         // 单个对象
         model.addAttribute("userOne", null);
+        model.addAttribute("userOneSecond", "");
+        model.addAttribute("userOneThird", "test");
         User userTwo = new User();
         userTwo.setName("");
         model.addAttribute("userTwo", userTwo);
