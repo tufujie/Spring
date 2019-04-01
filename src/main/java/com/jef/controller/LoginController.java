@@ -1,6 +1,7 @@
 package com.jef.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Maps;
 import com.jef.canvert.UserCanvert;
 import com.jef.context.REContext;
 import com.jef.context.REContextManager;
@@ -8,6 +9,8 @@ import com.jef.dto.ResultMsgDto;
 import com.jef.dto.UserDto;
 import com.jef.entity.ResultMsg;
 import com.jef.entity.User;
+import com.jef.mq.MessageProduceUtil;
+import com.jef.mq.MqConstants;
 import com.jef.service.IUserService;
 import com.jef.common.utils.MD5Util;
 import org.slf4j.Logger;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -97,13 +101,19 @@ public class LoginController {
             context.put("loginUser", user);
             REContextManager.setREContext(request.getSession(), context);
             model.addAttribute("userInfo", user);
-            mv.setViewName("homepage"); //重定向到homepage页面中
+            // 重定向到homepage页面中
+            mv.setViewName("homepage");
         } else {
             logger.error("用户名为 " + name + " 尝试登录失败");
             mv.addObject("message","用户名或者密码错误，请重新输入");
-            mv.setViewName("login"); //重新设置view视图页面
+            // 重新设置view视图页面
+            mv.setViewName("login");
         }
-        return mv; //返回视图
+        Map<String, Object> param = Maps.newHashMap();
+        param.put("log", "用户名=" + name + "登录成功");
+        MessageProduceUtil.sendQueueMessage(MqConstants.MQ_LOG_SEND, param);
+        // 返回视图
+        return mv;
     }
 }
 

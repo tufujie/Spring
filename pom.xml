@@ -11,8 +11,10 @@
     <url>http://repo.maven.apache.org/maven2</url>
 
     <properties>
-        <spring.version>4.2.8.RELEASE</spring.version>
+        <spring.version>4.3.18.RELEASE</spring.version>
         <mybatis.version>3.2.6</mybatis.version>
+        <activemq.version>5.9.0</activemq.version>
+        <jackson.version>2.9.8</jackson.version>
 
     </properties>
 
@@ -84,19 +86,19 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.4.4</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.4.4</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.4.4</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
@@ -276,6 +278,28 @@
             <groupId>com.lowagie</groupId>
             <artifactId>itext-rtf</artifactId>
             <version>2.1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>${activemq.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+            <version>${activemq.version}</version>
         </dependency>
 
 

@@ -18,6 +18,8 @@
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-redis.xml"/>
     <import resource="spring-mongodb.xml"/>
+    <import resource="spring-mq-producer.xml"/>
+    <import resource="spring-mq-consumer.xml"/>
 
     <!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->
     <bean class="com.jef.common.context.SpringContextHolder" lazy-init="false" />
@@ -39,6 +41,7 @@
                 <value>classpath:common/jdbc.properties</value>
                 <value>classpath:common/redis.properties</value>
                 <value>classpath:common/mongodb.properties</value>
+                <value>classpath:common/activemq.properties</value>
             </list>
         </property>
     </bean>
