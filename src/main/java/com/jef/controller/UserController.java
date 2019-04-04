@@ -5,6 +5,7 @@ import com.jef.dao.IUserDao;
 import com.jef.entity.User;
 import com.jef.property.cache.UserCache;
 import com.jef.service.IUserService;
+import com.jef.utils.DBUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,11 +80,14 @@ public class UserController {
                 mv.setViewName("register");
             } else {
                 user = new User();
+                Long userMaxID = userService.getMaxUserID();
+                user.setId(userMaxID + 1);
                 user.setName(name);
                 user.setPassword(password);
                 user.setPhone(phone);
                 user.setAge(age);
-                userService.insert(user);
+                user.setTabIndex(DBUtil.getTableNameByUserID(user.getId()));
+                userService.insertSubUser(user);
                 session.setAttribute("userInfo", user);
                 mv.setViewName("homepage"); //重定向到homepage页面中
             }

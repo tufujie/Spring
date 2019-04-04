@@ -25,4 +25,17 @@ public interface IUserService {
     void updateUser(User user) throws Exception;
 
     List<User> getAllUser();
+
+    /**
+     * 新增用户
+     * @param user 用户信息
+     * @return 用户信息
+     */
+    User insertSubUser(User user);
+
+    /**
+     * 获取最大的用户ID
+     * @return 最大的用户ID
+     */
+    Long getMaxUserID();
 }

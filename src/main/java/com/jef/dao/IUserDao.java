@@ -37,4 +37,17 @@ public interface IUserDao {
     List<User> getAllUser();
 
     void updateUser(User user);
+
+    /**
+     * 分表获取用户信息
+     * @author Jef
+     * @date 2019/4/4
+     * @param requestParams
+     * @return com.jef.entity.User
+     */
+    User getUserByParams(Map<String, Object> requestParams);
+
+    Boolean insertSubUser(User user);
+
+    Long getMaxUserID(Map<String, Object> requestParams);
 }

@@ -1,5 +1,6 @@
 package com.jef.service.impl;
 
+import com.google.common.collect.Maps;
 import com.jef.dao.IUserDao;
 import com.jef.entity.User;
 import com.jef.property.cache.UserCache;
@@ -52,5 +53,28 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<User> getAllUser() {
         return userDao.getAllUser();
+    }
+
+    @Override
+    public User insertSubUser(User user) {
+        user.setPassword(MD5Util.encode(user.getPassword()));
+        userDao.insertSubUser(user);
+        return user;
+    }
+
+    @Override
+    public Long getMaxUserID() {
+        Map<String, Object> requestParams = Maps.newHashMap();
+        requestParams.put("tabIndex", 1);
+        Long userID1 = userDao.getMaxUserID(requestParams);
+        requestParams.put("tabIndex", 2);
+        Long userID2 = userDao.getMaxUserID(requestParams);
+        if (userID1 == null && userID2 == null) {
+            return 0L;
+        } else if (userID2 == null) {
+            return 1L;
+        } else {
+            return userID2 > userID1 ? userID2 : userID1;
+        }
     }
 }
