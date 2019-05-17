@@ -12,9 +12,14 @@
     function getAllInfo() {
         // 获取一组radio被选中项的值
         var item = $('inputt[type=radio][name=items][checked]').val();
+        var item = $('inputt[type=radio][name=items]:checked').val();
         // radio单选组的第二个元素为当前选中值
         $("input[type=radio]").attr("checked",'2');//设置value=2的项目为当前选中项
         $('input[name=items]').get(1).checked = true;// radio单选组的第二个 元素为当前选中值
+        $('input[name=items][value="1"]').attr("checked", true);
+        // 设置radio选中
+        $('input[name=items][value="1"]').attr("checked", "checked");
+        $('input[name=items][value="1"]').click();
     }
 </script>
 

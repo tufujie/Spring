@@ -8,6 +8,7 @@ import com.jef.context.REContextManager;
 import com.jef.entity.Config;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
+import com.jef.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,17 @@ public class ModelController {
         if (Objects.nonNull(user)) {
             mv.addObject("admin", Boolean.TRUE);
         }
+        // 1,2,6,8可行
+        mv.addObject("phone", user.getPhone());
+        mv.addObject("phone2", StringUtils.replaceAll(user.getPhone(), "\n", "&#10;", true));
+        mv.addObject("phone3", StringUtils.replaceAll(user.getPhone(), "\n", "\r\n", true));
+        mv.addObject("phone4", StringUtils.replaceAll(user.getPhone(), "\n", "\\r\\n", true));
+        mv.addObject("phone5", StringUtils.replaceAll(user.getPhone(), "\n", "&lt;br&gt;", true));
+        mv.addObject("phone6", StringUtils.replaceAll(user.getPhone(), "\n", "&#13;", true));
+        mv.addObject("phone7", StringUtils.replaceAll(user.getPhone(), "\n", "<br/>", true));
+        String phone8 = StringUtils.replaceAll(user.getPhone(), "\n", "<br/>", true);
+        phone8 = StringUtils.replaceAll(phone8, " ", java.util.regex.Matcher.quoteReplacement("&nbsp;"), false);
+        mv.addObject("phone8", phone8);
         // 单个属性
         mv.addObject("status", "2");
         List<User> userList = userService.getAllUser();

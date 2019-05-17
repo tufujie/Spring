@@ -179,6 +179,34 @@ function Post(type) {
                 console.log("here");
             }
         );
+    } else if (type == 10) {
+        var searchParams = {
+            "cityID": "test1",
+            "areaID": "test2"
+        };
+        url = '/postAll/postGetParams';
+        $.post(url,
+            {
+                searchParams: encodeURIComponent(JSON.stringify(searchParams))
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
+    } else if (type == 11) {
+        var searchParams = {
+            "cityID": "test1",
+            "areaID": "test2"
+        };
+        url = '/postAll/postGetParams';
+        $.post(url,
+            {
+                searchParams: JSON.stringify(searchParams)
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
     }
 
 

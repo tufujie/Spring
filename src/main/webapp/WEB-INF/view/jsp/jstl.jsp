@@ -139,6 +139,11 @@
     </c:otherwise>
 </c:choose>
 <br>
+<p>对象为空</p>
+<c:if test="${userOne.name == null || userOne.name == ''}">
+    对象为空，对应名称自然为空
+</c:if>
+<br>
 <c:if test="${empty userOneSecond}">对象没有值</c:if><br>
 <c:if test="${userOneSecond == ''}">对象没有值2</c:if><br>
 <c:choose>
@@ -166,5 +171,43 @@
         对象中属性没有值另一种方式
     </c:otherwise>
 </c:choose>
+换行的电话号码1
+<textarea>
+    ${phone}
+</textarea>
+换行的电话号码2
+<textarea>
+    ${phone2}
+</textarea>
+换行的电话号码3
+<textarea>
+    ${phone3}
+</textarea>
+换行的电话号码4
+<textarea>
+    ${phone4}
+</textarea>
+换行的电话号码5
+<textarea>
+    ${phone5}
+</textarea>
+换行的电话号码6
+<textarea>
+    ${phone6}
+</textarea>
+换行的电话号码7
+<textarea>
+    ${phone7}
+</textarea>
+phone8
+<table id="fd_364c206ef9d81c" class="tb_normal" align="center" label="主表" layout2col="undefined" style="width:100%;">
+<tr>
+    <td style="WIDTH: auto" width="1210" colspan="3" column="1,2,3" row="11">
+    <div name="rtf_extendDataFormInfo.value(description)" style="word-wrap: break-word;">
+        ${phone8}
+    </div>
+</td>
+</tr>
+</table>
 </body>
 </html>

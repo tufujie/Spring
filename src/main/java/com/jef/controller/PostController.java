@@ -6,6 +6,7 @@ import com.jef.common.utils.BasicJspUtil;
 import com.jef.constant.BasicConstant;
 import com.jef.entity.OrderInfo;
 import com.jef.entity.User;
+import com.jef.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -259,4 +260,17 @@ public class PostController {
         return ids;
     }
 
+    /**
+     * 获取传递的参数
+     * @param searchParams 请求参数
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postGetParams", method = RequestMethod.POST)
+    public ModelAndView postGetParams(
+            @RequestParam(value = "searchParams", required = false) String searchParams) {
+        searchParams = StringUtils.decodeURLCharset(searchParams);
+        System.out.println(searchParams);
+        return BasicJspUtil.getBasicView();
+    }
 }
