@@ -5,7 +5,7 @@ import com.jef.dao.IUserDao;
 import com.jef.entity.User;
 import com.jef.property.cache.UserCache;
 import com.jef.service.IUserService;
-import com.jef.utils.DBUtil;
+import com.jef.util.DBUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.jef.common.utils.BasicJspUtil;
 import com.jef.dao.IUserDao;
 import com.jef.entity.User;
-import com.jef.utils.DBUtil;
+import com.jef.util.DBUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

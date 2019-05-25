@@ -6,7 +6,7 @@ import com.jef.common.utils.BasicJspUtil;
 import com.jef.constant.BasicConstant;
 import com.jef.entity.OrderInfo;
 import com.jef.entity.User;
-import com.jef.utils.StringUtils;
+import com.jef.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

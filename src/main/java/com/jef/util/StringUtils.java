@@ -1,13 +1,9 @@
-package com.jef.utils;
+package com.jef.util;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -738,6 +734,70 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
             return null;
         }
         return str.replaceAll(regex, replacement);
+    }
+
+    /**
+     * 删除以 split 字符分割的字符串中的子串，最终还是能形成正确的格式
+     * @author Jef
+     * @date 2019/5/10
+     * @param beforeStr 未删除子串前
+     * @param deleteStr 删除的子串
+     * @param split 分割的字符
+     * @return java.lang.String
+     */
+    public static String deleteStr(String beforeStr, String deleteStr, String split)  {
+        if (StringUtils.isNotEmpty(beforeStr) && StringUtils.isNotEmpty(deleteStr)) {
+            // "abc,def,ghi", 三种情况，移除abc,移除def,移除ghi
+            String deleteStrOne = deleteStr + split, deleteStrTwo = split + deleteStr, deleteStrThree = split + deleteStr + split;
+            if (beforeStr.contains(deleteStrOne) && !beforeStr.contains(deleteStrTwo)) {
+                beforeStr = beforeStr.replace(deleteStrOne, "");
+            } else if (beforeStr.contains(deleteStrThree)) {
+                beforeStr = beforeStr.replace(deleteStrTwo, "");
+            } else if (beforeStr.contains(deleteStrTwo) && !beforeStr.contains(deleteStrOne)) {
+                beforeStr = beforeStr.replace(deleteStrTwo, "");
+            } else {
+                beforeStr = beforeStr.replace(deleteStr, "");
+            }
+        }
+        return beforeStr;
+    }
+
+    /**
+     * 删除以,分割的字符串中的子串，最终还是能形成正确的格式
+     * @author Jef
+     * @date 2019/5/10
+     * @param beforeStr 未删除子串前
+     * @param deleteStr 删除的子串
+     * @return java.lang.String
+     */
+    public static String deleteStr(String beforeStr, String deleteStr)  {
+        return deleteStr(beforeStr, deleteStr, ",");
+    }
+
+    /**
+     * 是否为空
+     * @param obj 对象
+     * @return
+     */
+    @SuppressWarnings( "unchecked" )
+    public static boolean isEmpty(Object obj) {
+        if (obj instanceof String) {
+            return isEmpty((String) obj);
+        } else if (obj instanceof Number) {
+            Number num = (Number) obj;
+            BigDecimal tempNum = new BigDecimal(num.toString());
+
+            // 数字0值作empty处理
+            return (0 == BigDecimal.ZERO.compareTo(tempNum));
+        } else if (obj instanceof Map) {
+            Map map = (Map) obj;
+            return map.size() <= 0;
+        } else if (obj instanceof Collection) {
+            Collection c = (Collection) obj;
+            return c.size() <= 0;
+        } else {
+            return obj == null ? true : isEmpty(obj.toString());
+        }
     }
 
 }

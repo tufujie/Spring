@@ -5,14 +5,13 @@ import com.jef.common.utils.BasicJspUtil;
 import com.jef.constant.BasicConstant;
 import com.jef.entity.BaseJSONVo;
 import com.jef.entity.User;
-import com.jef.utils.REJSONUtils;
-import com.jef.utils.StringUtils;
+import com.jef.util.REJSONUtils;
+import com.jef.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.List;
 
 /**

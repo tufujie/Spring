@@ -1,6 +1,6 @@
 package com.jef.redis;
 
-import com.jef.utils.MD5Utils;
+import com.jef.util.MD5Utils;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;

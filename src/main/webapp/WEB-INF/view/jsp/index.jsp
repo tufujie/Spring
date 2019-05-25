@@ -3,7 +3,7 @@
 <%-- 上面是JSP的注释方式，JSP注释 --%>
 <html>
 <head>
-    <title>index</title>
+    <title>login page</title>
 </head>
 <body>
 <jsp:include page="basic.jsp" />

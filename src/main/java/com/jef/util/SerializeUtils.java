@@ -1,4 +1,4 @@
-package com.jef.utils;
+package com.jef.util;
 
 import com.alibaba.fastjson.util.IOUtils;
 import org.nustaq.serialization.FSTObjectInput;

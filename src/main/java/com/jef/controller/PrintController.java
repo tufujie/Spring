@@ -17,7 +17,7 @@ import com.jef.dao.IUserDao;
 import com.jef.entity.BaseJSONVo;
 import com.jef.entity.User;
 import com.jef.property.cache.UserCache;
-import com.jef.utils.REJSONUtils;
+import com.jef.util.REJSONUtils;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

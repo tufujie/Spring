@@ -8,7 +8,7 @@ import com.jef.context.REContextManager;
 import com.jef.entity.Config;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
-import com.jef.utils.StringUtils;
+import com.jef.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

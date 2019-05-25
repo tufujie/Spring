@@ -1,4 +1,4 @@
-package com.jef.utils;
+package com.jef.util;
 
 import com.jef.entity.BaseJSONVo;
 import com.jef.entity.Page;

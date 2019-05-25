@@ -1,4 +1,4 @@
-package com.jef.utils;
+package com.jef.util;
 
 import org.springframework.util.StringUtils;
 import java.io.UnsupportedEncodingException;
