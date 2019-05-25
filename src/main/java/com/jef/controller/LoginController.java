@@ -7,21 +7,24 @@ import com.jef.context.REContext;
 import com.jef.context.REContextManager;
 import com.jef.dto.ResultMsgDto;
 import com.jef.dto.UserDto;
+import com.jef.entity.BaseJSONVo;
 import com.jef.entity.ResultMsg;
 import com.jef.entity.User;
 import com.jef.mq.MessageProduceUtil;
 import com.jef.mq.MqConstants;
 import com.jef.service.IUserService;
 import com.jef.common.utils.MD5Util;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.jef.util.REJSONUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -37,7 +40,7 @@ import java.util.Objects;
 @RequestMapping(value = "/login")
 @Controller
 public class LoginController {
-    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
+    private static Logger logger = LogManager.getLogger(LoginController.class);
 
     @Autowired
     private IUserService userService;
@@ -114,6 +117,27 @@ public class LoginController {
         MessageProduceUtil.sendQueueMessage(MqConstants.MQ_LOG_SEND, param);
         // 返回视图
         return mv;
+    }
+
+    /**
+     * 用户登录校验
+     * @author Jef
+     * @date 2019/5/25
+     * @param name 用户名
+     * @param password 密码
+     * @return com.jef.entity.BaseJSONVo
+     */
+    @ResponseBody
+    @RequestMapping(value = "loginValidate")
+    public BaseJSONVo loginValidate(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "password", required = false) String password) {
+        logger.info("用户名为 " + name + " 尝试登录");
+        logger.debug("用户名为 " + name + " 尝试登录");
+        logger.error("用户名为 " + name + " 尝试登录");
+        password = MD5Util.encode(password);
+        User user = userService.getByNameAndPassWord(name, password); //调用业务层方法返回一个实例对象
+        return REJSONUtils.success(user, 0, "操作成功");
     }
 }
 

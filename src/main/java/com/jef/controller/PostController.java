@@ -7,8 +7,8 @@ import com.jef.constant.BasicConstant;
 import com.jef.entity.OrderInfo;
 import com.jef.entity.User;
 import com.jef.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,7 +25,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/postAll")
 public class PostController {
-    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
+    private static final Logger logger = LogManager.getLogger(PostController.class);
 
     /**
      * 其他功能的跳转

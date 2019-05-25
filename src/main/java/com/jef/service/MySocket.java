@@ -1,7 +1,8 @@
 package com.jef.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.List;
  * 主要作用是:做一些初始化的内容添加工作、设置一些基本的内容、比如一些参数或者是一些固定的对象等等。
  */
 public class MySocket implements ServletContextListener {
-    private static Logger logger = LoggerFactory.getLogger(MySocket.class);
+    private static Logger logger = LogManager.getLogger(MySocket.class);
 
     // 定义保存所有的Socket
     public static List<Socket> socketList = new ArrayList<Socket>();

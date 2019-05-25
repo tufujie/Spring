@@ -19,8 +19,8 @@ import com.jef.entity.User;
 import com.jef.property.cache.UserCache;
 import com.jef.util.REJSONUtils;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +46,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "print")
 public class PrintController {
-    private static Logger logger = LoggerFactory.getLogger(RedisController.class);
+    private static Logger logger = LogManager.getLogger(RedisController.class);
 
     private static Integer maxWidth = 520;
     @Autowired

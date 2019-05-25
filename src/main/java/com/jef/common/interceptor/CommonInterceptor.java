@@ -3,8 +3,8 @@ package com.jef.common.interceptor;
 import com.google.gson.Gson;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,7 +23,7 @@ import java.util.Objects;
  * @create 2018/7/20 14:54
  */
 public class CommonInterceptor implements HandlerInterceptor {
-    private static final Logger logger = LoggerFactory.getLogger(CommonInterceptor.class);
+    private static final Logger logger = LogManager.getLogger(CommonInterceptor.class);
     @Autowired
     private IUserService userService;
 

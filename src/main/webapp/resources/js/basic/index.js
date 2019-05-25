@@ -2,18 +2,37 @@
  * 登录请求
  */
 function login() {
-    var name = $.trim($( "#name" ).val());
-    var password = $.trim($( "#password" ).val());
+    var name = $.trim($( "#name" ).val()),
+        password = $.trim($( "#password" ).val()),
+        $nameNontInput = $('#nameNontInput'),
+        $passwordNontInput = $('#passwordNontInput'),
+        $nameOrPasswordError = $('#nameOrPasswordError');
+    $nameNontInput.addClass('hidden');
+    $passwordNontInput.addClass('hidden');
+    $nameOrPasswordError.addClass('hidden');
     if (!name) {
-        alert( "请输入用户名" );
+        $nameNontInput.removeClass('hidden');
         return false;
     }
     if (!password) {
-        alert( "请输入密码" );
+        $passwordNontInput.removeClass('hidden');
         return false;
     }
     // 表单提交
-    $("#form_login_two").submit();
+    $.post('/login/loginValidate',
+        {
+            name: name,
+            password: password
+        },
+
+        function(data, status) {
+            if (data.data == null) {
+                $nameOrPasswordError.removeClass('hidden');
+            } else {
+                $("#form_login_two").submit();
+            }
+        }
+    );
 }
 
 /**

@@ -6,8 +6,8 @@ import com.jef.constant.BasicConstant;
 import com.jef.entity.User;
 import com.jef.service.impl.UserServiceImpl;
 import com.jef.common.utils.ContextUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "/other")
 public class OtherCotroller {
-    private static final Logger logger = LoggerFactory.getLogger(OtherCotroller.class);
+    private static final Logger logger = LogManager.getLogger(OtherCotroller.class);
 
     /**
      * 其他功能的跳转

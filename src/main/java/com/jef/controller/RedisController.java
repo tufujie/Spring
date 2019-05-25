@@ -6,8 +6,8 @@ import com.jef.dao.IUserDao;
 import com.jef.entity.User;
 import com.jef.property.cache.UserCache;
 import com.jef.redis.cache.ObjectCache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping(value = "/redis")
 public class RedisController {
-    private static Logger logger = LoggerFactory.getLogger(RedisController.class);
+    private static Logger logger = LogManager.getLogger(RedisController.class);
 
     @Autowired
     private IUserDao userDao;

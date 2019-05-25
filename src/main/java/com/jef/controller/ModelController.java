@@ -9,8 +9,8 @@ import com.jef.entity.Config;
 import com.jef.entity.User;
 import com.jef.service.IUserService;
 import com.jef.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +30,7 @@ import java.util.Objects;
 @Controller
 @RequestMapping(value = "/model")
 public class ModelController {
-    private static final Logger logger = LoggerFactory.getLogger(ModelController.class);
+    private static final Logger logger = LogManager.getLogger(ModelController.class);
 
     @Autowired
     private IUserService userService;

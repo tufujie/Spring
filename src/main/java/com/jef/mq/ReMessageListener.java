@@ -2,8 +2,9 @@ package com.jef.mq;
 
 import com.google.gson.Gson;
 import com.jef.common.context.SpringContextHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -17,7 +18,7 @@ import java.util.Map;
  * @date 2019/4/1
  */
 public class ReMessageListener implements MessageListener {
-    public static final Logger logger = LoggerFactory.getLogger(ReMessageListener.class.getName());
+    public static final Logger logger = LogManager.getLogger(ReMessageListener.class.getName());
 
     @Override
     public void onMessage(Message message) {

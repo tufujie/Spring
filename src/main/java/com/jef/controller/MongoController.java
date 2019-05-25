@@ -4,8 +4,8 @@ import com.jef.common.utils.BasicJspUtil;
 import com.jef.constant.BasicConstant;
 import com.jef.entity.UserDataVo;
 import com.jef.mongo.UserDataDao;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/mongo")
 public class MongoController {
-    private static Logger logger = LoggerFactory.getLogger(MongoController.class);
+    private static Logger logger = LogManager.getLogger(MongoController.class);
 
     @Autowired
     private UserDataDao userDataDao;

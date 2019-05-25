@@ -7,6 +7,8 @@ import com.jef.context.REContext;
 import com.jef.context.REContextManager;
 import com.jef.entity.User;
 import com.jef.util.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFFooter;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
@@ -15,8 +17,6 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +42,7 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "poiDemo")
 public class PoiController {
-    private static Logger logger = LoggerFactory.getLogger(PoiController.class);
+    private static Logger logger = LogManager.getLogger(PoiController.class);
 
     /**
      * 其他功能的跳转

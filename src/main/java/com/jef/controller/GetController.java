@@ -7,8 +7,8 @@ import com.jef.entity.BaseJSONVo;
 import com.jef.entity.User;
 import com.jef.util.REJSONUtils;
 import com.jef.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/getAll")
 public class GetController {
-    private static final Logger logger = LoggerFactory.getLogger(GetController.class);
+    private static final Logger logger = LogManager.getLogger(GetController.class);
 
     /**
      * 其他功能的跳转

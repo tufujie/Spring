@@ -2,9 +2,8 @@ package com.jef.servlet;
 
 import com.jef.constant.BasicConstant;
 import com.jef.common.utils.GraphicHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ import java.io.OutputStream;
  * 将验证码放入session中，并从session中获取
  */
 public class VerifyCodeServlet extends HttpServlet {
-    private static final Logger logger = LoggerFactory.getLogger(VerifyCodeServlet.class);
+    private static final Logger logger = LogManager.getLogger(VerifyCodeServlet.class);
 
 	@Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
