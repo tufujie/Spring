@@ -5,6 +5,6 @@
     <jsp:include page="basic.jsp" />
 </head>
 <body>
-Hello Jef
+<h1 class="text-center">Hello Jef, This is a Basic JSP Page</h1>
 </body>
 </html>

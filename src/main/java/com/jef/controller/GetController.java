@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -66,6 +68,21 @@ public class GetController {
             @RequestParam(value = "searchParams", required = false) String searchParams) {
         searchParams = StringUtils.decodeURLCharset(searchParams);
         System.out.println(searchParams);
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
+     * 获取传递的参数
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/manyKindsParams", method = RequestMethod.GET)
+    public ModelAndView manyKindsParams(
+            @RequestParam(value = "str", required = false) String str,
+            @RequestParam(value = "money", required = false) BigDecimal money,
+            @RequestParam(value = "num", required = false) Integer num)
+    {
+        System.out.println("test");
         return BasicJspUtil.getBasicView();
     }
 
