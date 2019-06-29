@@ -1,0 +1,7 @@
+1、导出war包，例如名称为mvc.war
+2、将mvc.war放到Tomcat的webapps目录下。
+3、配置conf\server.xml文件
+在<Host>中添加：
+<Context docBase="mvc" path="/" reloadable="false" source="org.eclipse.jst.jee.server:mvc"/>
+4、启动Tomcat，双击bin目录下的startup.bat，启动成功后直接在浏览器http://localhost:8080/访问项目就完事了。
+注：在Tomcat启动的时候会自动解压war文件，所以在部署项目的时候直接将web项目编译后的文件放在webapps也是同样的效果。
