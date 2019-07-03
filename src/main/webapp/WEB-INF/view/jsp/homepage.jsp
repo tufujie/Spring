@@ -7,6 +7,7 @@
 </head>
 <body>
 <jsp:include page="basic.jsp" />
+<a href="/login/loginOut" target="_blank">退出</a><br>
 Login Success，欢迎${sessionScope.user.name}访问<br>
 UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/jsp/jspIntroduce" target="_blank">JSP demo</a><br>
@@ -22,6 +23,7 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/print/printAll" target="_blank">print All</a><br>
 <a href="/subTable/subTable" target="_blank">subTable Demo</a><br>
 <a href="/poiDemo/poiIndex" target="_blank">POI demo</a><br>
+<a href="/activemq/activemq" target="_blank">activeMQ</a><br>
 <c:if test="${userInfo.admin == 1}">
 <a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>
 </c:if>

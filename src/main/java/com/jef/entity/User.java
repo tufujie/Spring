@@ -92,4 +92,10 @@ public class User implements Serializable {
     public void setTabIndex(Integer tabIndex) {
         this.tabIndex = tabIndex;
     }
+
+    @Override
+    public String toString() {
+        return "id=" + this.getId() + "；名称=" + this.getName() + "；年龄=" + this.getAge() + "；电话=" + this.getPhone();
+    }
+
 }

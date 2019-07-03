@@ -31,7 +31,7 @@ public class ReMessageListener implements MessageListener {
             int index = adaptor.lastIndexOf(".");
 
             String beanName = adaptor.substring(0, index);
-            String method = adaptor.substring(index + 1);
+            String methodName = adaptor.substring(index + 1);
 
             // 2. 找到适配器处理消息
             Object object = SpringContextHolder.getBean(beanName);
@@ -43,8 +43,8 @@ public class ReMessageListener implements MessageListener {
 
             // 反射调用消息处理方法
             Class clazz = object.getClass();
-            Method m = clazz.getDeclaredMethod(method, Map.class);
-            m.invoke(object, param);
+            Method method = clazz.getDeclaredMethod(methodName, Map.class);
+            method.invoke(object, param);
         } catch (Exception e2) {
             logger.error("error", e2);
         }

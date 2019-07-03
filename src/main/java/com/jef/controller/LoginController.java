@@ -139,5 +139,21 @@ public class LoginController {
         User user = userService.getByNameAndPassWord(name, password); //调用业务层方法返回一个实例对象
         return REJSONUtils.success(user, 0, "操作成功");
     }
+
+    /**
+     * 用户登出
+     * @author Jef
+     * @date 2019/7/3
+     * @param model
+     * @param request
+     * @return org.springframework.web.servlet.ModelAndView
+     */
+    @RequestMapping(value = "/loginOut", method = RequestMethod.GET)
+    public ModelAndView loginOut(Model model, HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("index");
+        // 返回视图
+        return mv;
+    }
 }
 

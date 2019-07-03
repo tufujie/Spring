@@ -24,8 +24,7 @@ public class LogAdaptor {
      */
     public void dealLog(Map param) throws Exception {
         String log = (String) param.get("log");
-        logger.info("receive log");
-        logger.info(log);
+        logger.info("receive log=" + log);
     }
 
 }
