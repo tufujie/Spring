@@ -9,8 +9,13 @@
     <script type="text/javascript" src="/js/jquery-ui.js"></script>
     <script type="text/javascript" src="/js/jquery.md5.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <style>
+        a {
+            color: blueviolet;
+        }
+    </style>
 </head>
-<body background="/image/blueSky.jpg"
+<body background="/image/ocean.jpg"
       style="background-repeat:no-repeat; background-size:100% 100%; background-attachment: fixed;">
 
 </body>

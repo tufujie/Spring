@@ -24,6 +24,7 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/subTable/subTable" target="_blank">subTable Demo</a><br>
 <a href="/poiDemo/poiIndex" target="_blank">POI demo</a><br>
 <a href="/activemq/activemq" target="_blank">activeMQ</a><br>
+<a href="/fuCai/fuCai" target="_blank">fuCai</a><br>
 <c:if test="${userInfo.admin == 1}">
 <a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>
 </c:if>
