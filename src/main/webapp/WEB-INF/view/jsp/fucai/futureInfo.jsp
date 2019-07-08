@@ -74,14 +74,17 @@
         <td><span class="bcc64 c64">${fuCai.blue}</span></td>
     </tr>
 </table>
+<h2 align="center">统计期数为：${fuCaiList.size()} 期</h2>
 <h1 align="center" style="color: red;">红色球排行榜</h1>
 <table bgcolor="#faebd7" border="1" width="300px">
     <th>红色球号码</th>
     <th>出现次数</th>
-    <c:forEach var="obj" items="${redDescMap}">
+    <th>排名</th>
+    <c:forEach var="obj" items="${redDescMap}" varStatus="status">
         <tr>
             <td><span class="rcc c">${obj.key}</span></td>
             <td>${obj.value}</td>
+            <td>${status.count}</td>
         </tr>
     </c:forEach>
 </table>
@@ -89,16 +92,17 @@
 <table bgcolor="#faebd7" border="1" width="300px">
     <th>蓝色球号码</th>
     <th>出现次数</th>
-    <c:forEach var="obj" items="${blueDescMap}">
+    <th>排名</th>
+    <c:forEach var="obj" items="${blueDescMap}" varStatus="status">
         <tr>
             <td><span class="bcc c">${obj.key}</span></td>
             <td>${obj.value}</td>
+            <td>${status.count}</td>
         </tr>
     </c:forEach>
 </table>
 <br>
 <h1 align="center">中奖号码详情</h1>
-<h2 align="center">统计期数为：${fuCaiList.size()} 期</h2>
 <table bgcolor="#faebd7" border="1" width="300px">
     <th class="hide">id</th>
     <th>期号</th>
