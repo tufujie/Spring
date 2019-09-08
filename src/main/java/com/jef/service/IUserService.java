@@ -1,8 +1,10 @@
 package com.jef.service;
 
+import com.jef.entity.EnterpriseVo;
 import com.jef.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IUserService {
     /**
@@ -38,4 +40,6 @@ public interface IUserService {
      * @return 最大的用户ID
      */
     Long getMaxUserID();
+
+    List<User> getUserList(Map<String, Object> requestParams);
 }

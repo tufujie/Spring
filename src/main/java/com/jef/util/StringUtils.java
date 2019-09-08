@@ -192,7 +192,20 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
     }
 
     /**
+     * String转List<String>，以英文逗号分隔
+     * @author Jef
+     * @date 2019/9/7
+     * @param str 字符串
+     * @return java.util.List<java.lang.String>
+     */
+    public static List<String> getListFromString(String str) {
+        return getListFromString(str, ",");
+    }
+
+    /**
      * String转List<String>
+     * @author Jef
+     * @date 2019/9/7
      * @param str 字符串
      * @param delimiter 分隔符
      */

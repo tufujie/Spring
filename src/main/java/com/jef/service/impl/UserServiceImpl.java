@@ -77,4 +77,9 @@ public class UserServiceImpl implements IUserService {
             return userID2 > userID1 ? userID2 : userID1;
         }
     }
+
+    @Override
+    public List<User> getUserList(Map<String, Object> requestParams) {
+        return null;
+    }
 }
