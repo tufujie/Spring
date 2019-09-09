@@ -2,6 +2,7 @@ package com.jef.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jef.common.utils.BasicJspUtil;
 import com.jef.constant.BasicConstant;
 import com.jef.entity.OrderInfo;
@@ -104,6 +105,24 @@ public class PostController {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
+        String[] ids = request.getParameterValues("ids");
+        String orderInfosJson = request.getParameter("orderInfos");
+        List<OrderInfo> orderInfoList = JSONArray.parseArray(orderInfosJson, OrderInfo.class);
+        JSONArray orderInfoArray = JSONArray.parseArray(orderInfosJson);
+        for (Object aJsonArray : orderInfoArray) {
+            JSONObject obj = (JSONObject) aJsonArray;
+            System.out.println("name=" + obj.get("name"));
+        }
+        // 无数据处理
+        String emptyString = request.getParameter("emptyString");
+        JSONArray emptyStringArray = JSONArray.parseArray(emptyString);
+        // 空的转数组遍历会抛异常，需要判断
+        if (emptyStringArray != null) {
+            for (Object aJsonArray : emptyStringArray) {
+                JSONObject obj = (JSONObject) aJsonArray;
+                System.out.println("name=" + obj.get("name"));
+            }
+        }
         return BasicJspUtil.getBasicView();
     }
 

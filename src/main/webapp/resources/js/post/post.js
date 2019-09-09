@@ -44,12 +44,16 @@ function Post(type) {
             }
         );
     } else if (type == 3) {
+        var orderInfos = getOrderInfoArray(), ids = getIds(),
+        json_orderInfos = JSON.stringify(orderInfos);
         url = "/postAll/postThree";
         $.post(url,
             {
                 name: name,
                 password: password,
-                phone: phone
+                phone: phone,
+                ids: ids,
+                orderInfos: json_orderInfos
             },
             function(result) {
                 console.log("here");
@@ -58,14 +62,7 @@ function Post(type) {
     } else if (type == 4) {
         url = "/postAll/postFour";
         // 存放集合
-        var orderInfos = [];
-        var orderInfoOne = {
-            extraOrderId: "10001"
-        };
-        var orderInfoTwo = {
-            extraOrderId: "10002"
-        };
-        orderInfos.push(orderInfoOne, orderInfoTwo);
+        var orderInfos = getOrderInfoArray();
         // 对象
         var user = {
             name: name,
@@ -85,14 +82,7 @@ function Post(type) {
             }
         );
     }  else if (type == 5) {
-        var orderInfos = [];
-        var orderInfoOne = {
-            extraOrderId: "10001"
-        };
-        var orderInfoTwo = {
-            extraOrderId: "10002"
-        };
-        orderInfos.push(orderInfoOne, orderInfoTwo);
+        var orderInfos = getOrderInfoArray();
         url = "/postAll/postOneMore";
         var json_orderInfos = JSON.stringify(orderInfos);
         $.ajax({
@@ -127,14 +117,7 @@ function Post(type) {
             }
         });
     } else if (type == 7) {
-        var orderInfos = [];
-        var orderInfoOne = {
-            extraOrderId: "10001"
-        };
-        var orderInfoTwo = {
-            extraOrderId: "10002"
-        };
-        orderInfos.push(orderInfoOne, orderInfoTwo);
+        var orderInfos = getOrderInfoArray();
         var user = {
             name: name,
             password: password,
@@ -164,14 +147,7 @@ function Post(type) {
             }
         );
     } else if (type == 9) {
-        var orderInfos = [];
-        var orderInfoOne = {
-            extraOrderId: "10001"
-        };
-        var orderInfoTwo = {
-            extraOrderId: "10002"
-        };
-        orderInfos.push(orderInfoOne, orderInfoTwo);
+        var orderInfos = getOrderInfoArray();
         url = "/postAll/postSeven";
         $.post(url,
             orderInfos,
@@ -217,16 +193,6 @@ function Post(type) {
  * ids请求
  */
 function postIds(type, more) {
-    var idFirst = $.trim($( "#id_first" ).val());
-    var idSecond = $.trim($( "#id_second" ).val());
-    if (idFirst == "") {
-        alert( "请输入第一个id" );
-        return false;
-    }
-    if (idSecond == "") {
-        alert( "请输入第二个id" );
-        return false;
-    }
     var url;
     if (type == 1) {
         url = "/postAll/postIds";
@@ -235,8 +201,7 @@ function postIds(type, more) {
         } else if (more == 'more') {
             url = "/postAll/postIdsOneMore";
         }
-        var ids = new Array();
-        ids.push(idFirst, idSecond);
+        var ids = getIds();
         $.post(url,
             {
                 ids : ids.join()
@@ -247,8 +212,7 @@ function postIds(type, more) {
         );
     } else if (type == 2) {
         url = "/postAll/postIdsTwo";
-        var ids = new Array();
-        ids.push(idFirst, idSecond);
+        var ids = getIds();
         $.post(url,
             {
                 ids : ids
@@ -259,8 +223,7 @@ function postIds(type, more) {
         );
     } else if (type == 3) {
         url = "/postAll/postIdsThree";
-        var ids = new Array();
-        ids.push(idFirst, idSecond);
+        var ids = getIds();
         $.post(url,
             {
                 ids : ids
@@ -271,8 +234,7 @@ function postIds(type, more) {
         );
     } else if (type == 4) {
         url = "/postAll/postIdsFour";
-        var ids = new Array();
-        ids.push(idFirst, idSecond);
+        var ids = getIds();
         var json_ids = JSON.stringify(ids);
         $.ajax({
             type:"post",
@@ -287,4 +249,42 @@ function postIds(type, more) {
             }
         });
     }
+}
+
+/**
+ * 模拟获取Object数组
+ * 这里特定获取订单
+ * @returns {Array}
+ */
+function getOrderInfoArray() {
+    var orderInfos = [];
+    var orderInfoOne = {
+        extraOrderId: "10001"
+    };
+    var orderInfoTwo = {
+        extraOrderId: "10002"
+    };
+    orderInfos.push(orderInfoOne, orderInfoTwo);
+    return orderInfos;
+}
+
+/**
+ * 模拟获取单一类型数组
+ * 这里特定获取输入ID
+ * @returns {Array}
+ */
+function getIds() {
+    var idFirst = $.trim($( "#id_first" ).val());
+    var idSecond = $.trim($( "#id_second" ).val());
+    if (idFirst == "") {
+        alert( "请输入第一个id" );
+        return;
+    }
+    if (idSecond == "") {
+        alert( "请输入第二个id" );
+        return;
+    }
+    var ids = new Array();
+    ids.push(idFirst, idSecond);
+    return ids;
 }
