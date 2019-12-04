@@ -76,8 +76,6 @@ public class PostController {
         return BasicConstant.SUCCESS;
     }
 
-
-
     /**
      * 方式3，传递每个参数，最普遍，最常用的一种方式
      * @param name
@@ -91,6 +89,38 @@ public class PostController {
             @RequestParam(value = "name", required=true) String name,
             @RequestParam(value = "password", required=true) String password,
             @RequestParam(value = "phone", required=true) String phone) {
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
+     * 方式3拓展1，传递每个参数，最普遍，最常用的一种方式
+     * @param name
+     * @param password
+     * @param phone
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postTwoExtend", method = RequestMethod.POST)
+    public ModelAndView postTwoExtend(
+            @RequestParam("name") String name,
+            @RequestParam("password") String password,
+            @RequestParam("phone") String phone) {
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
+     * 方式3拓展1，传递每个参数，最普遍，最常用的一种方式
+     * @param name
+     * @param password
+     * @param phone
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postTwoExtendTwo", method = RequestMethod.POST)
+    public ModelAndView postTwoExtendTwo(
+            String name,
+            String password,
+            String phone) {
         return BasicJspUtil.getBasicView();
     }
 

@@ -183,6 +183,30 @@ function Post(type) {
                 console.log("here");
             }
         );
+    } else if (type == 12) {
+        url = "/postAll/postTwoExtend";
+        $.post(url,
+            {
+                name: name,
+                password: password,
+                phone: phone
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
+    } else if (type == 13) {
+        url = "/postAll/postTwoExtendTwo";
+        $.post(url,
+            {
+                name: name,
+                password: password,
+                phone: phone
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
     }
 
 

@@ -37,6 +37,8 @@
             <td><input type="button" value="Post9" onclick="Post(9)"></td>
             <td><input type="button" value="查看请求参数，encode" onclick="Post(10)"></td>
             <td><input type="button" value="查看请求参数，未encode" onclick="Post(11)"></td>
+            <td><input type="button" value="post2Extend" onclick="Post(12)"></td>
+            <td><input type="button" value="post2ExtendTwo" onclick="Post(13)"></td>
             <td><input type="reset" value="重置"></td>
         </tr>
     </table>
