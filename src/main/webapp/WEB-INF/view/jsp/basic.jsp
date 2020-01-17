@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <style>
         a {
-            color: blueviolet;
+            color: yellow;
+            font-size: larger;
         }
     </style>
 </head>
-<body background="/image/ocean.jpg"
+<body background="/image/lantian_baiyun.jpg"
       style="background-repeat:no-repeat; background-size:100% 100%; background-attachment: fixed;">
 
 </body>

@@ -110,6 +110,7 @@ public class PostController {
 
     /**
      * 方式3拓展1，传递每个参数，最普遍，最常用的一种方式
+     * 这种方式每个参数都是非必填的
      * @param name
      * @param password
      * @param phone
