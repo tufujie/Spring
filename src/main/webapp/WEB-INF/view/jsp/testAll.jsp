@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../../layout/header.jsp"%>
 <body>
 <form>
     <table>
@@ -9,28 +8,6 @@
             <td>
                 <select id="fBusinessType" style="width: 300px">
                     <option value="1">生成合同数据</option>
-                    <option value="2">运营中心数据</option>
-                    <option value="3">租赁运营数据</option>
-                    <option value="4">文件查询</option>
-                    <option value="5">轻分析接口测试</option>
-                    <option value="6">深业版本将运营中心数据存入mongodb</option>
-                    <option value="7">标准版本数据存入mongodb</option>
-                    <option value="8">标准版本mongodb数据更新</option>
-                    <option value="9">标准版本mongodb数据更新</option>
-                    <option value="10">标准版本mongodb生成</option>
-                    <option value="11">测试轻DATA</option>
-                    <option value="12">根据ID生成billType</option>
-                    <option value="13">信用中心生成信用明细</option>
-                    <option value="14">续签押金自动转</option>
-                    <option value="15">查看合同收费明细</option>
-                    <option value="16">新增客户</option>
-                    <option value="17">开放平台】基础资料类-项目列表接口</option>
-                    <option value="18">【开放平台】基础资料类-房源详情接口</option>
-                    <option value="19">【开放平台】基础资料类-根据条件获取房源接口</option>
-                    <option value="20">【开放平台】合同导入</option>
-                    <option value="21">同步国资委数据</option>
-                    <option value="22">同步项目数据接口</option>
-                    <option value="23">每月应收租金统计表</option>
                 </select>
             </td>
         </tr>
