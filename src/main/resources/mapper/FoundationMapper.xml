@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jef.dao.IFoundationDao">
+    <sql id="COLUMN_LIST">
+   code, name
+    </sql>
+    <select id="selectByPrimaryKey" resultType="com.jef.entity.Foundation" parameterType="java.lang.String">
+        select <include refid="COLUMN_LIST"/> from foundation
+        where code = #{code}
+    </select>
+    <select id="getByParams" resultType="com.jef.entity.Foundation" parameterType="java.util.Map">
+        select <include refid="COLUMN_LIST"/> from foundation
+        order by code desc
+    </select>
+    <insert id="insert" parameterType="com.jef.entity.Foundation">
+        insert into foundation(code, name)
+        values (#{code}, #{name})
+    </insert>
+</mapper>
