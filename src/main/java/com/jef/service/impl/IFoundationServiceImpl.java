@@ -94,24 +94,24 @@ public class IFoundationServiceImpl implements IFoundationService {
     @Override
     public boolean getNewest(String code) throws ParseException {
         FoundationEntry foundationEntryLast = foundationEntryDao.getEntryLastByCode(code);
-        boolean newest = false;
         if (foundationEntryLast != null) {
             Date now = new Date();
             Date lastDate = DateTimeUtil.parseDate(foundationEntryLast.getCreateDate(), DateTimeUtil.NORMAL_DATE_FORMAT);
             String nowStr = DateTimeUtil.formatDate(now);
             Date nowDate = DateTimeUtil.parseDate(nowStr, DateTimeUtil.NORMAL_DATE_FORMAT);
+            int dayOfWeek = DateTimeUtil.getDayOfWeek(now);
+            if (dayOfWeek == 7 || dayOfWeek == 1) {
+                Date compareDate = DateTimeUtil.addDays(nowDate, dayOfWeek == 7 ? -1 : -2);
+                return lastDate.compareTo(compareDate) == 0;
+            }
             if (now.getHours() > 15) {
-                if (lastDate.compareTo(nowDate) == 0) {
-                    newest = true;
-                }
+                return lastDate.compareTo(nowDate) == 0;
             } else {
                 Date yesterday = DateTimeUtil.getYesterday(nowDate);
-                if (lastDate.compareTo(yesterday) == 0) {
-                    newest = true;
-                }
+                return lastDate.compareTo(yesterday) == 0;
             }
         }
-        return newest;
+        return false;
     }
 
     @Override

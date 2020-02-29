@@ -2178,4 +2178,19 @@ public class DateTimeUtil extends DateUtils {
             return 30;
         }
     }
+
+    /**
+     * 获取日期是一周中的第几天，星期日开始算第一天
+     * @author Jef
+     * @date 2020/2/29
+     * @param date
+     * @return int
+     */
+    public static int getDayOfWeek(Date date) {
+        Calendar c = Calendar.getInstance();
+        if (date != null) {
+            c.setTime(date);
+        }
+        return c.get(Calendar.DAY_OF_WEEK);
+    }
 }
