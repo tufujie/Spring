@@ -17,9 +17,12 @@
     </script>
 </head>
 <body>
-<a href="http://fundf10.eastmoney.com/" target="_blank">净值获取网站</a>
 <h1 align="center" style="color: blue;">${foundation.name}</h1>
 <h3 align="center" style="color: blue;">${foundation.code}</h3>
+<a href="/foundation/getFoundationShop?code=${foundation.code}" target="_blank" style="margin-left: 95%">卖出记录</a>
+<br>
+<a href="http://fundf10.eastmoney.com/jjjz_${foundation.code}.html" target="_blank">净值获取网站</a>
+<br>
 <a href="/foundation/batchAdd?code=${foundation.code}" target="_blank">批量插入</a><br>
 <form name="reg_testdate">
     <select name="YYYY" onChange="YYYYDD(this.value)">
@@ -31,11 +34,34 @@
     <select name="DD" onChange="DDD(this.value)">
         <option value="">选择 日</option>
     </select>
-    <input id="unitPrice" name="unitPrice" value="">
+    净值<input id="unitPrice" name="unitPrice" value="">
+    买入金额<input id="money" name="money" value="">
+    手续费<input id="ratePrice" name="ratePrice" value="">
+    卖出关联买入日期<input id="linkBuyDate" name="linkBuyDate" value="">
     <input type="button" value="添加净值" onclick="addInfoEntry(1)">
+    <input type="button" value="买" onclick="buy(1)">
+    <input type="button" value="卖" onclick="shop(1)">
 </form>
-<h1 align="center" style="color: blue;">基金中间值</h1>
-<p style="text-align: center; font-size: 20px; color: red;">${betweenPrice}</p>
+<c:choose>
+    <c:when  test="${newest}">
+        <h1 align="center"><span style="color: green">数据已是最新</span></h1>
+    </c:when>
+    <c:otherwise>
+        <h1 align="center"><span style="color: red">请更新最新数据</span></h1>
+    </c:otherwise>
+</c:choose>
+<h1 align="center" style="color: blue;">分析处理了${day}天,即${month}个月的数据<a href="/foundation/getFoundationDetail?code=${foundation.code}&day=22" target="_blank">1个月</a>
+    <a href="/foundation/getFoundationDetail?code=${foundation.code}&day=44" target="_blank">2个月</a>
+    <a href="/foundation/getFoundationDetail?code=${foundation.code}&day=66" target="_blank">3个月</a></h1>
+<c:choose>
+    <c:when  test="${buyFlag}">
+        <h1 align="center"><span style="color: blue">建议买入</span><span>，最新净值比净值平均值低了${downNum}</span></h1>
+    </c:when>
+    <c:otherwise>
+        <h1 align="center"><span style="color: red">不建议买入</span><span>，最新净值比平均净值高了${downNum}</span></h1>
+    </c:otherwise>
+</c:choose>
+<h1 align="center" style="color: blue;">基金平均净值=${betweenPrice}</h1>
 <h1 align="center">基金详情</h1>
 <table bgcolor="#faebd7" border="1" width="300px">
     <th>日期</th>

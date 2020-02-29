@@ -21,7 +21,7 @@ public class FoundationEntry implements Serializable {
      */
     private String createDate;
     /**
-     * 日期
+     * 净值
      */
     private BigDecimal unitPrice;
 
