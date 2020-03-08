@@ -10,6 +10,7 @@
 <a href="/login/loginOut" target="_blank">退出</a><br>
 Login Success，欢迎${sessionScope.user.name}访问<br>
 UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
+<c:if test="${userInfo.name == 'Jef'}">
 <a href="/jsp/jspIntroduce" target="_blank">JSP demo</a><br>
 <a href="/postAll/post" target="_blank">Post demo</a><br>
 <a href="/getAll/get" target="_blank">Get demo</a><br>
@@ -26,6 +27,7 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/activemq/activemq" target="_blank">activeMQ</a><br>
 <a href="/fuCai/fuCai" target="_blank">fuCai</a><br>
 <a href="/foundation/foundation?day=22" target="_blank">foundation</a><br>
+</c:if>
 <c:if test="${userInfo.admin == 1}">
 <a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>
 </c:if>

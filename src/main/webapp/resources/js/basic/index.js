@@ -94,6 +94,6 @@ function register() {
  */
 function oneKeyLogin() {
     $( "#name" ).val('Jef');
-    $( "#password" ).val('123456');
+    $( "#password" ).val('******');
     login();
 }
