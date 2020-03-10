@@ -64,6 +64,10 @@
 <c:if test="${numberBitPage < 4}">
     model传值numberBitPage<4
 </c:if>
+<c:if test="${numberBitPage != 4}">
+    model传值numberBitPage != 4
+</c:if>
+<br>
 <%-- 格式化日期 --%>
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /><br>
 <%-- 常用的为保留一定的小数位数，4舍5入，一般情况下保留2位 --%>

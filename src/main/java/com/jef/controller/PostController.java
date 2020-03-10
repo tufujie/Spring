@@ -63,6 +63,17 @@ public class PostController {
     }
 
     /**
+     * 方式3，直接用body接收
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postOneMoreJSONBody", method = RequestMethod.POST)
+    public String postOneMoreJSONBody(@RequestBody String body) {
+        JSONObject jsonObject = JSONObject.parseObject(body);
+        return BasicConstant.SUCCESS;
+    }
+
+    /**
      * 同方式2，直接用数组接收
      * @param orderInfos
      * @return

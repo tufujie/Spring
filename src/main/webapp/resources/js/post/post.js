@@ -207,6 +207,25 @@ function Post(type) {
                 console.log("here");
             }
         );
+    } else if (type == 14) {
+        var user = {};
+        user.name = name;
+        user.password = password;
+        user.phone = phone;
+        url = "/postAll/postOneMoreJSONBody";
+        var json_user = JSON.stringify(user);
+        $.ajax({
+            type:"post",
+            url: url,
+            contentType:"application/json;charset=utf-8",
+            data: json_user,
+            success:function(data){
+                console.log("here");
+            },
+            error:function(){
+                alert("出错啦");
+            }
+        });
     }
 
 
