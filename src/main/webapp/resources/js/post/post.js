@@ -226,6 +226,17 @@ function Post(type) {
                 alert("出错啦");
             }
         });
+    } else if (type == 15) {
+        var jsonUser = $.trim($( "#jsonUser" ).val());
+        url = "/postAll/postEight";
+        $.post(url,
+            {
+                user: jsonUser
+            },
+            function(result) {
+                console.log("here");
+            }
+        );
     }
 
 

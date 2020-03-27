@@ -228,6 +228,17 @@ public class PostController {
     }
 
     /**
+     * 方式8，多个实体对象，使用工具类
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postEight", method = RequestMethod.POST)
+    public ModelAndView postEight(@RequestParam(value = "user") String userStr) {
+        User user = JSON.parseObject(userStr, User.class);
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
      * 传递ids，前台把数组转成了String
      * @param ids
      * @return
