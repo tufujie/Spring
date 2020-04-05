@@ -24,6 +24,10 @@
             <td>手机号</td>
             <td><input id="phone" name="phone" value="18390220001"></td>
         </tr>
+        <tr>
+            <td>JSONUser</td>
+            <td style="width: 1000px"><input id="jsonUser" name="jsonUser" value="{'name':'testName'}"></td>
+        </tr>
 
         <tr>
             <td><input type="button" value="Post1" onclick="Post(1)"></td>
@@ -37,6 +41,9 @@
             <td><input type="button" value="Post9" onclick="Post(9)"></td>
             <td><input type="button" value="查看请求参数，encode" onclick="Post(10)"></td>
             <td><input type="button" value="查看请求参数，未encode" onclick="Post(11)"></td>
+            <td><input type="button" value="post2Extend" onclick="Post(12)"></td>
+            <td><input type="button" value="post2ExtendTwo" onclick="Post(13)"></td>
+            <td><input type="button" value="postJsonUser" onclick="Post(15)"></td>
             <td><input type="reset" value="重置"></td>
         </tr>
     </table>

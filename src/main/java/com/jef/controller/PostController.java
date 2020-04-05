@@ -2,6 +2,7 @@ package com.jef.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jef.common.utils.BasicJspUtil;
 import com.jef.constant.BasicConstant;
 import com.jef.entity.OrderInfo;
@@ -62,6 +63,17 @@ public class PostController {
     }
 
     /**
+     * 方式3，直接用body接收
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postOneMoreJSONBody", method = RequestMethod.POST)
+    public String postOneMoreJSONBody(@RequestBody String body) {
+        JSONObject jsonObject = JSONObject.parseObject(body);
+        return BasicConstant.SUCCESS;
+    }
+
+    /**
      * 同方式2，直接用数组接收
      * @param orderInfos
      * @return
@@ -74,8 +86,6 @@ public class PostController {
         }
         return BasicConstant.SUCCESS;
     }
-
-
 
     /**
      * 方式3，传递每个参数，最普遍，最常用的一种方式
@@ -94,6 +104,39 @@ public class PostController {
     }
 
     /**
+     * 方式3拓展1，传递每个参数，最普遍，最常用的一种方式
+     * @param name
+     * @param password
+     * @param phone
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postTwoExtend", method = RequestMethod.POST)
+    public ModelAndView postTwoExtend(
+            @RequestParam("name") String name,
+            @RequestParam("password") String password,
+            @RequestParam("phone") String phone) {
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
+     * 方式3拓展1，传递每个参数，最普遍，最常用的一种方式
+     * 这种方式每个参数都是非必填的
+     * @param name
+     * @param password
+     * @param phone
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postTwoExtendTwo", method = RequestMethod.POST)
+    public ModelAndView postTwoExtendTwo(
+            String name,
+            String password,
+            String phone) {
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
      * 方式4，传统使用
      * @param request
      * @return
@@ -104,6 +147,24 @@ public class PostController {
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
+        String[] ids = request.getParameterValues("ids");
+        String orderInfosJson = request.getParameter("orderInfos");
+        List<OrderInfo> orderInfoList = JSONArray.parseArray(orderInfosJson, OrderInfo.class);
+        JSONArray orderInfoArray = JSONArray.parseArray(orderInfosJson);
+        for (Object aJsonArray : orderInfoArray) {
+            JSONObject obj = (JSONObject) aJsonArray;
+            System.out.println("name=" + obj.get("name"));
+        }
+        // 无数据处理
+        String emptyString = request.getParameter("emptyString");
+        JSONArray emptyStringArray = JSONArray.parseArray(emptyString);
+        // 空的转数组遍历会抛异常，需要判断
+        if (emptyStringArray != null) {
+            for (Object aJsonArray : emptyStringArray) {
+                JSONObject obj = (JSONObject) aJsonArray;
+                System.out.println("name=" + obj.get("name"));
+            }
+        }
         return BasicJspUtil.getBasicView();
     }
 
@@ -163,6 +224,17 @@ public class PostController {
     @RequestMapping(value = "/postSeven", method = RequestMethod.POST)
     public ModelAndView postSix(@ModelAttribute ArrayList<OrderInfo> orderInfos) {
         logger.info("test");
+        return BasicJspUtil.getBasicView();
+    }
+
+    /**
+     * 方式8，多个实体对象，使用工具类
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/postEight", method = RequestMethod.POST)
+    public ModelAndView postEight(@RequestParam(value = "user") String userStr) {
+        User user = JSON.parseObject(userStr, User.class);
         return BasicJspUtil.getBasicView();
     }
 
