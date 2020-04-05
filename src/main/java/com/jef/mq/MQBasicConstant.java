@@ -14,4 +14,16 @@ public interface MQBasicConstant {
      * queue名称
      */
     String MQ_QUEUE_NAME = "FirstQueue";
+    /**
+     * RabbitMQ host
+     */
+    String RABBIT_MQ_HOST = "localhost";
+    /**
+     * RabbitMQ host
+     */
+    String RABBIT_MQ_USERNAME = "guest";
+    /**
+     * RabbitMQ host
+     */
+    String RABBIT_MQ_PASSWORD = "guest";
 }
