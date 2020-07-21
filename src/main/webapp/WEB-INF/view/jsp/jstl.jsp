@@ -127,6 +127,25 @@
             </c:if>
         </tr>
     </c:forEach>
+    <c:forEach items="${signBusList}" var="sign" varStatus="vs">
+        ${vs.count}序号从1开始
+        ${vs.index}序号从0开始
+        ${vs.last}最后一个序号
+        ${vs.first}第一个序号
+    </c:forEach>
+    <%--
+    属性 描述 是否必要 默认值
+    items	要被循环的信息	否	无
+    begin	开始的元素（0=第一个元素，1=第二个元素）	否	0
+    end	最后一个元素（0=第一个元素，1=第二个元素）	否	Last element
+    step	每一次迭代的步长	否	1
+    var	代表当前条目的变量名称	否	无
+    varStatus	代表循环状态的变量名称	否	无
+    一般情况下使用items,var即可，varStatus在想获取当前对象下标时使用
+　　后台将list放入model中
+    var代表当前变量.
+    varStatus代表当前变量的状态,其中包含了index,count等属性.
+    --%>
 </table>
 <c:if test="${!empty userOneThird}">对象有值</c:if><br>
 <c:if test="${not empty userOneThird}">对象有值2</c:if><br>
