@@ -14,7 +14,7 @@
         <spring.version>5.1.5.RELEASE</spring.version>
         <mybatis.version>3.2.6</mybatis.version>
         <activemq.version>5.9.0</activemq.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.11.1</jackson.version>
         <poi.version>4.1.0</poi.version>
 
     </properties>
