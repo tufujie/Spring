@@ -3,6 +3,7 @@ package com.jef.service.impl;
 import com.google.common.collect.Maps;
 import com.jef.dao.IUserDao;
 import com.jef.entity.User;
+import com.jef.helper.PageHelper;
 import com.jef.property.cache.UserCache;
 import com.jef.service.IUserService;
 import com.jef.common.utils.MD5Util;
@@ -81,5 +82,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<User> getUserList(Map<String, Object> requestParams) {
         return null;
+    }
+
+    @Override
+    public List<User> query(Map<String, Object> queryMap, int startPageNum, int pageCountNum) throws Exception {
+        PageHelper.startPage(startPageNum, pageCountNum);
+        List<User> userList = userDao.getUserList(queryMap);
+        return userList;
     }
 }

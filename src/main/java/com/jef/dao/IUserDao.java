@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Jef
  * @create 2018/5/15 19:18
  */
-public interface IUserDao {
+public interface IUserDao extends IBaseDao {
     /**
      * 根据ID查询用户信息
      * @param id
@@ -50,4 +50,6 @@ public interface IUserDao {
     Boolean insertSubUser(User user);
 
     Long getMaxUserID(Map<String, Object> requestParams);
+
+    List<User> getUserList(Map<String, Object> requestParams);
 }

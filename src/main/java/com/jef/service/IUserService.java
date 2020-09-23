@@ -1,8 +1,6 @@
 package com.jef.service;
 
-import com.jef.entity.EnterpriseVo;
 import com.jef.entity.User;
-
 import java.util.List;
 import java.util.Map;
 
@@ -42,4 +40,15 @@ public interface IUserService {
     Long getMaxUserID();
 
     List<User> getUserList(Map<String, Object> requestParams);
+
+    /**
+     * 查询客户列表
+     * @author Jef
+     * @date 2020/8/27
+     * @param queryMap
+     * @param startPageNum
+     * @param pageCountNum
+     * @return java.util.List<com.jef.entity.User>
+     */
+    List<User> query(Map<String, Object> queryMap, int startPageNum, int pageCountNum) throws Exception;
 }

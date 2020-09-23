@@ -10,7 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;
@@ -38,10 +40,12 @@ public class RedisController {
      * 缓存object和取出object
      */
     @RequestMapping(value = "/object")
-    public ModelAndView object(ModelAndView mv) throws Exception {
-        Long userID = 1L;
+    public ModelAndView object(@RequestParam(value = "userId", required = false) Long userID) throws Exception {
+        if (userID == null) {
+            userID = 1L;
+        }
         User user = UserCache.getUser(userDao, userID);
-        User cacheUser = UserCache.getUser(userDao, userID);
+        User cacheUser = (User)ObjectCache.getCache(User.OBJECT_KEY, String.valueOf(userID));
         logger.info("设置的value是否等于获取的=" + Objects.equals(user.getName(), cacheUser.getName()));
         return BasicJspUtil.getBasicView();
     }

@@ -6,9 +6,19 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.support.atomic.RedisAtomicInteger;
+import org.springframework.data.redis.support.atomic.RedisAtomicLong;
+import redis.clients.jedis.Jedis;
+
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 封装redis 缓存服务器服务接口
@@ -17,8 +27,14 @@ import java.util.Set;
  */
 //@Service(value = "redisService")
 public class RedisServiceImpl implements RedisService{
-    private static String redisCode = "utf-8";
     private static final Logger logger = Logger.getLogger(RedisServiceImpl.class);
+    private static String redisCode = "utf-8";
+    private RedisTemplate redisTemplate;
+
+    // 区分数据库
+    private String db;
+
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * @param key
@@ -206,20 +222,16 @@ public class RedisServiceImpl implements RedisService{
         });
     }
 
-    public RedisServiceImpl(RedisTemplate redisTemplate, String jdbc ) {
+    public RedisServiceImpl(RedisTemplate redisTemplate, StringRedisTemplate stringRedisTemplate, String jdbc ) {
         this.redisTemplate = redisTemplate;
+        this.stringRedisTemplate = stringRedisTemplate;
         if (jdbc != null) {
             this.db = MD5Utils.getMD5Code(jdbc);
-        }else{
+        } else  {
             this.db = "";
         }
 
     }
-
-    private RedisTemplate redisTemplate;
-
-    // 区分数据库
-    private String db;
 
     // 置入对象
     @Override
@@ -245,7 +257,7 @@ public class RedisServiceImpl implements RedisService{
     @Override
     public Object getObject(String objKey, String key) {
         try{
-            if(key!=null){
+            if (key!=null) {
                 return (Object) redisTemplate.opsForHash().get(this.db+objKey, key);
             }
         } catch(Exception e){
@@ -307,5 +319,249 @@ public class RedisServiceImpl implements RedisService{
                 }
             }
         }
+    }
+
+    @Override
+    public Object setIfNotExist(final String key, final String value, final long liveTime) {
+        final String script = "if redis.call('get', KEYS[1]) then return nil " +
+                " else redis.call('set', KEYS[1], ARGV[1]) ; redis.call('expire', KEYS[1], ARGV[2]) return 1 end";
+        Object result = redisTemplate.execute(new RedisCallback<Object>() {
+            @Override
+            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+                Object nativeConnection = connection.getNativeConnection();
+                List<String> strings = new ArrayList<String>();
+                strings.add(String.valueOf(value));
+                strings.add(String.valueOf(liveTime));
+                if (nativeConnection instanceof Jedis) {
+                    return ((Jedis) nativeConnection).eval(script, Collections.singletonList(key), strings);
+                }
+                return null;
+            }
+        });
+        return result;
+    }
+
+    @Override
+    public boolean setIfNotExistAndExpire(String key, String value, long expireTime) {
+        Object result = redisTemplate.execute(new RedisCallback<Object>() {
+            @Override
+            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+                if (key == null ) {
+                    return false;
+                }
+                Object nativeConnection = connection.getNativeConnection();
+                if (!(nativeConnection instanceof Jedis)) {
+                    return false;
+                }
+                Jedis jedis = ((Jedis) nativeConnection);
+                String setResult = jedis.set(key, value, "NX", "PX", expireTime);
+                if (setResult != null && "OK".equals(setResult) ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+        if (result != null && (boolean)result) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setIfNotExist(String key, String value) {
+        Object result = redisTemplate.execute(new RedisCallback<Object>() {
+            @Override
+            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+                if (key == null ) {
+                    return false;
+                }
+                Object nativeConnection = connection.getNativeConnection();
+                if (!(nativeConnection instanceof Jedis)) {
+                    return false;
+                }
+                Jedis jedis = ((Jedis) nativeConnection);
+                String setResult = jedis.set(key, value, "NX");
+                if (setResult != null && "OK".equals(setResult) ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+        if (result != null && (boolean)result) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Object delByLua(final String key, final String value) {
+        final String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        Object result = redisTemplate.execute(new RedisCallback<Object>() {
+            @Override
+            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+                Object nativeConnection = connection.getNativeConnection();
+                // 单点
+                if (nativeConnection instanceof Jedis) {
+                    return ((Jedis) nativeConnection).eval(script, Collections.singletonList(key), Collections.singletonList(value));
+                }
+                return 0;
+            }
+        });
+        return result;
+    }
+
+    @Override
+    public Integer getIncrCache(String redisKey, long liveTime) {
+        Objects.requireNonNull(redisKey, "redisKey must be not null");
+        RedisAtomicInteger redisAtomicInteger = new RedisAtomicInteger(redisKey, redisTemplate.getConnectionFactory());
+        Integer value = redisAtomicInteger.getAndIncrement();
+        //初始设置过期时间
+        if (liveTime > 0) {
+            redisAtomicInteger.expire(liveTime, TimeUnit.MILLISECONDS);
+        }
+        return value;
+    }
+
+    @Override
+    public Integer getDecrCache(String key, long liveTime) {
+        Objects.requireNonNull(key, "redisKey must be not null");
+        RedisAtomicInteger redisAtomicInteger = new RedisAtomicInteger(key, redisTemplate.getConnectionFactory());
+        Integer value = redisAtomicInteger.getAndDecrement();
+        //初始设置过期时间
+        if (liveTime > 0) {
+            redisAtomicInteger.expire(liveTime, TimeUnit.MILLISECONDS);
+        }
+        return value;
+    }
+
+    @Override
+    public boolean setZset(String setKey, String value, Double score) {
+        Boolean add = redisTemplate.opsForZSet().add(setKey, value, score);
+        return add;
+    }
+
+    @Override
+    public Set<String> getZset(String setKey) {
+        //按照排名先后(从大到小)打印指定区间内的元素, -1为打印全部
+        Set<String> range = redisTemplate.opsForZSet().reverseRange(setKey, 0, -1);
+        return range;
+    }
+
+    @Override
+    public Long removeRangeSet(String key, int start, int end) {
+        return redisTemplate.opsForZSet().removeRange(key, start, end);
+    }
+
+    @Override
+    public Long zsetSize(String key) {
+        return redisTemplate.opsForZSet().size(key);
+    }
+
+    @Override
+    public String getList(String key, int index) {
+        Object first = redisTemplate.opsForList().index(key, index);
+        if (first != null) {
+            return first.toString();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean removeRpushListFirst(String key) {
+        Object o = redisTemplate.opsForList().leftPop(key);
+        return o != null ? true : false;
+    }
+
+    @Override
+    public boolean rpushList(String key, String value) {
+        Long aLong = redisTemplate.opsForList().rightPush(key, value);
+        if (aLong == null) {
+            return false;
+        }
+        return aLong >= 1 ? true : false;
+    }
+
+    @Override
+    public boolean lpushList(String key, String value) {
+        Long aLong = redisTemplate.opsForList().leftPush(key, value);
+        if (aLong == null) {
+            return false;
+        }
+        return aLong >= 1 ? true : false;
+    }
+
+    @Override
+    public boolean setListExpire(String key, long milliseconds) {
+        Boolean expire = redisTemplate.expire(key, milliseconds, TimeUnit.MILLISECONDS);
+        return expire;
+    }
+
+    @Override
+    public boolean removeListSameValues(String key, int count, String value) {
+        Long remove = redisTemplate.opsForList().remove(key, count, value);
+        return remove == count ? true : false;
+    }
+
+    @Override
+    public String leftPop(String key) {
+        Object o = redisTemplate.opsForList().leftPop(key);
+        return o != null ? (String)o : null;
+    }
+
+    @Override
+    public long decrby(String key, long productQty, long liveTime) {
+        Long result = redisTemplate.opsForValue().decrement(key, productQty);
+        redisTemplate.expire(key, liveTime, TimeUnit.SECONDS);
+        return result;
+    }
+
+    @Override
+    public long decrby(String key) {
+        RedisAtomicLong entityIdCounter = new RedisAtomicLong(key, redisTemplate.getConnectionFactory());
+        Long increment = entityIdCounter.decrementAndGet();
+        return increment;
+    }
+
+    @Override
+    public long incrby(String key, Integer productQty, long liveTime) {
+        Long result = redisTemplate.opsForValue().increment(key, productQty);
+        redisTemplate.expire(key, liveTime, TimeUnit.SECONDS);
+        return result;
+    }
+
+    @Override
+    public List<String> rangeList(String key, int start, int end) {
+        List range = redisTemplate.opsForList().range(key, start, end);
+        return range;
+    }
+
+    /**模糊查询所有的key值
+     * @param pattern
+     * @return
+     * @return
+     */
+    @Override
+    public Set getkeysPattern(String pattern) {
+        //生产redis是集群的，需要按集群查询。暂时不可用，不支持集群
+        return stringRedisTemplate.keys("*" + pattern + "*");
+    }
+
+    /**
+     * @Description get increment by Redis Hash
+     * @author Justin Teng
+     * @date 2020/4/27
+     * @param objKey
+     * @param key
+     * @param liveTime
+     * @return java.lang.Integer
+     */
+    public Integer getIncrCache(String objKey, String key, long liveTime) {
+        Objects.requireNonNull(objKey, "objKey must be not null");
+        Objects.requireNonNull(key, "key must be not null");
+        RedisHashAtomicIntegerHelper redisHashAtomicIntegerHelper = new RedisHashAtomicIntegerHelper(objKey, key, redisTemplate.getConnectionFactory());
+        redisHashAtomicIntegerHelper.setExpireTime(liveTime);
+        return redisHashAtomicIntegerHelper.getAndIncrement();
     }
 }

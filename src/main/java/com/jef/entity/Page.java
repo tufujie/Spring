@@ -1,5 +1,9 @@
 package com.jef.entity;
 
+import com.jef.helper.PageHelper;
+
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +11,12 @@ import java.util.List;
  * @author Jef
  * @date 2019/1/4
  */
-public class Page<E> extends ArrayList<E> implements Cloneable {
+public class Page<E> extends ArrayList<E> implements Closeable {
 
     private static final long serialVersionUID = 5665186105465922634L;
 
-    // public static final int NO_SQL_COUNT = -1;
-// public static final int SQL_COUNT = 0;
+    //    public static final int NO_SQL_COUNT = -1;
+//    public static final int SQL_COUNT = 0;
     public static final int DFAULT_SIZE = 10;
     public static final int DFAULT_COUNT = 1;
     // 起始页
@@ -36,6 +40,53 @@ public class Page<E> extends ArrayList<E> implements Cloneable {
      */
     private boolean count = true;
 
+    //企业ID
+    private String ecID;
+
+    //表名称
+    private String[] tableName;
+    /**
+     * 无参构造
+     */
+    public Page() {
+        this(1, 10, true);
+    }
+
+
+    public String[] getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String[] tableName) {
+        this.tableName = tableName;
+    }
+
+    /**
+     * 计算开始行和结束行
+     */
+    private void calculateStartAndEndRow() {
+        if (this.pageSize == -1) {
+            this.startRow = 0;
+            this.endRow = Integer.MAX_VALUE;
+        } else {
+            this.startRow = this.pageNum > 0 ? (this.pageNum - 1) * this.pageSize : 0;
+            this.endRow = this.startRow + this.pageSize * (this.pageNum > 0 ? 1 : 0);
+        }
+//        this.endRow = pageNum * pageSize;
+    }
+
+    private void caculatePages() {
+        if (total == -1) {
+            pages = 1;
+            return;
+        }
+        if (pageSize > 0) {
+            pages = (int) (total / pageSize + ((total % pageSize == 0) ? 0 : 1));
+        } else {
+            pages = 0;
+        }
+    }
+
     public Page(int pageNum, int pageSize) {
         this(pageNum, pageSize, true);
     }
@@ -50,26 +101,35 @@ public class Page<E> extends ArrayList<E> implements Cloneable {
         this.count = count;
         calculateStartAndEndRow();
     }
-    public Page(int pageNum, int pageSize, int total) {
-        super(pageSize);
+
+    public Page(int pageNum, int pageSize, boolean count, String ecID, String[] tableName) {
+        super(0);
+        if (pageNum == 1 && pageSize == Integer.MAX_VALUE) {
+            pageSize = -1;
+        }
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+        this.count = count;
+        this.ecID = ecID;
+        this.tableName = tableName;
+        calculateStartAndEndRow();
+    }
+
+    public Page(int pageNum, int pageSize, long total) {
+        super(pageSize < 0 ? (int) total : pageSize);
         this.pageNum = pageNum;
         this.pageSize = pageSize;
         this.total = total;
         calculateStartAndEndRow();
+        caculatePages();
     }
 
-    /**
-     * 计算开始行和结束行
-     */
-    private void calculateStartAndEndRow() {
-        if (this.pageSize == -1) {
-            this.startRow = 0;
-            this.endRow = Integer.MAX_VALUE;
-        } else {
-            this.startRow = this.pageNum > 0 ? (this.pageNum - 1) * this.pageSize : 0;
-            this.endRow = this.startRow + this.pageSize * (this.pageNum > 0 ? 1 : 0);
-        }
-// this.endRow = pageNum * pageSize;
+    public String getEcID() {
+        return ecID;
+    }
+
+    public void setEcID(String ecID) {
+        this.ecID = ecID;
     }
 
     public List<E> getResult() {
@@ -83,10 +143,10 @@ public class Page<E> extends ArrayList<E> implements Cloneable {
     public void setPages(int pages) {
         this.pages = pages;
     }
-    // public Page<E> setPages(int pages) {
-// this.pages = pages;
-// return this;
-// }
+    //    public Page<E> setPages(int pages) {
+//        this.pages = pages;
+//        return this;
+//    }
     public int getEndRow() {
         return endRow;
     }
@@ -125,15 +185,7 @@ public class Page<E> extends ArrayList<E> implements Cloneable {
 
     public void setTotal(long total) {
         this.total = total;
-        if (total == -1) {
-            pages = 1;
-            return;
-        }
-        if (pageSize > 0) {
-            pages = (int) (total / pageSize + ((total % pageSize == 0) ? 0 : 1));
-        } else {
-            pages = 0;
-        }
+        caculatePages();
     }
 
     public boolean isCount() {
@@ -157,6 +209,11 @@ public class Page<E> extends ArrayList<E> implements Cloneable {
     public String toString() {
         return "Page{" + "pageNum=" + pageNum + ", pageSize=" + pageSize + ", startRow=" + startRow + ", endRow=" + endRow
                 + ", total=" + total + ", pages=" + pages + '}';
+    }
+
+    @Override
+    public void close() throws IOException {
+        PageHelper.clearPage();
     }
 
 

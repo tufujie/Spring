@@ -1,11 +1,19 @@
 package com.jef.controller;
 
+import com.google.common.collect.Maps;
 import com.jef.constant.BasicConstant;
+import com.jef.context.REContext;
+import com.jef.context.REContextManager;
 import com.jef.dao.IUserDao;
+import com.jef.entity.BaseJSONVo;
+import com.jef.entity.Page;
+import com.jef.entity.ProjectVo;
 import com.jef.entity.User;
 import com.jef.property.cache.UserCache;
 import com.jef.service.IUserService;
 import com.jef.util.DBUtil;
+import com.jef.util.NumberUtils;
+import com.jef.util.REJSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -133,6 +143,25 @@ public class UserController {
         userService.updateUser(userNew);
         mv.setViewName("allUser");
         return mv;
+    }
+
+    @RequestMapping(value = "/getUserList", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseJSONVo getRentPlans(
+            @RequestParam("rowCount") String rowCount,
+            @RequestParam("current") String current,
+            @RequestParam(value = "searchPhrase", required = false) String searchPhrase) throws Exception {
+        int startPageNum = NumberUtils.getNumber(current, 1).intValue();
+        int pageCountNum = NumberUtils.getNumber(rowCount, 10).intValue();
+        Map<String, Object> queryMap = Maps.newHashMap();
+        queryMap.put("searchPhrase", searchPhrase);
+        List<User> userList = userService.query(queryMap, startPageNum, pageCountNum);
+        Map<String, Object> resultMap = Maps.newHashMap();
+        resultMap.put("rows", userList);
+        resultMap.put("current", startPageNum);
+        resultMap.put("rowCount", pageCountNum);
+        resultMap.put("total", userList.size());
+        return REJSONUtils.success(resultMap, 0, "操作成功");
     }
 
 
