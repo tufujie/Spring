@@ -34,11 +34,15 @@ public class RedisServiceFactory {
      * @return
      */
     public static RedisService getInstance(){
-        // 工厂返回实例
         return getSingleton().getRedisService();
     }
 
-    // 如果fatory未创建，则创建单例
+    /**
+     * 如果fatory未创建，则创建单例
+     * @author Jef
+     * @date 2020/9/23
+     * @return com.jef.redis.RedisServiceFactory
+     */
     private static RedisServiceFactory getSingleton() {
         if (fatory == null) {
             creatFactory();
@@ -46,29 +50,39 @@ public class RedisServiceFactory {
         return fatory;
     }
 
-    private RedisService getRedisService() {
-        if (redisTemplate == null) {
-            creatRedisTemplate();
-        }
-        if (stringRedisTemplate == null) {
-            creatStringRedisTemplate();
-        }
-        if (redisService == null) {
-            creatRedisServiceImpl();
-        }
-        return redisService;
-    }
-
-    // 一个时间内只能有一个线程得到执行
+    /**
+     * 一个时间内只能有一个线程得到执行
+     * @author Jef
+     * @date 2020/9/23
+     */
     private synchronized static void creatFactory() {
         if (fatory == null) {
             fatory = new RedisServiceFactory();
         }
     }
 
+    /**
+     * 返回redis实例
+     */
+    private RedisService getRedisService() {
+        if (redisTemplate == null) {
+            createRedisTemplate();
+        }
+        if (stringRedisTemplate == null) {
+            createStringRedisTemplate();
+        }
+        if (redisService == null) {
+            createRedisServiceImpl();
+        }
+        return redisService;
+    }
 
-    // 一个时间内只能有一个线程得到执行
-    private synchronized void creatRedisTemplate() {
+    /**
+     * 一个时间内只能有一个线程得到执行
+     * @author Jef
+     * @date 2020/9/23
+     */
+    private synchronized void createRedisTemplate() {
         if (this.redisTemplate == null) {
             logger.info("redis初始化");
             // 从Spring获取redisTemplate
@@ -76,27 +90,39 @@ public class RedisServiceFactory {
         }
     }
 
-    // 一个时间内只能有一个线程得到执行
-    private synchronized void creatStringRedisTemplate() {
+    /**
+     * 一个时间内只能有一个线程得到执行
+     * @author Jef
+     * @date 2020/9/23
+     */
+    private synchronized void createStringRedisTemplate() {
         if (this.stringRedisTemplate == null) {
             logger.info("stringRedis初始化");
-            // 从Spring获取redisTemplate
+            // 从Spring获取stringRedisTemplate
             this.stringRedisTemplate = SpringContextHolder.getBean("stringRedisTemplate");
         }
     }
 
-    // 一个时间内只能有一个线程得到执行
-    private synchronized void creatRedisServiceImpl() {
+    /**
+     * 一个时间内只能有一个线程得到执行
+     * @author Jef
+     * @date 2020/9/23
+     */
+    private synchronized void createRedisServiceImpl() {
         if (redisService == null) {
-            String db = this.difdb();
+            String db = this.diffdb();
             redisService = new RedisServiceImpl(redisTemplate, stringRedisTemplate, db);
             logger.info("redis初始化完成,db:" + db);
         }
     }
 
-
-    private String difdb() {
-        // 是否区分数据库缓存
+    /**
+     * 是否区分数据库缓存
+     * @author Jef
+     * @date 2020/9/23
+     * @return java.lang.String
+     */
+    private String diffdb() {
         String difdb = SpringPropertiesUtil.getProperty("redis.diffdb");
         String db = "";
         if (difdb != null && Boolean.valueOf(difdb)) {

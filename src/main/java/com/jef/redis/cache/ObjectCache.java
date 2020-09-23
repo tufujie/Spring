@@ -13,22 +13,28 @@ import java.util.Date;
  */
 public class ObjectCache {
     // 需要销毁的keys
-    public static final String OBJECT_KEY = "kill_them";
+    public static final String DELETE_OBJECT_KEY = "delete_them";
+
     /**
      * 设置缓存
-     * @param key
-     * @param obj
+     * @param objectKey 对象key
+     * @param key 实际key
+     * @param obj 内容
      * @param timeOut 超时是否清理
-     * @return
-     * @throws Exception
      */
-    public static void setCache(String objectKey, String key, Object obj, boolean timeOut) throws Exception {
-        boolean limitSize = false; // 限制大小
-        setCache(objectKey, key, obj, timeOut, limitSize);
+    public static void setCache(String objectKey, String key, Object obj, boolean timeOut) {
+        setCache(objectKey, key, obj, timeOut, false);
     }
 
-    public static void setCache(String objectKey, String key, Object obj, boolean timeOut, boolean limitSize) throws
-            Exception {
+    /**
+     * 设置缓存
+     * @param objectKey 对象key
+     * @param key 实际key
+     * @param obj 内容
+     * @param timeOut 超时是否清理
+     * @param limitSize 是否限制大小
+     */
+    public static void setCache(String objectKey, String key, Object obj, boolean timeOut, boolean limitSize) {
         RedisService redisService = RedisServiceFactory.getInstance();
         if (obj == null) {
             redisService.deleteObject(objectKey, key);
@@ -36,55 +42,21 @@ public class ObjectCache {
         }
         redisService.putObject(objectKey, key, obj, limitSize);
         if (timeOut) {
-            // 该对象超时则需要销毁，每2个小时检查一次
+            // 该对象超时则需要销毁，定时任务每2个小时检查一次
             RedisVo vo = new RedisVo();
             vo.setObjectKey(objectKey);
             vo.setKey(key);
             vo.setCreateTime(new Date());
             // 需要反解析
-            redisService.putObject(OBJECT_KEY,objectKey + ";" + key, vo, limitSize);
+            redisService.putObject(DELETE_OBJECT_KEY, getObjectKeyWithKey(objectKey, key), vo, limitSize);
 
-        }
-    }
-
-    /**
-     * 获取缓存
-     * @param key
-     * @return
-     * @throws Exception
-     */
-    public static Object getCache(String objectKey, String key) throws Exception {
-        // 先从缓存获取
-        RedisService redisService = RedisServiceFactory.getInstance();
-        Object obj = redisService.getObject(objectKey, key);
-        return obj;
-    }
-
-
-    /**
-     * 清理缓存
-     * @param key
-     * @return
-     * @throws Exception
-     */
-    public static void clearCache(String objectKey, String key) throws Exception {
-        if (key == null) {
-            return ;
-        }
-        RedisService redisService = RedisServiceFactory.getInstance();
-        redisService.deleteObject(objectKey, key);
-        // 同时清理超时缓存
-        String timout_key = objectKey + ";" + key;
-        Object obj = redisService.getObject(ObjectCache.OBJECT_KEY, timout_key);
-        if(obj != null) {
-            redisService.deleteObject(ObjectCache.OBJECT_KEY, timout_key);
         }
     }
 
     /**
      * 设置带有效期的参数缓存，注意该方法不需要ObjectKey
-     * @param key
-     * @param value
+     * @param key 实际key
+     * @param value 实际值
      * @param liveTime 有效期，单位秒
      */
     public static void setCache(String key, String value, long liveTime) {
@@ -97,8 +69,40 @@ public class ObjectCache {
     }
 
     /**
+     * 清理缓存
+     * @param objectKey 对象key
+     * @param key 实际key
+     */
+    public static void clearCache(String objectKey, String key) {
+        if (key == null || "".equals(key) || objectKey == null) {
+            return ;
+        }
+        RedisService redisService = RedisServiceFactory.getInstance();
+        redisService.deleteObject(objectKey, key);
+        // 同时清理超时缓存
+        String timoutKey = getObjectKeyWithKey(objectKey, key);
+        Object obj = redisService.getObject(ObjectCache.DELETE_OBJECT_KEY, timoutKey);
+        if (obj != null) {
+            redisService.deleteObject(ObjectCache.DELETE_OBJECT_KEY, timoutKey);
+        }
+    }
+
+    /**
+     * 获取缓存
+     * @author Jef
+     * @date 2020/9/23
+     * @param objectKey 对象key
+     * @param key 实际key
+     * @return java.lang.Object
+     */
+    public static Object getCache(String objectKey, String key) {
+        RedisService redisService = RedisServiceFactory.getInstance();
+        return redisService.getObject(objectKey, key);
+    }
+
+    /**
      * 获得缓存参数值，注意该方法不需要ObjectKey
-     * @param key
+     * @param key 实际key
      * @return 缓存参数值
      */
     public static String getCache(String key) {
@@ -110,6 +114,18 @@ public class ObjectCache {
             return null;
         }
         return value;
+    }
+
+    /**
+     * 获取objectKey和key的连接
+     * @author Jef
+     * @date 2020/9/23
+     * @param objectKey 对象key
+     * @param key 实际key
+     * @return java.lang.String
+     */
+    private static String getObjectKeyWithKey(String objectKey, String key) {
+        return objectKey + ";" + key;
     }
 
 }

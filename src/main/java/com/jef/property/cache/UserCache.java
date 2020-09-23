@@ -25,11 +25,11 @@ public class UserCache {
         }
         // 先从缓存获取
         User user = (User)ObjectCache.getCache(User.OBJECT_KEY, String.valueOf(id));
-        if (user==null) {
+        if (user == null) {
             // 数据库查询
             user = userDao.selectByPrimaryKey(id);
             //放到缓存中
-            if(user != null){
+            if (user != null) {
                 ObjectCache.setCache(User.OBJECT_KEY, String.valueOf(id), user, false);
             }
         }

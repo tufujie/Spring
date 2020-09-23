@@ -10,59 +10,63 @@ import java.util.Set;
 public interface RedisService {
 
     /**
+     * 添加key value 并且设置存活时间
+     * @param key 实际key
+     * @param value 实际值
+     * @param liveTime 存放时间 单位秒
+     */
+    void set(String key, String value, long liveTime);
+
+    /**
+     * 添加key value 并且设置存活时间(byte)
+     * @param key 实际key
+     * @param value 实际值
+     * @param liveTime 存放时间
+     */
+    void set(byte[] key, byte[] value, long liveTime);
+
+    /**
+     * 添加key value
+     * @param key 实际key
+     * @param value 实际值
+     */
+    void set(String key, String value);
+
+    /**
+     * 添加key value (字节)(序列化)
+     * @param key 实际key
+     * @param value 实际值
+     */
+    void set(byte[] key, byte[] value);
+
+    /**
      * 通过key删除
-     * @param keys
+     * @param keys 需要删除的键
      */
     long del(String... keys);
 
     /**
      * @param key
      */
-     long del(final byte[] key);
-
-    /**
-     * 添加key value 并且设置存活时间(byte)
-     * @param key
-     * @param value
-     * @param liveTime
-     */
-    void set(byte[] key, byte[] value, long liveTime);
-
-    /**
-     * 添加key value 并且设置存活时间
-     * @param key
-     * @param value
-     * @param liveTime
-     * 单位秒
-     */
-    void set(String key, String value, long liveTime);
-
-    /**
-     * 添加key value
-     * @param key
-     * @param value
-     */
-    void set(String key, String value);
-
-    /**
-     * 添加key value (字节)(序列化)
-     * @param key
-     * @param value
-     */
-    void set(byte[] key, byte[] value);
+    long del(final byte[] key);
 
     /**
      * 获取redis value (String)
-     * @param key
-     * @return
+     * @param key 实际key
      */
     String get(String key);
 
     /**
      * 添加key value (字节)(序列化)
-     * @param key
+     * @param key 实际key
      */
     byte[] get(byte[] key);
+
+    /**
+     * 添加key value (字节)(序列化)
+     * @param key 实际key
+     */
+    String getStringByByte(byte[] key);
 
     /**
      * 通过正则匹配keys
@@ -98,9 +102,12 @@ public interface RedisService {
 
     /**
      * 存放对象
-     * @param obj
+     * @param objectKey 对象key
+     * @param key 实际key
+     * @param obj 对象内容
+     * @param limitSize 限制大小
      */
-    void putObject(String objKey, String key, Object obj, boolean limitSize);
+    void putObject(String objectKey, String key, Object obj, boolean limitSize);
 
     /**
      * 获取对象
@@ -111,13 +118,16 @@ public interface RedisService {
 
     /**
      * 删除对象
-     * @param objKey
-     * @param key
+     * @param objectKey 对象key
+     * @param key 实际key
      */
-    void deleteObject(String objKey, String key) ;
+    void deleteObject(String objectKey, String key) ;
 
-    //获取所有key
-    Set getKeys(String objKey) ;
+    /**
+     * 获取所有key
+     * @param objectKey 对象key
+     */
+    Set getKeys(String objectKey) ;
 
     //获得某个objKey size
     Long size(String objKey) ;
