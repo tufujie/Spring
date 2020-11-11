@@ -10,11 +10,13 @@ import com.jef.entity.Page;
 import com.jef.entity.ProjectVo;
 import com.jef.entity.User;
 import com.jef.property.cache.UserCache;
+import com.jef.service.IDubboUserService;
 import com.jef.service.IUserService;
 import com.jef.util.DBUtil;
 import com.jef.util.NumberUtils;
 import com.jef.util.REJSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Reference;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,8 @@ public class UserController {
     private IUserService userService;
     @Autowired
     private IUserDao userDao;
+    @Reference
+    private IDubboUserService dubboUserService;
 
     @RequestMapping(value = "/add")
     public void add(User user) {
@@ -162,6 +166,14 @@ public class UserController {
         resultMap.put("rowCount", pageCountNum);
         resultMap.put("total", userList.size());
         return REJSONUtils.success(resultMap, 0, "操作成功");
+    }
+
+    @RequestMapping(value = "/getUserByName", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseJSONVo getUserByName(
+            @RequestParam("name") String name) throws Exception {
+        User user = dubboUserService.getByName(name);
+        return REJSONUtils.success(user, 0, "操作成功");
     }
 
 

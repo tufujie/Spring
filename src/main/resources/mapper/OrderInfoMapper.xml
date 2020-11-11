@@ -83,4 +83,8 @@
     select * from order_info
     where user_id = #{userId}
   </select>
+  <select id="listOrderInfo" resultType="com.jef.entity.OrderInfo" parameterType="java.util.Map">
+    select id, extra_order_id extraOrderId, shop_id shopId, user_id userId, ecID  from order_info
+    where ecID = #{ecID}
+  </select>
 </mapper>

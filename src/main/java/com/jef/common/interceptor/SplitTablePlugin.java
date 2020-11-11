@@ -1,4 +1,4 @@
-package com.jef.util;
+package com.jef.common.interceptor;
 
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
@@ -10,6 +10,7 @@ import com.alibaba.druid.util.JdbcConstants;
 import com.jef.entity.SplitRule;
 import com.jef.entity.SplitTableRuleVo;
 import com.jef.entity.TableNameModifier;
+import com.jef.util.StringUtils;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.Interceptor;
@@ -70,7 +71,7 @@ public class SplitTablePlugin implements Interceptor {
      * @param tableNameArr
      */
     public static void setSplitRule(String ecID,String[] tableNameArr){
-        localClass.set(new SplitTableRuleVo(ecID,tableNameArr));
+        localClass.set(new SplitTableRuleVo(ecID, tableNameArr));
     }
 
     @Override
@@ -92,6 +93,7 @@ public class SplitTablePlugin implements Interceptor {
             return target;
         }
     }
+
     private void doSplitTable(Invocation invocation) throws Exception {
         SplitTableRuleVo splitTableRuleVo = localClass.get();
         // 移除本地变量
@@ -108,14 +110,14 @@ public class SplitTablePlugin implements Interceptor {
 
         String[] tableNameArr = splitTableRuleVo.getTableNameArr();
         Map<String,String> tableNameMap = new HashMap<String, String>();
-        if(tableNameArr == null || splitTableRuleVo.getTableNameArr().length <= 0){
+        if (tableNameArr == null || splitTableRuleVo.getTableNameArr().length <= 0) {
             List<String> tableNameList = parserSql(originalSql);
             List<SplitTableRuleVo> splitTableRuleVoList = SplitRule.getSplitSql(splitTableRuleVo.getEcID(),tableNameList);
             for(SplitTableRuleVo splitTableRule : splitTableRuleVoList){
                 tableNameMap.put(splitTableRule.getTableName(),(StringUtils.isEmpty(splitTableRule.getDataBaseName()) ? "" : splitTableRule.getDataBaseName()) + splitTableRule.getTableName()
                         + "_" + splitTableRule.getSufEcName());
             }
-        }else{
+        } else {
             for(String tableName : tableNameArr){
                 if(StringUtils.isEmpty(tableName)){
                     continue;
@@ -127,7 +129,7 @@ public class SplitTablePlugin implements Interceptor {
                 tableNameMap.put(tableName, (StringUtils.isEmpty(splitTableRule.getDataBaseName()) ? "" : splitTableRule.getDataBaseName()) + tableName + "_" + splitTableRule.getSufEcName());
             }
         }
-        if(tableNameMap.size() > 0){
+        if (tableNameMap.size() > 0) {
 //			metaStatementHandler.setValue("delegate.boundSql.sql", originalSql);
             BOUNDSQL_SQL_FIELD.set(boundSql, replaceTableName(originalSql, tableNameMap));
         }
@@ -163,7 +165,7 @@ public class SplitTablePlugin implements Interceptor {
         return tableNameList;
     }
 
-    public static void  main(String[] args){
+    public static void main(String[] args){
         String sql = "update eee set s = 1;";
         Map<String,String> tableNameMap = new HashMap<String, String>();
         tableNameMap.put("eee","1112a");
@@ -178,21 +180,21 @@ public class SplitTablePlugin implements Interceptor {
      */
     public String replaceTableName(String sql ,Map<String,String> tableNameMap){
         boolean isMoreSql = false;
-        if(sql.contains(";")){
+        if (sql.contains(";")) {
             isMoreSql = true;
         }
         StringBuilder out = new StringBuilder();
         MySqlOutputVisitor output = new MySqlOutputVisitor(out);
         MySqlStatementParser parser = new MySqlStatementParser(sql);
         List<SQLStatement> sqlStatements = parser.parseStatementList();
-        for(SQLStatement sqlStatement:sqlStatements){
-            TableNameModifier tnm = null;
+        for (SQLStatement sqlStatement:sqlStatements) {
+            TableNameModifier tnm;
             for(String tableName : tableNameMap.keySet()){
                 tnm = new TableNameModifier(tableName,tableNameMap.get(tableName));
                 sqlStatement.accept(tnm);
             }
             sqlStatement.accept(output);
-            if(!isMoreSql && sqlStatements.size() > 1){
+            if (!isMoreSql && sqlStatements.size() > 1) {
                 out.append(";");
             }
         }

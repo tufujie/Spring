@@ -12,6 +12,8 @@ public class OrderInfo implements Serializable {
 
     private Long userId;
 
+    private String ecID;
+
     public Long getId() {
         return id;
     }
@@ -42,5 +44,13 @@ public class OrderInfo implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getEcID() {
+        return ecID;
+    }
+
+    public void setEcID(String ecID) {
+        this.ecID = ecID;
     }
 }

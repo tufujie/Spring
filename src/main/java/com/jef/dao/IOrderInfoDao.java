@@ -3,6 +3,7 @@ package com.jef.dao;
 import com.jef.entity.OrderInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IOrderInfoDao {
     int deleteByPrimaryKey(Long id);
@@ -23,4 +24,9 @@ public interface IOrderInfoDao {
      * @return
      */
     List<OrderInfo> getByUserId(Long userId);
+
+    /**
+     * @return
+     */
+    List<OrderInfo> listOrderInfo(Map<String, Object> queryMap);
 }
