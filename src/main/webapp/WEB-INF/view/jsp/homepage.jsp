@@ -28,6 +28,7 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/fuCai/fuCai" target="_blank">fuCai</a><br>
 <a href="/foundation/foundation?day=22" target="_blank">foundation</a><br>
 <a href="/user/getUserList?current=1&rowCount=10" target="_blank">Page</a><br>
+<a href="/user/getUserListV2?current=1&rowCount=10" target="_blank">PageV2</a><br>
 <a href="/orderInfo/getOrderInfoListByECIDUseSplitTable?ecID=2" target="_blank">TableSplit</a><br>
 </c:if>
 <c:if test="${userInfo.admin == 1}">

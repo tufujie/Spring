@@ -41,7 +41,7 @@ import java.util.Properties;
         args = { MappedStatement.class, Object.class,
                 RowBounds.class, ResultHandler.class }))
 @SuppressWarnings("unchecked")
-public class PageHelper implements Interceptor {
+public class PageCustomHelper implements Interceptor {
     private static final ThreadLocal<Page> localPage = new ThreadLocal<Page>();
     private static String countSuffix = "_COUNT";
     private static final List<ResultMapping> EMPTY_RESULTMAPPING = new ArrayList<ResultMapping>(0);

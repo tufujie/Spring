@@ -58,4 +58,10 @@
             where name = #{searchPhrase}
         </if>
     </select>
+    <select id="getUserListV2" resultType="com.jef.entity.User" parameterType="com.jef.dto.RequestParamDto">
+        select id, name from user
+        <if test="searchPhrase != null">
+            where name = #{searchPhrase}
+        </if>
+    </select>
 </mapper>

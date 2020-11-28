@@ -1,5 +1,6 @@
 package com.jef.dao;
 
+import com.jef.dto.RequestParamDto;
 import com.jef.entity.User;
 
 import java.util.List;
@@ -52,4 +53,6 @@ public interface IUserDao extends IBaseDao {
     Long getMaxUserID(Map<String, Object> requestParams);
 
     List<User> getUserList(Map<String, Object> requestParams);
+
+    List<User> getUserListV2(RequestParamDto param);
 }

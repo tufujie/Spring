@@ -1,10 +1,12 @@
 package com.jef.controller;
 
+//import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.jef.constant.BasicConstant;
 import com.jef.context.REContext;
 import com.jef.context.REContextManager;
 import com.jef.dao.IUserDao;
+import com.jef.dto.RequestParamDto;
 import com.jef.entity.BaseJSONVo;
 import com.jef.entity.Page;
 import com.jef.entity.ProjectVo;
@@ -175,6 +177,22 @@ public class UserController {
         User user = dubboUserService.getByName(name);
         return REJSONUtils.success(user, 0, "操作成功");
     }
+
+/*    @RequestMapping(value = "/getUserListV2", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseJSONVo getUserListV2(
+            @RequestParam("rowCount") String rowCount,
+            @RequestParam("current") String current,
+            @RequestParam(value = "searchPhrase", required = false) String searchPhrase) throws Exception {
+        int startPageNum = NumberUtils.getNumber(current, 1).intValue();
+        int pageCountNum = NumberUtils.getNumber(rowCount, 10).intValue();
+        RequestParamDto requestParamDto = new RequestParamDto();
+        requestParamDto.setPageNum(startPageNum);
+        requestParamDto.setPageSize(pageCountNum);
+        requestParamDto.setSearchPhrase(searchPhrase);
+        PageInfo<User> userList = userService.queryV2(requestParamDto);
+        return REJSONUtils.success(userList, 0, "操作成功");
+    }*/
 
 
 }

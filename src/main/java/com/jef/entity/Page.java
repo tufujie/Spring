@@ -1,6 +1,7 @@
 package com.jef.entity;
 
-import com.jef.helper.PageHelper;
+import com.jef.helper.PageCustomHelper;
+import com.jef.helper.PageCustomHelper;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -213,7 +214,7 @@ public class Page<E> extends ArrayList<E> implements Closeable {
 
     @Override
     public void close() throws IOException {
-        PageHelper.clearPage();
+        PageCustomHelper.clearPage();
     }
 
 
