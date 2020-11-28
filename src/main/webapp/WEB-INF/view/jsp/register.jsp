@@ -35,7 +35,7 @@
             <td>验证码</td>
             <td>
                 <input type="text" class="input input-big" name="verifyCode" placeholder="填写右侧的验证码" data-validate="required:请填写右侧的验证码" />
-                <img src="<%=path%>/VerifyCodeServlet" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;" onclick="this.src=this.src+'?'">
+                <img src="<%=path%>/verifyCodeServlet" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;" onclick="this.src=this.src+'?'">
             </td>
         </tr>
         <tr>
