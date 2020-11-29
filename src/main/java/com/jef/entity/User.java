@@ -1,6 +1,7 @@
 package com.jef.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 用户信息
@@ -21,13 +22,28 @@ public class User implements Serializable {
 
     private String phone;
 
-    private Integer age;
+    private int age;
 
     private Integer permission;
 
     private Integer admin;
 
     private Integer tabIndex;
+
+    private OrderInfo orderInfo;
+
+    public User() {
+
+    }
+
+    public User(OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
+    }
+
+    public User(int age, String name) {
+        this.age = age;
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
@@ -61,11 +77,11 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -98,4 +114,11 @@ public class User implements Serializable {
         return "id=" + this.getId() + "；名称=" + this.getName() + "；年龄=" + this.getAge() + "；电话=" + this.getPhone();
     }
 
+    public OrderInfo getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
+    }
 }

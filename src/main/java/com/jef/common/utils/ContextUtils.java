@@ -1,7 +1,12 @@
 package com.jef.common.utils;
 
+import org.omg.CORBA.ContextList;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 /**
  * 工具类
@@ -26,8 +31,36 @@ public class ContextUtils {
      * @return ApplicationContext
      */
     public static ApplicationContext getContextFromBeansXML() {
+       return getContextFromBeansXML("test/axeBeans.xml");
+    }
+    /**
+     * 获取ApplicationContext
+     * @return ApplicationContext
+     */
+    public static ApplicationContext getContextFromBeansXML(String xmlUrl) {
         // 创建 Spring 容器
-        ApplicationContext context = new ClassPathXmlApplicationContext("test/beans.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext(xmlUrl);
         return context;
+    }
+
+    /**
+     * 获取BeanFactory
+     * @return BeanFactory
+     */
+    public static BeanFactory getBeanFactoryFromBeansXML() {
+        // 创建 Spring 容器
+        ApplicationContext context = new ClassPathXmlApplicationContext("test/axeBeans.xml");
+        BeanFactory factory = context;
+        return factory;
+    }
+
+    /**
+     * 获取BeanFactory
+     * @return BeanFactory
+     */
+    public static BeanFactory getBeanFactoryByFileSystemResource() {
+        Resource res = new FileSystemResource("src/main/resources/test/axeBeans.xml");
+        BeanFactory factory = new XmlBeanFactory(res);
+        return factory;
     }
 }

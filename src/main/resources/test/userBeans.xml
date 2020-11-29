@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userConstructorArg" class="com.jef.entity.User">
+        <!-- 构造方法参数 -->
+        <constructor-arg>
+            <bean class="com.jef.entity.OrderInfo">
+                <property name="extraOrderId" value="0001"/>
+                <property name="shopId" value="2" />
+            </bean>
+        </constructor-arg>
+    </bean>
+    <bean id="userConstructorArgV2" class="com.jef.entity.User">
+        <!-- 构造方法参数 -->
+        <constructor-arg>
+            <ref bean="orderInfoBean"/>
+        </constructor-arg>
+    </bean>
+    <bean id="userAgePhoneBean" class="com.jef.entity.User">
+        <!-- 构造方法参数 -->
+        <constructor-arg type="int" value="28"/>
+        <constructor-arg type="java.lang.String" value="Jef"/>
+    </bean>
+    <bean id="userAgePhoneBeanByIndex" class="com.jef.entity.User">
+        <!-- 构造方法参数 -->
+        <constructor-arg index="0" value="27"/>
+        <constructor-arg index="1" value="Jef1"/>
+    </bean>
+    <bean id="orderInfoBean" class="com.jef.entity.OrderInfo">
+        <!-- setter方法 -->
+        <property name="extraOrderId" value="0001"/>
+        <property name="shopId" value="2" />
+    </bean>
+    <bean id="userConstructorArgAndSetter" class="com.jef.entity.User">
+        <!-- 构造方法和setter结合 -->
+        <constructor-arg>
+            <ref bean="orderInfoBean"/>
+        </constructor-arg>
+        <property name="name" value="Jef001"/>
+        <property name="age" value="27"/>
+    </bean>
+</beans>
