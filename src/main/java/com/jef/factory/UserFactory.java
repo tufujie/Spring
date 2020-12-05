@@ -1,6 +1,7 @@
 package com.jef.factory;
 
 import com.jef.constant.BasicConstant;
+import com.jef.entity.OrderInfo;
 import com.jef.entity.User;
 
 /**
@@ -11,7 +12,14 @@ public class UserFactory {
 
     private User user;
 
-    public String createInstance() {
-        return BasicConstant.USER_NAME;
+    // a private constructor
+    private UserFactory() {
+        new UserFactory();
+    }
+
+    public static UserFactory createInstance(OrderInfo orderInfo) {
+        UserFactory userFactory = new UserFactory();
+        // 一些其他操作
+        return userFactory;
     }
 }

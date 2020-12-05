@@ -35,6 +35,19 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
+    <!-- 加载属性配置，使用下面文件的形式为最佳 -->
+    <!--<bean id="propertyConfigurer1" class="com.jef.common.utils.SpringPropertiesUtil">-->
+        <!--<property name="properties">-->
+            <!--<value>-->
+                <!--jdbc.driver=com.mysql.jdbc.Driver-->
+                <!--jdbc.url=jdbc:mysql://localhost:3306/all_test-->
+                <!--jdbc.username=root-->
+                <!--jdbc.password=root-->
+                <!--......-->
+            <!--</value>-->
+        <!--</property>-->
+    <!--</bean>-->
+
     <!-- 加载配置文件，一个或多个 -->
     <bean id="propertyConfigurer" class="com.jef.common.utils.SpringPropertiesUtil">
         <property name="locations">

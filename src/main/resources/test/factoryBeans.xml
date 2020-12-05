@@ -3,7 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="userFactory" class="com.jef.factory.UserFactory" />
-    <bean id="testUserFactory" factory-bean="userFactory" factory-method="createInstance" />
-
+    <bean id="testUserFactory" class="com.jef.factory.UserFactory" factory-method="createInstance" >
+        <constructor-arg ref="orderInfo"/>
+    </bean>
+    <bean id="orderInfo" class="com.jef.entity.OrderInfo"/>
 </beans>

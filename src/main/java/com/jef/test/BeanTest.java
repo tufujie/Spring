@@ -1,6 +1,7 @@
 package com.jef.test;
 
 import com.jef.common.utils.ContextUtils;
+import com.jef.entity.ComplexObject;
 import com.jef.entity.OrderInfo;
 import com.jef.entity.User;
 import com.jef.service.IPersonServive;
@@ -80,9 +81,21 @@ public class BeanTest {
         System.out.println("extraOrderId=" + orderInfoV3.getExtraOrderId());
 
         User user = factory.getBean("userAgePhoneBean", User.class);
-        System.out.println(user.getName() + user.getAge() + "岁");
+        System.out.println(user.getName() + ":" + user.getAge() + "岁");
 
         User userAgePhoneBeanByIndex = factory.getBean("userAgePhoneBeanByIndex", User.class);
-        System.out.println(userAgePhoneBeanByIndex.getName() + userAgePhoneBeanByIndex.getAge() + "岁");
+        System.out.println(userAgePhoneBeanByIndex.getName() + ":" + userAgePhoneBeanByIndex.getAge() + "岁");
+    }
+
+    /**
+     * 复杂对象属性测试
+    * @author Jef
+     * @date 2020/11/29
+     */
+    @Test
+    public void useComplexObject() {
+        BeanFactory factory = ContextUtils.getContextFromBeansXML("test/objectBean.xml");
+        ComplexObject complexObject = factory.getBean("moreComplexObject", ComplexObject.class);
+        System.out.println(complexObject.getSomeList());
     }
 }
