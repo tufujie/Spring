@@ -12,7 +12,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <!-- 默认为applicationContext.xml，可修改成其他的文件名进入引入 -->
-        <param-value>classpath:spring/spring-mvc.xml</param-value>
+        <param-value>classpath:spring/spring-application.xml</param-value>
     </context-param>
 
     <!-- 指定 Log4J 配置文件的地址 -->
