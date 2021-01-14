@@ -23,8 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Jef
  * @date 2020/12/30
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class MyAspect {
     public static Logger logger = LoggerFactory.getLogger(MyAspect.class);
     private static ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<Map<String, Object>>();
@@ -43,6 +43,7 @@ public class MyAspect {
     @Pointcut("execution(* com.jef.controller.LoginController.*(..))")
     private void controllerPoint() {
         // 切入点签名
+        System.out.println("切入点签名");
     }
 
     /**

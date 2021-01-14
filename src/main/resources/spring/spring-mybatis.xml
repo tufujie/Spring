@@ -17,6 +17,7 @@
         <!-- 自动扫描mapping.xml文件 -->
         <property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
         <property name="configLocation" value="classpath:spring/spring-mybatis-log.xml" />
+        <property name="plugins" ref="paginationInterceptor"/>
     </bean>
 
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
@@ -37,7 +38,7 @@
     <bean id="paginationInterceptor" class="com.jef.common.interceptor.PageInterceptor">
         <property name="dialect" value="mysql"/>
         <!-- 拦截Mapper.xml文件中，id包含list字符的语句 -->
-        <property name="pageSqlId" value=".*list$"/>
+        <property name="pageSqlId" value=".*"/>
     </bean>
 
 </beans>
