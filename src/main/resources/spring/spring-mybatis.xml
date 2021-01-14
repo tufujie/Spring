@@ -33,4 +33,11 @@
     <!-- transaction-manager：引用上面定义的事务管理器-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
+    <!-- MyBatis 分页拦截器-->
+    <bean id="paginationInterceptor" class="com.jef.common.interceptor.PageInterceptor">
+        <property name="dialect" value="mysql"/>
+        <!-- 拦截Mapper.xml文件中，id包含list字符的语句 -->
+        <property name="pageSqlId" value=".*list$"/>
+    </bean>
+
 </beans>
