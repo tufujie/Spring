@@ -27,8 +27,7 @@ public class MessageProduceUtil {
             Destination mq_queueDestination = SpringContextHolder.getBean("mq_queueDestination");
             JmsTemplate jmsTemplate = SpringContextHolder.getBean("mq_jmsTemplate");
             // 消息创建器
-            ReMessageCreator creator = new ReMessageCreator(param);
-            creator.setAdaptor(adaptor);
+            ReMessageCreator creator = new ReMessageCreator(param, adaptor);
             // 设置超时
             // jmsTemplate.setReceiveTimeout(1000000);
             // 发送消息

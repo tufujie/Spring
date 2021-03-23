@@ -18,8 +18,9 @@ public class ReMessageCreator implements MessageCreator {
     private String adaptor ;
     private Map param;
 
-    public ReMessageCreator(Map param ){
+    public ReMessageCreator(Map param, String adaptor){
         this.param = param;
+        this.adaptor = adaptor;
     }
 
     @Override
