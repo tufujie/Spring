@@ -15,7 +15,7 @@
         where name = #{name}
         and phone = #{phone}
     </select>
-    <select id="getByNameAndPassWord" resultType="com.jef.entity.User" parameterType="com.jef.entity.User">
+    <select id="getByNameAndPassWord" resultType="com.jef.entity.User" parameterType="java.util.Map">
         select * from user
         where name = #{name}
         and password = #{password}
