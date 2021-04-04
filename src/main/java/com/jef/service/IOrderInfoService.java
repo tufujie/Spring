@@ -16,4 +16,6 @@ public interface IOrderInfoService {
      * @return java.util.List<com.jef.entity.User>
      */
     List<OrderInfo> listOrderInfo(Map<String, Object> queryMap, int startPageNum, int pageCountNum) throws Exception;
+
+    List<OrderInfo> getByUserId(Long userID, String table);
 }

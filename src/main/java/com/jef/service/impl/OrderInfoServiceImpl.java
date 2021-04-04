@@ -34,4 +34,9 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
         SplitTablePlugin.setSplitRule(ecID, new String[]{"orderInfo"});
         return orderInfoDao.listOrderInfo(queryMap);
     }
+
+    @Override
+    public List<OrderInfo> getByUserId(Long userID, String table) {
+        return orderInfoDao.getByUserId(userID);
+    }
 }

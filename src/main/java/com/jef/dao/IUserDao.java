@@ -29,7 +29,7 @@ public interface IUserDao extends IBaseDao {
 
     User getByUser(User user);
 
-    User getByNameAndPassWord(Map<String, Object> requestParams);
+    User getByNameAndPassWord(User user);
 
     void insert(User user);
 

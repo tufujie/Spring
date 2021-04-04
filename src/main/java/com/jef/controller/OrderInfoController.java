@@ -67,10 +67,4 @@ public class OrderInfoController {
         return mv;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "getOrderInfoListByECIDUseSplitTable", method = RequestMethod.GET)
-    public BaseJSONVo getOrderInfoListByECIDUseSplitTable(@RequestParam(value = "ecID") String ecID) throws Exception {
-        List<OrderInfo> orderInfoList = orderInfoService.listOrderInfo(ImmutableMap.of("ecID", ecID), -1, -1);
-        return REJSONUtils.success(orderInfoList, 0, "操作成功");
-    }
 }

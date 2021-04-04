@@ -56,7 +56,11 @@ public class LoginController {
         if (Objects.nonNull(user)) {
             String passWord = user.getPassword();
             String encodePassWord = MD5Util.encode(passWord);
-            user = userService.getByNameAndPassWord(user.getName(), encodePassWord);
+            User userNew = new User();
+            userNew.setName(user.getName());
+            userNew.setPassword(encodePassWord);
+            userNew.setUserNum(user.getName());
+            user = userService.getByNameAndPassWord(userNew);
             if (Objects.nonNull(user)) {
                 try {
                     ResultMsgDto resultMsg = new ResultMsgDto();
@@ -91,7 +95,11 @@ public class LoginController {
         logger.debug("用户名为 " + name + " 尝试登录");
         logger.error("用户名为 " + name + " 尝试登录");
         password = MD5Util.encode(password);
-        User user = userService.getByNameAndPassWord(name, password); //调用业务层方法返回一个实例对象
+        User userNew = new User();
+        userNew.setName(name);
+        userNew.setPassword(password);
+        userNew.setUserNum(name);
+        User user = userService.getByNameAndPassWord(userNew);
         if (Objects.nonNull(user)) {
             if (name.equals("Jef")) {
                 user.setPermission(1);
@@ -136,7 +144,11 @@ public class LoginController {
         logger.debug("用户名为 " + name + " 尝试登录");
         logger.error("用户名为 " + name + " 尝试登录");
         password = MD5Util.encode(password);
-        User user = userService.getByNameAndPassWord(name, password); //调用业务层方法返回一个实例对象
+        User userNew = new User();
+        userNew.setName(name);
+        userNew.setPassword(password);
+        userNew.setUserNum(name);
+        User user = userService.getByNameAndPassWord(userNew);
         return REJSONUtils.success(user, 0, "操作成功");
     }
 

@@ -3,17 +3,20 @@ package com.jef.service;
 //import com.github.pagehelper.PageInfo;
 import com.jef.dto.RequestParamDto;
 import com.jef.entity.User;
+import com.jef.property.cache.UserCache;
+
 import java.util.List;
 import java.util.Map;
 
 public interface IUserService {
+
     /**
      * 通过用户名和密码获取用户
      * @param name
      * @param password
      * @return
      */
-    User getByNameAndPassWord(String name, String password);
+    User getByNameAndPassWord(User user);
 
     /**
      * 新增用户
@@ -60,4 +63,6 @@ public interface IUserService {
      * @return java.util.List<com.jef.entity.User>
      */
 //    PageInfo<User> queryV2(RequestParamDto param) throws Exception;
+
+    User getUserByID(Long userID) throws Exception;
 }

@@ -29,7 +29,8 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/foundation/foundation?day=22" target="_blank">foundation</a><br>
 <a href="/user/getUserList?current=1&rowCount=10" target="_blank">Page</a><br>
 <a href="/user/getUserListV2?current=1&rowCount=10" target="_blank">PageV2</a><br>
-<a href="/orderInfo/getOrderInfoListByECIDUseSplitTable?ecID=2" target="_blank">TableSplit</a><br>
+<a href="/splittable/getOrderInfoListByECIDUseSplitTable?ecID=1" target="_blank">TableSplit访问库1表1</a><br>
+<a href="/splittable/getOrderInfoListByECIDUseSplitTable?ecID=2" target="_blank">TableSplit访问库2表2</a><br>
 </c:if>
 <c:if test="${userInfo.admin == 1}">
 <a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>

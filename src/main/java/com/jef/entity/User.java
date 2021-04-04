@@ -9,7 +9,7 @@ import java.util.List;
  * @author Jef
  * @create 2018/5/15 19:18
  */
-public class User implements Serializable {
+public class User extends BaseDomain {
     private static final long serialVersionUID = -8514215816882785376L;
     // Redis缓存用户key
     public static final String OBJECT_KEY = "User";

@@ -4,6 +4,7 @@ package com.jef.service.impl;
 import com.github.pagehelper.PageInfo;*/
 import com.google.common.collect.Maps;
 import com.jef.dao.IUserDao;
+import com.jef.dbRouting.annotation.Router;
 import com.jef.dto.RequestParamDto;
 import com.jef.entity.User;
 import com.jef.helper.PageCustomHelper;
@@ -28,12 +29,10 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDao userDao;
 
+    @Router
     @Override
-    public User getByNameAndPassWord(String name, String password) {
-        Map<String, Object> requestParams = new HashMap();
-        requestParams.put("name", name);
-        requestParams.put("password", password);
-        return userDao.getByNameAndPassWord(requestParams);
+    public User getByNameAndPassWord(User user) {
+        return userDao.getByNameAndPassWord(user);
     }
 
     @Override
@@ -101,4 +100,9 @@ public class UserServiceImpl implements IUserService {
         PageInfo<User> pageInfo = (PageInfo<User>)list;
         return pageInfo;
     }*/
+
+    @Override
+    public User getUserByID(Long userID) throws Exception {
+        return UserCache.getUser(userDao, userID);
+    }
 }
