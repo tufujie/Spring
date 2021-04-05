@@ -1,12 +1,12 @@
 package com.jef.aspect;
 import com.jef.annotation.DataSourceMarker;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -27,7 +27,7 @@ import java.lang.reflect.Method;
  */
 @Aspect
 public class DataSourceAspect implements Ordered {
-        private final Logger logger = LoggerFactory.getLogger(DataSourceAspect.class);
+        private final Logger logger = LogManager.getLogger(DataSourceAspect.class);
 
         @Pointcut("execution(* com.jef.service.impl.*.*(..))")
         public void serviceAspect() {

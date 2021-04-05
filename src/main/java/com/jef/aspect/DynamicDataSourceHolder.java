@@ -1,6 +1,7 @@
 package com.jef.aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 动态数据源Holder， 在DynamicDataSource引用到， 在DataSourceAspect设置值
@@ -8,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * @date: 2021/3/29 10:52
  */
 public class DynamicDataSourceHolder {
-    private final static Logger logger = LoggerFactory.getLogger(DynamicDataSourceHolder.class);
+    private final static Logger logger = LogManager.getLogger(DynamicDataSourceHolder.class);
     public static final String DATA_SOURCE_WRITE = "master";
     public static final String DATA_SOURCE_READ = "slave";
 

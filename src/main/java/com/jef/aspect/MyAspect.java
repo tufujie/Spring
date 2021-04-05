@@ -1,6 +1,8 @@
 package com.jef.aspect;
 
 import com.jef.entity.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -9,8 +11,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 //@Component
 //@Aspect
 public class MyAspect {
-    public static Logger logger = LoggerFactory.getLogger(MyAspect.class);
+    public static Logger logger = LogManager.getLogger(MyAspect.class);
     private static ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<Map<String, Object>>();
 
     public MyAspect() {
