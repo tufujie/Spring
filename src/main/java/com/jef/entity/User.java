@@ -28,8 +28,6 @@ public class User extends BaseDomain {
 
     private Integer admin;
 
-    private Integer tabIndex;
-
     private OrderInfo orderInfo;
 
     public User() {
@@ -99,14 +97,6 @@ public class User extends BaseDomain {
 
     public void setAdmin(Integer admin) {
         this.admin = admin;
-    }
-
-    public Integer getTabIndex() {
-        return tabIndex;
-    }
-
-    public void setTabIndex(Integer tabIndex) {
-        this.tabIndex = tabIndex;
     }
 
     @Override

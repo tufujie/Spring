@@ -99,10 +99,10 @@ public class UserController {
                 Long userMaxID = userService.getMaxUserID();
                 user.setId(userMaxID + 1);
                 user.setName(name);
+                user.setUserNum(name);
                 user.setPassword(password);
                 user.setPhone(phone);
                 user.setAge(age);
-                user.setTabIndex(DBUtil.getTableNameByUserID(user.getId()));
                 userService.insertSubUser(user);
                 session.setAttribute("userInfo", user);
                 mv.setViewName("homepage"); //重定向到homepage页面中

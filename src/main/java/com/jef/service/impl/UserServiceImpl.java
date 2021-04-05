@@ -29,7 +29,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDao userDao;
 
-    @Router
     @Override
     public User getByNameAndPassWord(User user) {
         return userDao.getByNameAndPassWord(user);
@@ -68,17 +67,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Long getMaxUserID() {
         Map<String, Object> requestParams = Maps.newHashMap();
-        requestParams.put("tabIndex", 1);
-        Long userID1 = userDao.getMaxUserID(requestParams);
-        requestParams.put("tabIndex", 2);
-        Long userID2 = userDao.getMaxUserID(requestParams);
-        if (userID1 == null && userID2 == null) {
-            return 0L;
-        } else if (userID2 == null) {
-            return 1L;
-        } else {
-            return userID2 > userID1 ? userID2 : userID1;
-        }
+        return userDao.getMaxUserID(requestParams);
     }
 
     @Override

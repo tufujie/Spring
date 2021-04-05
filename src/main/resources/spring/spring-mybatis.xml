@@ -17,12 +17,20 @@
         <property name="password" value="${jdbc.password2}"/>
     </bean>
 
+    <bean id="dataSourceRead" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.urlRead}"/>
+        <property name="username" value="${jdbc.usernameRead}"/>
+        <property name="password" value="${jdbc.passwordRead}"/>
+    </bean>
+
     <bean id="mysqlDynamicDataSource" class="com.jef.dbRouting.db.DynamicDataSource">
         <property name="targetDataSources">
             <!-- 标识符类型 -->
             <map>
-                <entry key="db1" value-ref="dataSource"/>
-                <entry key="db2" value-ref="dataSource2"/>
+                <entry key="master1" value-ref="dataSource"/>
+                <entry key="master2" value-ref="dataSource2"/>
+                <entry key="slave" value-ref="dataSourceRead"/>
             </map>
         </property>
     </bean>
@@ -36,8 +44,9 @@
         <property name="tableNumber" value="5"></property>
         <property name="dbKeyArray">
             <list>
-                <value>db1</value>
-                <value>db2</value>
+                <value>master1</value>
+                <value>master2</value>
+                <value>slave</value>
             </list>
         </property>
     </bean>

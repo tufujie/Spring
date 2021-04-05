@@ -1,5 +1,6 @@
 package com.jef.aspect;
 import com.jef.annotation.DataSourceMarker;
+import com.jef.dbRouting.DbContextHolder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
@@ -10,6 +11,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Method;
 /**
@@ -26,8 +28,9 @@ import java.lang.reflect.Method;
  * //@EnableAspectJAutoProxy(exposeProxy=true,proxyTargetClass=true)
  */
 @Aspect
-public class DataSourceAspect implements Ordered {
-        private final Logger logger = LogManager.getLogger(DataSourceAspect.class);
+@Component
+public class ReadWriteDataSourceAspect implements Ordered {
+        private final Logger logger = LogManager.getLogger(ReadWriteDataSourceAspect.class);
 
         @Pointcut("execution(* com.jef.service.impl.*.*(..))")
         public void serviceAspect() {
@@ -42,9 +45,9 @@ public class DataSourceAspect implements Ordered {
             try {
                 Transactional transactional = AnnotatedElementUtils.findMergedAnnotation(method, Transactional.class);
                 if (transactional != null) {
-                    if(transactional.readOnly()){
+                    if (transactional.readOnly()) {
                         read(method);
-                    }else{
+                    } else {
                         write(method);
                     }
                     return;
@@ -52,15 +55,15 @@ public class DataSourceAspect implements Ordered {
 
                 DataSourceMarker dataSourceMarker = AnnotationUtils.findAnnotation(method, DataSourceMarker.class);
                 if (dataSourceMarker != null) {
-                    if(dataSourceMarker.readOnly()){
+                    if (dataSourceMarker.readOnly()) {
                         read(method);
-                    }else{
+                    } else {
                         write(method);
                     }
                     return;
                 }
 
-                if(guessIsReadMethod(method)){
+                if (guessIsReadMethod(method)) {
                     read(method);
                 } else {
                     write(method);
@@ -71,13 +74,13 @@ public class DataSourceAspect implements Ordered {
         }
 
         private void write(Method method) {
-            logger.debug("put_data_source,{},{}",method.getName(), DynamicDataSourceHolder.DATA_SOURCE_WRITE);
-            DynamicDataSourceHolder.putDataSource(DynamicDataSourceHolder.DATA_SOURCE_WRITE);
+            logger.debug("put_data_source,{},{}", method.getName(), DbContextHolder.DATA_SOURCE_WRITE);
+            DbContextHolder.setDbKey(DbContextHolder.DATA_SOURCE_WRITE);
         }
 
         private void read(Method method) {
-            logger.debug("put_data_source,{},{}",method.getName(), DynamicDataSourceHolder.DATA_SOURCE_READ);
-            DynamicDataSourceHolder.putDataSource(DynamicDataSourceHolder.DATA_SOURCE_READ);
+            logger.debug("put_data_source,{},{}", method.getName(), DbContextHolder.DATA_SOURCE_READ);
+            DbContextHolder.setDbKey(DbContextHolder.DATA_SOURCE_READ);
         }
 
         /**

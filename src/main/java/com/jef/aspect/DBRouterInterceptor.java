@@ -1,11 +1,11 @@
-package com.jef.dbRouting;
+package com.jef.aspect;
 
 import com.jef.common.context.SpringContextHolder;
+import com.jef.dbRouting.DBRouter;
+import com.jef.dbRouting.DbContextHolder;
 import com.jef.dbRouting.annotation.Router;
 import com.jef.dbRouting.annotation.RouterConstants;
 import com.jef.dbRouting.router.DBRouterImpl;
-import com.jef.dbRouting.router.RouterUtils;
-import com.jef.service.impl.UserServiceImpl;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 
@@ -32,14 +31,17 @@ public class DBRouterInterceptor {
 
     private DBRouter dBRouter;
 
-    @Pointcut("@annotation( com.jef.dbRouting.annotation.Router)")
+    @Pointcut("@annotation(com.jef.dbRouting.annotation.Router)")
     public void aopPoint() {
     }
 
     @Before("aopPoint()")
     public Object doRoute(JoinPoint jp) throws Throwable {
-        long t1 = System.currentTimeMillis();
         boolean result = true;
+        if (DbContextHolder.DATA_SOURCE_READ.equals(DbContextHolder.getDbKey())) {
+            return result;
+        }
+        long t1 = System.currentTimeMillis();
         Method method = getMethod(jp);
         Router router = method.getAnnotation(Router.class);
         String routeField = router.routerField();
