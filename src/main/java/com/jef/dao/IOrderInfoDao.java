@@ -28,5 +28,5 @@ public interface IOrderInfoDao {
     /**
      * @return
      */
-    List<OrderInfo> listOrderInfo(Map<String, Object> queryMap);
+    List<OrderInfo> listOrderInfo(OrderInfo orderInfo);
 }

@@ -37,8 +37,8 @@ public class ReadWriteDataSourceAspect implements Ordered {
 
         }
 
-        @Before("serviceAspect()&&!@annotation(com.jef.annotation.NoDynamicDataSource)")
-        public void before(JoinPoint point) {
+        @Before("serviceAspect() && !@annotation(com.jef.annotation.NoDynamicDataSource)")
+        public void before(JoinPoint point) throws Throwable {
             MethodSignature methodSignature = (MethodSignature)point.getSignature();
             Method method = methodSignature.getMethod();
 
@@ -48,7 +48,7 @@ public class ReadWriteDataSourceAspect implements Ordered {
                     if (transactional.readOnly()) {
                         read(method);
                     } else {
-                        write(method);
+                        write(point);
                     }
                     return;
                 }
@@ -58,7 +58,7 @@ public class ReadWriteDataSourceAspect implements Ordered {
                     if (dataSourceMarker.readOnly()) {
                         read(method);
                     } else {
-                        write(method);
+                        write(point);
                     }
                     return;
                 }
@@ -66,16 +66,15 @@ public class ReadWriteDataSourceAspect implements Ordered {
                 if (guessIsReadMethod(method)) {
                     read(method);
                 } else {
-                    write(method);
+                    write(point);
                 }
             } catch (Exception e) {
                 logger.error("set dynamic datasource arise error"+e.getMessage(), e);
             }
         }
 
-        private void write(Method method) {
-            logger.debug("put_data_source,{},{}", method.getName(), DbContextHolder.DATA_SOURCE_WRITE);
-            DbContextHolder.setDbKey(DbContextHolder.DATA_SOURCE_WRITE);
+        private void write(JoinPoint point) throws Throwable {
+            new DBRouterInterceptor().doRoute(point);
         }
 
         private void read(Method method) {

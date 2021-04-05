@@ -22,15 +22,13 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/redis/redisIntroduce" target="_blank">Redis demo</a><br>
 <a href="/mongo/mongoIntroduce" target="_blank">Mongo demo</a><br>
 <a href="/print/printAll" target="_blank">print All</a><br>
-<a href="/subTable/subTable" target="_blank">subTable Demo</a><br>
+<a href="/splitTable/splitTable" target="_blank">splitTable Demo</a><br>
 <a href="/poiDemo/poiIndex" target="_blank">POI demo</a><br>
 <a href="/activemq/activemq" target="_blank">activeMQ</a><br>
 <a href="/fuCai/fuCai" target="_blank">fuCai</a><br>
 <a href="/foundation/foundation?day=22" target="_blank">foundation</a><br>
 <a href="/user/getUserList?current=1&rowCount=10" target="_blank">Page</a><br>
 <a href="/user/getUserListV2?current=1&rowCount=10" target="_blank">PageV2</a><br>
-<a href="/splittable/getOrderInfoListByECIDUseSplitTable?ecID=1" target="_blank">TableSplit访问库1表1</a><br>
-<a href="/splittable/getOrderInfoListByECIDUseSplitTable?ecID=2" target="_blank">TableSplit访问库2表2</a><br>
 </c:if>
 <c:if test="${userInfo.admin == 1}">
 <a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>

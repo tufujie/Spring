@@ -1,7 +1,11 @@
 package com.jef.service.impl;
 
+import com.google.common.collect.Maps;
+import com.jef.annotation.NoDynamicDataSource;
 import com.jef.dao.IOrderInfoDao;
 import com.jef.dao.IOrderProductDao;
+import com.jef.dbRouting.DbContextHolder;
+import com.jef.dbRouting.annotation.Router;
 import com.jef.entity.OrderInfo;
 import com.jef.service.IOrderInfoService;
 import com.jef.common.interceptor.SplitTablePlugin;
@@ -27,12 +31,11 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
     @Resource
     private IOrderProductDao orderProductDao;
 
+    @Router
     @Transactional(readOnly = true, rollbackFor = Exception.class)
     @Override
-    public List<OrderInfo> listOrderInfo(Map<String, Object> queryMap, int startPageNum, int pageCountNum) throws Exception {
-        String ecID = (String) queryMap.get("ecID");
-        SplitTablePlugin.setSplitRule(ecID, new String[]{"orderInfo"});
-        return orderInfoDao.listOrderInfo(queryMap);
+    public List<OrderInfo> listOrderInfo(OrderInfo orderInfo, int startPageNum, int pageCountNum) throws Exception {
+        return orderInfoDao.listOrderInfo(orderInfo);
     }
 
     @Override

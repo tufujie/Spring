@@ -46,7 +46,6 @@
             <list>
                 <value>master1</value>
                 <value>master2</value>
-                <value>slave</value>
             </list>
         </property>
     </bean>

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 public class DbContextHolder {
 	private final static Logger logger = LogManager.getLogger(DbContextHolder.class);
 	public static final String DATA_SOURCE_WRITE = "master1";
+	public static final String DATA_SOURCE_WRITE2 = "master2";
 	public static final String DATA_SOURCE_READ = "slave";
 	private static final ThreadLocal<String> contextHolder = new ThreadLocal<String>();
 	private static final ThreadLocal<String> tableIndexHolder= new ThreadLocal<String>();

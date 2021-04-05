@@ -19,9 +19,9 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
     	// 获取当前数据源，然后清除当前数据源
     	String dbKey = DbContextHolder.getDbKey();
-    	if (StringUtils.isEmpty(dbKey)) {
+    	/*if (StringUtils.isEmpty(dbKey)) {
     	    dbKey = DbContextHolder.DATA_SOURCE_WRITE;
-        }
+        }*/
     	DbContextHolder.clearDbKey();
     	return dbKey;
     }

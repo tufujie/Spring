@@ -2,7 +2,7 @@ package com.jef.entity;
 
 import java.io.Serializable;
 
-public class OrderInfo implements Serializable {
+public class OrderInfo extends BaseDomain {
     private static final long serialVersionUID = -8130617419334171401L;
     private Long id;
 
@@ -11,8 +11,6 @@ public class OrderInfo implements Serializable {
     private Long shopId;
 
     private Long userId;
-
-    private String ecID;
 
     public Long getId() {
         return id;
@@ -46,11 +44,4 @@ public class OrderInfo implements Serializable {
         this.userId = userId;
     }
 
-    public String getEcID() {
-        return ecID;
-    }
-
-    public void setEcID(String ecID) {
-        this.ecID = ecID;
-    }
 }
