@@ -8,14 +8,14 @@
 
 
     <select id="getSplitTableRuleVoList" resultType="com.jef.entity.SplitTableRuleVo" parameterType="map">
-        select FID id,FECName sufEcName,FTableName tableName,FIsECID isEcID,FECID ecID,FActualTable actualTable
+        select FID id,FSName sufSName,FTableName tableName,FIsShopID isShopID,FShopID shopID,FActualTable actualTable
         from t_bdc_splittablerule
         <where>
-            <if test="isECID != null and isECID != ''">
-                and FIsECID = #{isECID}
+            <if test="isShopID != null and isShopID != ''">
+                and FIsShopID = #{isShopID}
             </if>
-            <if test="ecID != null and ecID != ''">
-                and FECID = #{ecID}
+            <if test="shopID != null and shopID != ''">
+                and FShopID = #{shopID}
             </if>
             <if test="logicTable != null and logicTable != ''">
                 and FTableName = #{logicTable}
@@ -24,14 +24,14 @@
     </select>
 
     <select id="getSplitTableRuleVo" resultType="com.jef.entity.SplitTableRuleVo">
-		select FID id,FECName sufEcName,FTableName tableName,FIsECID isEcID,FECID ecID,FActualTable actualTable
+		select FID id,FSName sufSName,FTableName tableName,FIsShopID isShopID,FShopID shopID,FActualTable actualTable
 		from t_bdc_splittablerule where FIsECID = 1
 	</select>
 
-    <select id="getTableByECID" resultType="com.jef.entity.SplitTableRuleVo">
-        select FID id,FECName sufEcName,FTableName tableName,FIsECID isEcID,FECID ecID,FActualTable actualTable
+    <select id="getTableByShopID" resultType="com.jef.entity.SplitTableRuleVo">
+        select FID id,FSName sufSName,FTableName tableName,FIsShopID isShopID,FShopID shopID,FActualTable actualTable
         from t_bdc_splittablerule
-        where FECID = #{ecID} and FIsECID = 1 and FTableName in
+        where FShopID = #{shopID} and FIsShopID = 1 and FTableName in
         <foreach collection="tableNameList" item="item" open="(" separator="," close=")"  >
             #{item}
         </foreach>

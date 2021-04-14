@@ -95,4 +95,14 @@
         <property name="pageSqlId" value=".*"/>
     </bean>-->
 
+    <bean id="theTracingBeforeAdvice" class="com.jef.common.interceptor.TracingBeforeAdvice"/>
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="proxyTargetClass" value="true"/>
+        <property name="interceptorNames">
+            <list>
+                <value>theTracingBeforeAdvice</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>

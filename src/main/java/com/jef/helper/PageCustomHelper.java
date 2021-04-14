@@ -77,22 +77,22 @@ public class PageCustomHelper implements Interceptor {
         localPage.set(new Page(pageNum, pageSize, count));
     }
 
-    public static void startPage(String ecID, String[] tableName) {
-        localPage.set(new Page(-1, -1, false, ecID, tableName));
+    public static void startPage(Long shopID, String[] tableName) {
+        localPage.set(new Page(-1, -1, false, shopID, tableName));
     }
 
-    public static void startPage(int pageNum, int pageSize, boolean count, String ecID, String[] tableName) {
+    public static void startPage(int pageNum, int pageSize, boolean count, Long shopID, String[] tableName) {
         if (pageSize == -1) {
             count = false;
         }
         if (pageSize == 0) {
             count = true;
         }
-        localPage.set(new Page(pageNum, pageSize, count, ecID, tableName));
+        localPage.set(new Page(pageNum, pageSize, count, shopID, tableName));
     }
 
-    public static void startPage(int pageNum, int pageSize, String ecID, String[] tableName) {
-        startPage(pageNum, pageSize, true, ecID, tableName);
+    public static void startPage(int pageNum, int pageSize, Long shopID, String[] tableName) {
+        startPage(pageNum, pageSize, true, shopID, tableName);
     }
 
     public static void clearPage() {
@@ -382,18 +382,18 @@ public class PageCustomHelper implements Interceptor {
         if (!replaceSql) {
             return sql;
         }
-        if (StringUtils.isNotEmpty(page.getEcID()) && page.getTableName().length > 0) {
+        if (page.getShopID() != null && page.getTableName().length > 0) {
             String[] tableNameArr = page.getTableName();
             Map<String, String> tableNameMap = new HashMap<String, String>();
             for (String tableName : tableNameArr) {
                 if (StringUtils.isEmpty(tableName)) {
                     continue;
                 }
-                SplitTableRuleVo splitTableRule = SplitRule.getSplitTableRuleVo(page.getEcID(), tableName);
-                if (splitTableRule == null || splitTableRule.getIsEcID() == 0) {
+                SplitTableRuleVo splitTableRule = SplitRule.getSplitTableRuleVo(page.getShopID(), tableName);
+                if (splitTableRule == null || splitTableRule.getIsShopID() == 0) {
                     continue;
                 }
-                tableNameMap.put(tableName, (StringUtils.isEmpty(splitTableRule.getDataBaseName()) ? "" : splitTableRule.getDataBaseName()) + tableName + "_" + splitTableRule.getSufEcName());
+                tableNameMap.put(tableName, (StringUtils.isEmpty(splitTableRule.getDataBaseName()) ? "" : splitTableRule.getDataBaseName()) + tableName + "_" + splitTableRule.getSufSName());
             }
             if (tableNameMap.size() > 0) {
                 sql = repalceTableName(sql, tableNameMap);

@@ -29,4 +29,9 @@ public interface IOrderInfoDao {
      * @return
      */
     List<OrderInfo> listOrderInfo(OrderInfo orderInfo);
+
+    /**
+     * @return
+     */
+    List<OrderInfo> listOrderInfoBySplitTable(OrderInfo orderInfo);
 }

@@ -5,7 +5,10 @@
 </head>
 <body>
 <jsp:include page="../basic.jsp" />
-<a href="/splitTable/getOrderInfoListByECIDUseSplitTable?shopId=1" target="_blank">TableSplit访问库1表1</a><br>
-<a href="/splitTable/getOrderInfoListByECIDUseSplitTable?shopId=3" target="_blank">TableSplit访问库2表2</a><br>
+<a href="/splitTable/getOrderInfoListByShopIDUseSplitTable?shopId=1" target="_blank">TableSplit访问库1表1</a><br>
+<a href="/splitTable/getOrderInfoListByShopIDUseSplitTable?shopId=3" target="_blank">TableSplit访问库2表2</a><br>
+<h1>方式2</h1>
+<a href="/splitTable/getOrderInfoListByShopIDUseSplitTableV2?shopId=1" target="_blank">TableSplit访问库1表1</a><br>
+<a href="/splitTable/getOrderInfoListByShopIDUseSplitTableV2?shopId=2" target="_blank">TableSplit访问库1表2</a><br>
 </body>
 </html>

@@ -17,5 +17,7 @@ public interface IOrderInfoService {
      */
     List<OrderInfo> listOrderInfo(OrderInfo orderInfo, int startPageNum, int pageCountNum) throws Exception;
 
+    List<OrderInfo> getOrderInfoBySplitTable(OrderInfo orderInfo, int startPageNum, int pageCountNum) throws Exception;
+
     List<OrderInfo> getByUserId(Long userID, String table);
 }

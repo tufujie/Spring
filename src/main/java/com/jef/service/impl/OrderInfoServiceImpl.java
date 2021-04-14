@@ -42,4 +42,10 @@ public class OrderInfoServiceImpl implements IOrderInfoService {
     public List<OrderInfo> getByUserId(Long userID, String table) {
         return orderInfoDao.getByUserId(userID);
     }
+
+    @Override
+    public List<OrderInfo> getOrderInfoBySplitTable(OrderInfo orderInfo, int startPageNum, int pageCountNum) throws Exception {
+        SplitTablePlugin.setSplitRule(orderInfo.getShopId(), new String[]{"order_info"});
+        return orderInfoDao.listOrderInfo(orderInfo);
+    }
 }
