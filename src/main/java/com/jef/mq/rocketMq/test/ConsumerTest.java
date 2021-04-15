@@ -30,7 +30,7 @@ public class ConsumerTest {
      */
     @PostConstruct
     private void listenMessage() {
-        System.out.println("listen mq msg");
+        System.out.println("listen rocketMq msg");
         DefaultMQPushConsumer mqConsumer = mq.getConsumer(topic, tag);
         mqConsumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override

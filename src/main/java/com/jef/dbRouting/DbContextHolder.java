@@ -21,7 +21,7 @@ public class DbContextHolder {
 	}
 
 	public static String getDbKey() {
-		logger.debug("data_source_type:{}", contextHolder.get());
+		logger.debug("数据源:{}", contextHolder.get());
 		return contextHolder.get();
 	}
 
