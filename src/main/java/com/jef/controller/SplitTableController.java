@@ -46,6 +46,24 @@ public class SplitTableController {
         return REJSONUtils.success(orderInfoList, 0, "操作成功");
     }
 
+    @ResponseBody
+    @RequestMapping(value = "getOrderInfoListByShopIDUseSplitTableV3", method = RequestMethod.GET)
+    public BaseJSONVo getOrderInfoListByShopIDUseSplitTableV3(@RequestParam(value = "shopId") Long shopId) throws Exception {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setShopId(shopId);
+        List<OrderInfo> orderInfoList = orderInfoService.getOrderInfoBySplitTableV3(orderInfo, -1, -1);
+        return REJSONUtils.success(orderInfoList, 0, "操作成功");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getOrderInfoListByShopIDUseSplitTableV4", method = RequestMethod.GET)
+    public BaseJSONVo getOrderInfoListByShopIDUseSplitTableV4(@RequestParam(value = "shopId") Long shopId) throws Exception {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setShopId(shopId);
+        List<OrderInfo> orderInfoList = orderInfoService.getOrderInfoBySplitTableV4(orderInfo, -1, -1);
+        return REJSONUtils.success(orderInfoList, 0, "操作成功");
+    }
+
 
     @RequestMapping(value = "/splitTable")
     public ModelAndView introduce(ModelAndView mv) {
