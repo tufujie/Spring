@@ -37,8 +37,6 @@ public class OrderInfoController {
     @Autowired
     private IUserDao userDao;
     @Autowired
-    private IOrderInfoDao orderInfoDao;
-    @Autowired
     private IOrderProductDao orderProductDao;
     @Autowired
     private IShopDao shopDao;
@@ -51,7 +49,7 @@ public class OrderInfoController {
 //        User user = userDao.selectByPrimaryKey(userId);
         // 使用缓存获取用户信息
         User user = UserCache.getUser(userDao, userId);
-        List<OrderInfo> orderInfoList = orderInfoDao.getByUserId(user.getId());
+        List<OrderInfo> orderInfoList = orderInfoService.getByUserId(user.getId());
         StringBuilder sb = new StringBuilder();
         sb.append("用户" + user.getName() + "购买了如下商品：<br>");
         for (OrderInfo orderInfo : orderInfoList) {

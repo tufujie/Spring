@@ -18,6 +18,6 @@ public interface ISplitTableRuleDao {
      */
     List<SplitTableRuleVo> getSplitTableRuleVoList(Map map);
 
-    List<SplitTableRuleVo> getTableByECID(@Param("ecID") String ecID, @Param("tableNameList") List<String> tableNameList);
+    List<SplitTableRuleVo> getTableByShopID(@Param("shopID") Long shopID, @Param("tableNameList") List<String> tableNameList);
 
 }

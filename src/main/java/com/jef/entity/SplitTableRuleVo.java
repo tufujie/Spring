@@ -16,19 +16,19 @@ public class SplitTableRuleVo implements Serializable {
     private String tableName;
 
     //是否分表 0否 1是
-    private int isEcID;
+    private int isShopID;
 
     //创建时间
     private Date createTime;
 
-    //企业ID
-    private String ecID;
+    // 店铺ID
+    private Long shopID;
 
     //数据库名称（格式：数据库A. 或者 空字符串）
     private String dataBaseName;
 
     //分表后缀
-    private String sufEcName;
+    private String sufSName;
 
     //多张分表
     private String[] tableNameArr;
@@ -39,17 +39,17 @@ public class SplitTableRuleVo implements Serializable {
 
     public SplitTableRuleVo(){}
 
-    public SplitTableRuleVo(String tableName,int isEcID,String ecID,String sufEcName,String dataBaseName){
+    public SplitTableRuleVo(String tableName,int isShopID,Long shopID,String sufSName,String dataBaseName){
         this.tableName = tableName;
-        this.isEcID = isEcID;
-        this.ecID = ecID;
+        this.isShopID = isShopID;
+        this.shopID = shopID;
         this.dataBaseName = dataBaseName;
-        this.sufEcName = sufEcName;
+        this.sufSName = sufSName;
     }
 
 
-    public SplitTableRuleVo(String ecID,String[] tableNameArr){
-        this.ecID = ecID;
+    public SplitTableRuleVo(Long shopID,String[] tableNameArr){
+        this.shopID = shopID;
         this.tableNameArr = tableNameArr;
     }
 
@@ -70,12 +70,12 @@ public class SplitTableRuleVo implements Serializable {
         this.tableName = tableName;
     }
 
-    public int getIsEcID() {
-        return isEcID;
+    public int getIsShopID() {
+        return isShopID;
     }
 
-    public void setIsEcID(int isEcID) {
-        this.isEcID = isEcID;
+    public void setIsShopID(int isShopID) {
+        this.isShopID = isShopID;
     }
 
     public Date getCreateTime() {
@@ -86,20 +86,20 @@ public class SplitTableRuleVo implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getEcID() {
-        return ecID;
+    public Long getShopID() {
+        return shopID;
     }
 
-    public void setEcID(String ecID) {
-        this.ecID = ecID;
+    public void setShopID(Long shopID) {
+        this.shopID = shopID;
     }
 
-    public String getSufEcName() {
-        return sufEcName;
+    public String getSufSName() {
+        return sufSName;
     }
 
-    public void setSufEcName(String sufEcName) {
-        this.sufEcName = sufEcName;
+    public void setSufSName(String sufSName) {
+        this.sufSName = sufSName;
     }
 
     public String[] getTableNameArr() {

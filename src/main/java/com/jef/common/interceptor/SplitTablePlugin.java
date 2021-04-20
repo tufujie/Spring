@@ -59,19 +59,19 @@ public class SplitTablePlugin implements Interceptor {
 
     /**
      * 分表规则
-     * @param ecID
+     * @param shopID
      */
-    public static void setSplitRule(String ecID){
-        setSplitRule(ecID,null);
+    public static void setSplitRule(Long shopID){
+        setSplitRule(shopID,null);
     }
 
     /**
      * 分表规则
-     * @param ecID
+     * @param shopID
      * @param tableNameArr
      */
-    public static void setSplitRule(String ecID,String[] tableNameArr){
-        localClass.set(new SplitTableRuleVo(ecID, tableNameArr));
+    public static void setSplitRule(Long shopID,String[] tableNameArr){
+        localClass.set(new SplitTableRuleVo(shopID, tableNameArr));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class SplitTablePlugin implements Interceptor {
         // 移除本地变量
         localClass.remove();
         //没有传企业ID 需要分表的表名称，不需要解析sql
-        if(StringUtils.isEmpty(splitTableRuleVo.getEcID())){
+        if(StringUtils.isEmpty(splitTableRuleVo.getShopID())){
             return;
         }
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
@@ -112,21 +112,21 @@ public class SplitTablePlugin implements Interceptor {
         Map<String,String> tableNameMap = new HashMap<String, String>();
         if (tableNameArr == null || splitTableRuleVo.getTableNameArr().length <= 0) {
             List<String> tableNameList = parserSql(originalSql);
-            List<SplitTableRuleVo> splitTableRuleVoList = SplitRule.getSplitSql(splitTableRuleVo.getEcID(),tableNameList);
+            List<SplitTableRuleVo> splitTableRuleVoList = SplitRule.getSplitSql(splitTableRuleVo.getShopID(),tableNameList);
             for(SplitTableRuleVo splitTableRule : splitTableRuleVoList){
                 tableNameMap.put(splitTableRule.getTableName(),(StringUtils.isEmpty(splitTableRule.getDataBaseName()) ? "" : splitTableRule.getDataBaseName()) + splitTableRule.getTableName()
-                        + "_" + splitTableRule.getSufEcName());
+                        + "_" + splitTableRule.getSufSName());
             }
         } else {
             for(String tableName : tableNameArr){
                 if(StringUtils.isEmpty(tableName)){
                     continue;
                 }
-                SplitTableRuleVo splitTableRule = SplitRule.getSplitTableRuleVo(splitTableRuleVo.getEcID(), tableName);
-                if(splitTableRule == null || splitTableRule.getIsEcID() == 0){
+                SplitTableRuleVo splitTableRule = SplitRule.getSplitTableRuleVo(splitTableRuleVo.getShopID(), tableName);
+                if(splitTableRule == null || splitTableRule.getIsShopID() == 0){
                     continue;
                 }
-                tableNameMap.put(tableName, (StringUtils.isEmpty(splitTableRule.getDataBaseName()) ? "" : splitTableRule.getDataBaseName()) + tableName + "_" + splitTableRule.getSufEcName());
+                tableNameMap.put(tableName, (StringUtils.isEmpty(splitTableRule.getDataBaseName()) ? "" : splitTableRule.getDataBaseName()) + tableName + "_" + splitTableRule.getSufSName());
             }
         }
         if (tableNameMap.size() > 0) {

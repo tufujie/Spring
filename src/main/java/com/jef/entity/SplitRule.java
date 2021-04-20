@@ -15,27 +15,27 @@ import java.util.Map;
 public class SplitRule {
 
 
-    public static SplitTableRuleVo getSplitTableRuleVo(String ecID, String tableName){
+    public static SplitTableRuleVo getSplitTableRuleVo(Long shopID, String tableName){
         //将shardingjdbc跟分页插件进行区分开
-        if(StringUtils.isEmpty(ecID) || StringUtils.isEmpty(tableName)){
+        if(StringUtils.isEmpty(shopID) || StringUtils.isEmpty(tableName)){
             return null;
         }
         ISplitTableRuleDao splitTableRuleDao = SpringContextHolder.getBean(ISplitTableRuleDao.class);
         List<SplitTableRuleVo> list =  splitTableRuleDao.getSplitTableRuleVo();
         for(SplitTableRuleVo splitTableRuleVo : list){
-            if((splitTableRuleVo.getEcID() + "_" + splitTableRuleVo.getTableName()).equals((ecID + "_" + tableName))){
+            if((splitTableRuleVo.getShopID() + "_" + splitTableRuleVo.getTableName()).equals((shopID + "_" + tableName))){
                 return splitTableRuleVo;
             }
         }
         return null;
     }
 
-    public static List<SplitTableRuleVo> getSplitSql(String ecID,List<String> tableNameList){
-        if(StringUtils.isEmpty(ecID) || (tableNameList == null || tableNameList.size() <= 0)){
+    public static List<SplitTableRuleVo> getSplitSql(Long shopID,List<String> tableNameList){
+        if(StringUtils.isEmpty(shopID) || (tableNameList == null || tableNameList.size() <= 0)){
             return null;
         }
         ISplitTableRuleDao splitTableRuleDao = SpringContextHolder.getBean(ISplitTableRuleDao.class);
-        return splitTableRuleDao.getTableByECID(ecID,tableNameList);
+        return splitTableRuleDao.getTableByShopID(shopID,tableNameList);
     }
 
     /**
@@ -50,10 +50,10 @@ public class SplitRule {
         }
         ISplitTableRuleDao splitTableRuleDao = SpringContextHolder.getBean(ISplitTableRuleDao.class);
         Map paramMap = new HashMap();
-        paramMap.put("isECID","0");
+        paramMap.put("isShopID","0");
         List<SplitTableRuleVo> list =  splitTableRuleDao.getSplitTableRuleVoList(paramMap);
         for(SplitTableRuleVo splitTableRuleVo : list){
-            if((splitTableRuleVo.getEcID() + "_" + splitTableRuleVo.getTableName()).equals((shardingValue + "_" + logicTableName))){
+            if((splitTableRuleVo.getShopID() + "_" + splitTableRuleVo.getTableName()).equals((shardingValue + "_" + logicTableName))){
                 if(splitTableRuleVo.getActualTable()!=null&&splitTableRuleVo.getActualTable().trim().length()>0){
                     return splitTableRuleVo.getActualTable();
                 }else{

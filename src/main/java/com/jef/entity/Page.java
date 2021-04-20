@@ -41,8 +41,8 @@ public class Page<E> extends ArrayList<E> implements Closeable {
      */
     private boolean count = true;
 
-    //企业ID
-    private String ecID;
+    //店铺ID
+    private Long shopID;
 
     //表名称
     private String[] tableName;
@@ -103,7 +103,7 @@ public class Page<E> extends ArrayList<E> implements Closeable {
         calculateStartAndEndRow();
     }
 
-    public Page(int pageNum, int pageSize, boolean count, String ecID, String[] tableName) {
+    public Page(int pageNum, int pageSize, boolean count, Long shopID, String[] tableName) {
         super(0);
         if (pageNum == 1 && pageSize == Integer.MAX_VALUE) {
             pageSize = -1;
@@ -111,7 +111,7 @@ public class Page<E> extends ArrayList<E> implements Closeable {
         this.pageNum = pageNum;
         this.pageSize = pageSize;
         this.count = count;
-        this.ecID = ecID;
+        this.shopID = shopID;
         this.tableName = tableName;
         calculateStartAndEndRow();
     }
@@ -125,12 +125,12 @@ public class Page<E> extends ArrayList<E> implements Closeable {
         caculatePages();
     }
 
-    public String getEcID() {
-        return ecID;
+    public Long getShopID() {
+        return shopID;
     }
 
-    public void setEcID(String ecID) {
-        this.ecID = ecID;
+    public void setShopID(Long shopID) {
+        this.shopID = shopID;
     }
 
     public List<E> getResult() {
