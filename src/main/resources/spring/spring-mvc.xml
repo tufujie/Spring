@@ -26,6 +26,8 @@
     <import resource="spring-mongodb.xml"/>
     <import resource="spring-mq-producer.xml"/>
     <import resource="spring-mq-consumer.xml"/>
+<!--    <import resource="dubbo-provider.xml"/>-->
+<!--    <import resource="dubbo-consumer.xml"/>-->
     <!--<import resource="spring-security.xml"/>-->
 
     <!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->

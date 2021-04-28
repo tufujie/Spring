@@ -30,6 +30,7 @@ UserInfo，姓名=${userInfo.name}，年龄=${userInfo.age}<br>
 <a href="/user/getUserList?current=1&rowCount=10" target="_blank">Page</a><br>
 <a href="/user/getUserListV2?current=1&rowCount=10" target="_blank">PageV2</a><br>
 <a href="/aspect/aspect" target="_blank">Aspect</a><br>
+<a href="/dubbo/dubbo" target="_blank">Dubbo</a><br>
 </c:if>
 <c:if test="${userInfo.admin == 1}">
 <a href="/user/getAllUserInfo" target="_blank">查看所有用户信息</a><br>

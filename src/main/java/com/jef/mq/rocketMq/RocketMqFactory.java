@@ -18,25 +18,25 @@ import java.util.Date;
  * @author Jef
  * @date: 2021/4/6 14:35
  */
-@Slf4j
-@Component
+/*@Slf4j
+@Component*/
 public class RocketMqFactory {
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    /*private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private DefaultMQProducer producer;
-    /**
+    *//**
      * DefaultMQPushConsumer和DefaultMQPullConsumer的区别是：
      * push由RocketMQ服务器主动下发消息给消费者，而pull是由消费者自己去拉取RocketMQ的消息
      * 实际上push也是由消费者定时pull，只是这个动作由client定时执行，在使用者看来就和push一样的效果
-     */
+     *//*
     private DefaultMQPushConsumer consumer;
 
     @Autowired
     private RocketMqConfiguration configuration;
 
-    /**
+    *//**
      * 初始化消费者
-     */
+     *//*
     @PostConstruct
     private void initConsumer() {
         consumer = new DefaultMQPushConsumer();
@@ -44,9 +44,9 @@ public class RocketMqFactory {
         consumer.setConsumerGroup(configuration.getConsumerGroup());
     }
 
-    /**
+    *//**
      * 初始化生产者
-     */
+     *//*
     @PostConstruct
     private void initProducer() {
         producer = new DefaultMQProducer();
@@ -61,13 +61,13 @@ public class RocketMqFactory {
         }
     }
 
-    /**
+    *//**
      * 发送消息
      *
      * @param topic topic
      * @param tag   tag
      * @param msg   发送的消息
-     */
+     *//*
     public void sendMsg(String topic, String tag, String msg) {
         Assert.hasText(topic, "topic not blank");
         Assert.hasText(tag, "tag not blank");
@@ -80,7 +80,7 @@ public class RocketMqFactory {
         }
     }
 
-    /**
+    *//**
      * 获取消费者
      * 例：订阅topic_1的tag_0,tag_1，topic_2的tag_2,tag_3，则入参为：
      * topic=topic_1,topic_2
@@ -89,7 +89,7 @@ public class RocketMqFactory {
      * @param topic 支持订阅多个topic，多个topic之间以","分隔
      * @param tag   支持订阅多个tag，不同topic之间的tag用","分隔，相同topic下的tag以"||"分隔
      * @return 消费者
-     */
+     *//*
     public DefaultMQPushConsumer getConsumer(String topic, String tag) {
         Assert.hasText(topic, "topics not blank");
         Assert.hasText(tag, "tags not blank");
@@ -113,6 +113,6 @@ public class RocketMqFactory {
             log.error("subscribe fail. topic:{}, tag:{}, error message:{}", topic, tag, e.getErrorMessage());
         }
         return consumer;
-    }
+    }*/
 
 }

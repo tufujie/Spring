@@ -8,18 +8,18 @@ import org.springframework.scheduling.annotation.Scheduled;
 /**
  * 生产者测试类
  */
-@Configuration
+//@Configuration
 public class ProducerTest {
-    private static final String TOPIC_PRE = "test_topic_";
+    /*private static final String TOPIC_PRE = "test_topic_";
     private static final String TAG_PRE = "test_tag_";
     private static int index = 0;
 
     @Autowired
     private RocketMqFactory mq;
 
-    /**
+    *//**
      * @Schedule需要生效的话，需要在启动类加上@EnableScheduling注解
-     */
+     *//*
     @Scheduled(cron = "0/5 * * * * ?")
     private void sendMsg() {
         String topic = TOPIC_PRE + (index / 2);
@@ -30,5 +30,5 @@ public class ProducerTest {
         if (++index >= 4) {
             index = 0;
         }
-    }
+    }*/
 }

@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
  * @author Jef
  * @date: 2021/4/6 14:33
  */
-@Data
-@Configuration
+/*@Data
+@Configuration*/
 public class RocketMqConfiguration {
 
     /**

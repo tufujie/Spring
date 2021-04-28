@@ -17,17 +17,17 @@ import java.util.List;
  * @author Jef
  * @date 2021/4/6 14:38
  */
-@Slf4j
-@Configuration
+/*@Slf4j
+@Configuration*/
 public class ConsumerTest {
-    @Autowired
+    /*@Autowired
     private RocketMqFactory mq;
     private String topic = "test_topic_0,test_topic_1";
     private String tag = "test_tag_0||test_tag_1,test_tag_3";
 
-    /**
+    *//**
      * 订阅消息，在程序启动时订阅
-     */
+     *//*
     @PostConstruct
     private void listenMessage() {
         System.out.println("listen rocketMq msg");
@@ -54,12 +54,12 @@ public class ConsumerTest {
         }
     }
 
-    /**
+    *//**
      * 消费消息
      *
      * @param msg 待消费的消息
-     */
+     *//*
     private void consumeMsg(String msg) {
         System.out.println("消费消息:" + msg);
-    }
+    }*/
 }
