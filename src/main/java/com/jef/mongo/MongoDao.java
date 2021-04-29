@@ -3,7 +3,8 @@ package com.jef.mongo;
 import com.jef.common.context.SpringContextHolder;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,7 +18,7 @@ import java.util.Map;
  * @date 2018/12/7 10:05
  */
 public abstract class MongoDao <T> {
-    private final Logger logger = Logger.getLogger(MongoDao.class);
+    private final Logger logger = LogManager.getLogger(MongoDao.class);
 
     public MongoTemplate getMongoTemplate() {
         return SpringContextHolder.getBean("mongoTemplate");

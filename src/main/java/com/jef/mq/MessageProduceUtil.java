@@ -1,7 +1,8 @@
 package com.jef.mq;
 
 import com.jef.common.context.SpringContextHolder;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Destination;
@@ -13,7 +14,7 @@ import java.util.Map;
  * @date 2019/4/1
  */
 public class MessageProduceUtil {
-    static Logger logger = Logger.getLogger(MessageProduceUtil.class.getName());
+    static Logger logger = LogManager.getLogger(MessageProduceUtil.class.getName());
 
     /**
      * 消息发送

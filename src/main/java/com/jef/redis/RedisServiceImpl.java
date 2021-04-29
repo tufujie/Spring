@@ -1,7 +1,8 @@
 package com.jef.redis;
 
 import com.jef.util.MD5Utils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 //@Service(value = "redisService")
 public class RedisServiceImpl implements RedisService {
-    private static final Logger logger = Logger.getLogger(RedisServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(RedisServiceImpl.class);
     private static String redisCode = "utf-8";
     private RedisTemplate redisTemplate;
 
@@ -202,7 +203,7 @@ public class RedisServiceImpl implements RedisService {
     public Object getObject(String objKey, String key) {
         try{
             if (key!=null) {
-                return (Object) redisTemplate.opsForHash().get(this.db+objKey, key);
+                return (Object) redisTemplate.opsForHash().get(this.db + objKey, key);
             }
         } catch(Exception e){
             logger.error("objKey:"+objKey+" key:"+key);

@@ -1,9 +1,11 @@
 package com.jef.redis.cache;
 
+import com.jef.controller.RedisController;
 import com.jef.redis.RedisService;
 import com.jef.redis.RedisServiceFactory;
 import org.apache.ibatis.cache.Cache;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -13,8 +15,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @create 2018/7/13 10:33
  */
 public class RedisCache implements Cache {
-
-    private static final Logger logger = Logger.getLogger(RedisCache.class);
+    private static Logger logger = LogManager.getLogger(RedisCache.class);
 
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 

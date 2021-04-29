@@ -2,7 +2,8 @@ package com.jef.redis;
 
 import com.jef.common.context.SpringContextHolder;
 import com.jef.common.utils.SpringPropertiesUtil;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
  * @create 2018/7/13 10:24
  */
 public class RedisServiceFactory {
-    private static final Logger logger = Logger.getLogger(RedisServiceFactory.class);
+    private static final Logger logger = LogManager.getLogger(RedisServiceFactory.class);
 
     // 单例工厂
     private static RedisServiceFactory fatory ;

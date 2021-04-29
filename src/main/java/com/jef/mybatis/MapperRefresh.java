@@ -16,7 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.session.Configuration;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.NestedIOException;
 import org.springframework.core.io.Resource;
 
@@ -29,7 +30,7 @@ import com.google.common.collect.Sets;
  */
 public class MapperRefresh implements java.lang.Runnable {
 
-    public static Logger log = Logger.getLogger(MapperRefresh.class);
+    public static Logger log = LogManager.getLogger(MapperRefresh.class);
 
     private static String filename = "/mybatis-refresh.properties";
     private static Properties prop = new Properties();
