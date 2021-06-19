@@ -1,5 +1,6 @@
 package com.jef.dbRouting;
 
+import com.jef.util.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,8 +22,12 @@ public class DbContextHolder {
 	}
 
 	public static String getDbKey() {
-		logger.debug("数据源:{}", contextHolder.get());
-		return contextHolder.get();
+		String dbKey = contextHolder.get();
+		if (StringUtils.isEmpty(dbKey)) {
+    	    dbKey = DbContextHolder.DATA_SOURCE_WRITE;
+        }
+		logger.debug("数据源:{}", dbKey);
+		return dbKey;
 	}
 
 	public static void clearDbKey() {
