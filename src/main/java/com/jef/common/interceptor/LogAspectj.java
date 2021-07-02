@@ -59,6 +59,8 @@ public class LogAspectj {
     //前置通知
     //指定该方法是前置通知，并指定切入点
     @Before("userLog()")
+    // 等效于下面的写法，此时切入点不要
+//    @Before("execution(* com.jef.controller.*.*(..))")
     public void userLog(JoinPoint pj) {
         try {
             UserLog userLog = new UserLog();
